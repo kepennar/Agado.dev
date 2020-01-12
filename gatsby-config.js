@@ -1,10 +1,21 @@
+const TITLE = `Kevin Pennarun`
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: TITLE,
+    description: `Web Developer`,
     author: `@gatsbyjs`,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-typescript`,
+      options: {
+        isTSX: true,
+        strict: true,
+        allExtensions: true,
+      },
+    },
+    `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -18,15 +29,25 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
+        name: TITLE,
         short_name: `starter`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/panda.png`, // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: "6ww1yr2i4grh",
+        accessToken:
+          "c2869ad2ccb02431203c275ea22e0ebb157ef77c9ac224a8a18475188b8d4920",
+        downloadLocal: true,
+      },
+    },
+    `gatsby-plugin-graphql-codegen`,
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
