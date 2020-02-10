@@ -13,10 +13,9 @@ const ProjectMetas = styled.div`
   justify-content: space-between;
 `
 const Project = styled.span`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
 `
-
 const Duration = styled.span`
   font-style: italic;
   font-size: 0.9rem;
