@@ -1092,6 +1092,7 @@ export type ContentfulExperiences = Node & {
   duration?: Maybe<Scalars['String']>,
   project?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
+  techEnvs?: Maybe<Array<Maybe<Scalars['String']>>>,
   rank?: Maybe<Scalars['Int']>,
   details?: Maybe<ContentfulExperiencesDetailsRichTextNode>,
   spaceId?: Maybe<Scalars['String']>,
@@ -1100,7 +1101,6 @@ export type ContentfulExperiences = Node & {
   updatedAt?: Maybe<Scalars['Date']>,
   sys?: Maybe<ContentfulExperiencesSys>,
   node_locale?: Maybe<Scalars['String']>,
-  techEnvs?: Maybe<Array<Maybe<Scalars['String']>>>,
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNode>,
 };
 
@@ -1475,6 +1475,7 @@ export type ContentfulExperiencesFieldsEnum =
   'duration' |
   'project' |
   'description' |
+  'techEnvs' |
   'rank' |
   'details___id' |
   'details___parent___id' |
@@ -1534,7 +1535,6 @@ export type ContentfulExperiencesFieldsEnum =
   'sys___contentType___sys___id' |
   'sys___contentType___sys___contentful_id' |
   'node_locale' |
-  'techEnvs' |
   'childContentfulExperiencesDetailsRichTextNode___id' |
   'childContentfulExperiencesDetailsRichTextNode___parent___id' |
   'childContentfulExperiencesDetailsRichTextNode___parent___parent___id' |
@@ -1594,6 +1594,7 @@ export type ContentfulExperiencesFilterInput = {
   duration?: Maybe<StringQueryOperatorInput>,
   project?: Maybe<StringQueryOperatorInput>,
   description?: Maybe<StringQueryOperatorInput>,
+  techEnvs?: Maybe<StringQueryOperatorInput>,
   rank?: Maybe<IntQueryOperatorInput>,
   details?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>,
   spaceId?: Maybe<StringQueryOperatorInput>,
@@ -1602,7 +1603,6 @@ export type ContentfulExperiencesFilterInput = {
   updatedAt?: Maybe<DateQueryOperatorInput>,
   sys?: Maybe<ContentfulExperiencesSysFilterInput>,
   node_locale?: Maybe<StringQueryOperatorInput>,
-  techEnvs?: Maybe<StringQueryOperatorInput>,
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>,
 };
 
@@ -4287,14 +4287,14 @@ export type QuerySitePageArgs = {
   internalComponentName?: Maybe<StringQueryOperatorInput>,
   componentChunkName?: Maybe<StringQueryOperatorInput>,
   matchPath?: Maybe<StringQueryOperatorInput>,
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
-  componentPath?: Maybe<StringQueryOperatorInput>
+  componentPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
 };
 
 
@@ -4453,6 +4453,7 @@ export type QueryContentfulExperiencesArgs = {
   duration?: Maybe<StringQueryOperatorInput>,
   project?: Maybe<StringQueryOperatorInput>,
   description?: Maybe<StringQueryOperatorInput>,
+  techEnvs?: Maybe<StringQueryOperatorInput>,
   rank?: Maybe<IntQueryOperatorInput>,
   details?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>,
   spaceId?: Maybe<StringQueryOperatorInput>,
@@ -4461,7 +4462,6 @@ export type QueryContentfulExperiencesArgs = {
   updatedAt?: Maybe<DateQueryOperatorInput>,
   sys?: Maybe<ContentfulExperiencesSysFilterInput>,
   node_locale?: Maybe<StringQueryOperatorInput>,
-  techEnvs?: Maybe<StringQueryOperatorInput>,
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>
 };
 
@@ -4570,8 +4570,6 @@ export type QuerySiteArgs = {
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
   port?: Maybe<IntQueryOperatorInput>,
   host?: Maybe<StringQueryOperatorInput>,
-  polyfill?: Maybe<BooleanQueryOperatorInput>,
-  pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>
 };
 
@@ -4616,8 +4614,6 @@ export type Site = Node & {
   siteMetadata?: Maybe<SiteSiteMetadata>,
   port?: Maybe<Scalars['Int']>,
   host?: Maybe<Scalars['String']>,
-  polyfill?: Maybe<Scalars['Boolean']>,
-  pathPrefix?: Maybe<Scalars['String']>,
   buildTime?: Maybe<Scalars['Date']>,
 };
 
@@ -4746,10 +4742,10 @@ export type SiteFieldsEnum =
   'siteMetadata___title' |
   'siteMetadata___description' |
   'siteMetadata___author' |
+  'siteMetadata___siteUrl' |
+  'siteMetadata___image' |
   'port' |
   'host' |
-  'polyfill' |
-  'pathPrefix' |
   'buildTime';
 
 export type SiteFilterInput = {
@@ -4760,8 +4756,6 @@ export type SiteFilterInput = {
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
   port?: Maybe<IntQueryOperatorInput>,
   host?: Maybe<StringQueryOperatorInput>,
-  polyfill?: Maybe<BooleanQueryOperatorInput>,
-  pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>,
 };
 
@@ -4780,14 +4774,14 @@ export type SitePage = Node & {
   internalComponentName: Scalars['String'],
   componentChunkName: Scalars['String'],
   matchPath?: Maybe<Scalars['String']>,
-  id: Scalars['ID'],
-  parent?: Maybe<Node>,
-  children: Array<Node>,
-  internal: Internal,
   isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
   pluginCreator?: Maybe<SitePlugin>,
   pluginCreatorId?: Maybe<Scalars['String']>,
   componentPath?: Maybe<Scalars['String']>,
+  id: Scalars['ID'],
+  parent?: Maybe<Node>,
+  children: Array<Node>,
+  internal: Internal,
 };
 
 export type SitePageConnection = {
@@ -4823,6 +4817,85 @@ export type SitePageFieldsEnum =
   'internalComponentName' |
   'componentChunkName' |
   'matchPath' |
+  'isCreatedByStatefulCreatePages' |
+  'pluginCreator___id' |
+  'pluginCreator___parent___id' |
+  'pluginCreator___parent___parent___id' |
+  'pluginCreator___parent___parent___children' |
+  'pluginCreator___parent___children' |
+  'pluginCreator___parent___children___id' |
+  'pluginCreator___parent___children___children' |
+  'pluginCreator___parent___internal___content' |
+  'pluginCreator___parent___internal___contentDigest' |
+  'pluginCreator___parent___internal___description' |
+  'pluginCreator___parent___internal___fieldOwners' |
+  'pluginCreator___parent___internal___ignoreType' |
+  'pluginCreator___parent___internal___mediaType' |
+  'pluginCreator___parent___internal___owner' |
+  'pluginCreator___parent___internal___type' |
+  'pluginCreator___children' |
+  'pluginCreator___children___id' |
+  'pluginCreator___children___parent___id' |
+  'pluginCreator___children___parent___children' |
+  'pluginCreator___children___children' |
+  'pluginCreator___children___children___id' |
+  'pluginCreator___children___children___children' |
+  'pluginCreator___children___internal___content' |
+  'pluginCreator___children___internal___contentDigest' |
+  'pluginCreator___children___internal___description' |
+  'pluginCreator___children___internal___fieldOwners' |
+  'pluginCreator___children___internal___ignoreType' |
+  'pluginCreator___children___internal___mediaType' |
+  'pluginCreator___children___internal___owner' |
+  'pluginCreator___children___internal___type' |
+  'pluginCreator___internal___content' |
+  'pluginCreator___internal___contentDigest' |
+  'pluginCreator___internal___description' |
+  'pluginCreator___internal___fieldOwners' |
+  'pluginCreator___internal___ignoreType' |
+  'pluginCreator___internal___mediaType' |
+  'pluginCreator___internal___owner' |
+  'pluginCreator___internal___type' |
+  'pluginCreator___resolve' |
+  'pluginCreator___name' |
+  'pluginCreator___version' |
+  'pluginCreator___pluginOptions___isTSX' |
+  'pluginCreator___pluginOptions___strict' |
+  'pluginCreator___pluginOptions___allExtensions' |
+  'pluginCreator___pluginOptions___name' |
+  'pluginCreator___pluginOptions___path' |
+  'pluginCreator___pluginOptions___short_name' |
+  'pluginCreator___pluginOptions___start_url' |
+  'pluginCreator___pluginOptions___background_color' |
+  'pluginCreator___pluginOptions___theme_color' |
+  'pluginCreator___pluginOptions___display' |
+  'pluginCreator___pluginOptions___icon' |
+  'pluginCreator___pluginOptions___spaceId' |
+  'pluginCreator___pluginOptions___accessToken' |
+  'pluginCreator___pluginOptions___downloadLocal' |
+  'pluginCreator___pluginOptions___pathCheck' |
+  'pluginCreator___nodeAPIs' |
+  'pluginCreator___browserAPIs' |
+  'pluginCreator___ssrAPIs' |
+  'pluginCreator___pluginFilepath' |
+  'pluginCreator___packageJson___name' |
+  'pluginCreator___packageJson___description' |
+  'pluginCreator___packageJson___version' |
+  'pluginCreator___packageJson___main' |
+  'pluginCreator___packageJson___author' |
+  'pluginCreator___packageJson___license' |
+  'pluginCreator___packageJson___dependencies' |
+  'pluginCreator___packageJson___dependencies___name' |
+  'pluginCreator___packageJson___dependencies___version' |
+  'pluginCreator___packageJson___devDependencies' |
+  'pluginCreator___packageJson___devDependencies___name' |
+  'pluginCreator___packageJson___devDependencies___version' |
+  'pluginCreator___packageJson___peerDependencies' |
+  'pluginCreator___packageJson___peerDependencies___name' |
+  'pluginCreator___packageJson___peerDependencies___version' |
+  'pluginCreator___packageJson___keywords' |
+  'pluginCreatorId' |
+  'componentPath' |
   'id' |
   'parent___id' |
   'parent___parent___id' |
@@ -4908,86 +4981,7 @@ export type SitePageFieldsEnum =
   'internal___ignoreType' |
   'internal___mediaType' |
   'internal___owner' |
-  'internal___type' |
-  'isCreatedByStatefulCreatePages' |
-  'pluginCreator___id' |
-  'pluginCreator___parent___id' |
-  'pluginCreator___parent___parent___id' |
-  'pluginCreator___parent___parent___children' |
-  'pluginCreator___parent___children' |
-  'pluginCreator___parent___children___id' |
-  'pluginCreator___parent___children___children' |
-  'pluginCreator___parent___internal___content' |
-  'pluginCreator___parent___internal___contentDigest' |
-  'pluginCreator___parent___internal___description' |
-  'pluginCreator___parent___internal___fieldOwners' |
-  'pluginCreator___parent___internal___ignoreType' |
-  'pluginCreator___parent___internal___mediaType' |
-  'pluginCreator___parent___internal___owner' |
-  'pluginCreator___parent___internal___type' |
-  'pluginCreator___children' |
-  'pluginCreator___children___id' |
-  'pluginCreator___children___parent___id' |
-  'pluginCreator___children___parent___children' |
-  'pluginCreator___children___children' |
-  'pluginCreator___children___children___id' |
-  'pluginCreator___children___children___children' |
-  'pluginCreator___children___internal___content' |
-  'pluginCreator___children___internal___contentDigest' |
-  'pluginCreator___children___internal___description' |
-  'pluginCreator___children___internal___fieldOwners' |
-  'pluginCreator___children___internal___ignoreType' |
-  'pluginCreator___children___internal___mediaType' |
-  'pluginCreator___children___internal___owner' |
-  'pluginCreator___children___internal___type' |
-  'pluginCreator___internal___content' |
-  'pluginCreator___internal___contentDigest' |
-  'pluginCreator___internal___description' |
-  'pluginCreator___internal___fieldOwners' |
-  'pluginCreator___internal___ignoreType' |
-  'pluginCreator___internal___mediaType' |
-  'pluginCreator___internal___owner' |
-  'pluginCreator___internal___type' |
-  'pluginCreator___resolve' |
-  'pluginCreator___name' |
-  'pluginCreator___version' |
-  'pluginCreator___pluginOptions___isTSX' |
-  'pluginCreator___pluginOptions___strict' |
-  'pluginCreator___pluginOptions___allExtensions' |
-  'pluginCreator___pluginOptions___name' |
-  'pluginCreator___pluginOptions___path' |
-  'pluginCreator___pluginOptions___short_name' |
-  'pluginCreator___pluginOptions___start_url' |
-  'pluginCreator___pluginOptions___background_color' |
-  'pluginCreator___pluginOptions___theme_color' |
-  'pluginCreator___pluginOptions___display' |
-  'pluginCreator___pluginOptions___icon' |
-  'pluginCreator___pluginOptions___spaceId' |
-  'pluginCreator___pluginOptions___accessToken' |
-  'pluginCreator___pluginOptions___downloadLocal' |
-  'pluginCreator___pluginOptions___pathCheck' |
-  'pluginCreator___nodeAPIs' |
-  'pluginCreator___browserAPIs' |
-  'pluginCreator___ssrAPIs' |
-  'pluginCreator___pluginFilepath' |
-  'pluginCreator___packageJson___name' |
-  'pluginCreator___packageJson___description' |
-  'pluginCreator___packageJson___version' |
-  'pluginCreator___packageJson___main' |
-  'pluginCreator___packageJson___author' |
-  'pluginCreator___packageJson___license' |
-  'pluginCreator___packageJson___dependencies' |
-  'pluginCreator___packageJson___dependencies___name' |
-  'pluginCreator___packageJson___dependencies___version' |
-  'pluginCreator___packageJson___devDependencies' |
-  'pluginCreator___packageJson___devDependencies___name' |
-  'pluginCreator___packageJson___devDependencies___version' |
-  'pluginCreator___packageJson___peerDependencies' |
-  'pluginCreator___packageJson___peerDependencies___name' |
-  'pluginCreator___packageJson___peerDependencies___version' |
-  'pluginCreator___packageJson___keywords' |
-  'pluginCreatorId' |
-  'componentPath';
+  'internal___type';
 
 export type SitePageFilterInput = {
   path?: Maybe<StringQueryOperatorInput>,
@@ -4995,14 +4989,14 @@ export type SitePageFilterInput = {
   internalComponentName?: Maybe<StringQueryOperatorInput>,
   componentChunkName?: Maybe<StringQueryOperatorInput>,
   matchPath?: Maybe<StringQueryOperatorInput>,
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
 };
 
 export type SitePageGroupConnection = {
@@ -5326,12 +5320,16 @@ export type SiteSiteMetadata = {
   title?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   author?: Maybe<Scalars['String']>,
+  siteUrl?: Maybe<Scalars['String']>,
+  image?: Maybe<Scalars['String']>,
 };
 
 export type SiteSiteMetadataFilterInput = {
   title?: Maybe<StringQueryOperatorInput>,
   description?: Maybe<StringQueryOperatorInput>,
   author?: Maybe<StringQueryOperatorInput>,
+  siteUrl?: Maybe<StringQueryOperatorInput>,
+  image?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SiteSortInput = {
@@ -5383,7 +5381,7 @@ export type SiteTitleQueryQuery = { site: Maybe<{ siteMetadata: Maybe<Pick<SiteS
 export type Unnamed_1_QueryVariables = {};
 
 
-export type Unnamed_1_Query = { site: Maybe<{ siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+export type Unnamed_1_Query = { site: Maybe<{ siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author' | 'image'>> }> };
 
 export type SocialsQueryVariables = {};
 

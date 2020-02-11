@@ -23,7 +23,11 @@ export const Socials: FunctionComponent = () => {
       {socials.edges.map(({ node }, index) => (
         <div key={index}>
           <SocialLink href={node.url}>
-            <SocialImage src={node.picto.file.url} title={node.label} />
+            <SocialImage
+              src={node.picto.file.url}
+              title={node.label}
+              alt={node.label}
+            />
           </SocialLink>
         </div>
       ))}

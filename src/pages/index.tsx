@@ -11,7 +11,7 @@ import { Socials } from "../components/Socials.component"
 
 const Content = styled.div`
   max-width: 1280px;
-  margin: 1.45rem auto;
+  margin: 1rem auto;
 `
 
 const AvatarContainer = styled.div`

@@ -16,7 +16,13 @@ export const CodeImage = () => {
       media: `(min-width: 768px)`,
     },
   ]
-  return <Img style={{ height: "100%" }} fluid={sources} />
+  return (
+    <Img
+      style={{ height: "100%" }}
+      fluid={sources}
+      alt="Line of codes on dark background"
+    />
+  )
 }
 
 export const codeImageQuery = graphql`

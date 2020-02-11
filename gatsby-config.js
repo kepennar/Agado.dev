@@ -3,8 +3,10 @@ const TITLE = `Kevin Pennarun`
 module.exports = {
   siteMetadata: {
     title: TITLE,
-    description: `Web Developer`,
-    author: `@gatsbyjs`,
+    description: `Développeur Veb`,
+    author: `@kepennar`,
+    siteUrl: "https://kevin.penna.run",
+    image: `src/images/code.png`,
   },
   plugins: [
     {
@@ -48,6 +50,8 @@ module.exports = {
       },
     },
     `gatsby-plugin-graphql-codegen`,
+    `gatsby-plugin-robots-txt`,
+    `gatsby-plugin-sitemap`,
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

@@ -9,7 +9,13 @@ export const PandaImage = () => {
   )
 
   const fluidImage = placeholderImage.childImageSharp.fluid as FluidObject
-  return <Img style={{ borderRadius: "50px" }} fluid={fluidImage} />
+  return (
+    <Img
+      style={{ borderRadius: "50px" }}
+      fluid={fluidImage}
+      alt="Panda avatar"
+    />
+  )
 }
 
 export const pandaImageQuery = graphql`

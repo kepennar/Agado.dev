@@ -619,7 +619,12 @@ pre tt:after {
 }
 
 .content {
-  padding: 2rem;
+  padding: 1rem;
+}
+@media (min-width: 450px) {
+  .content {
+    padding: 2rem;
+  }
 }
 
 .content > ul {
