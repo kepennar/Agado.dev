@@ -27,9 +27,9 @@ const Title = styled.h1`
   color: white;
 `
 
-const shadowSize = "0.6em"
+const shadowSize = "0.4em"
 const shadowColor = "black"
-const shadowBlur = "0.5rem"
+const shadowBlur = "0.2rem"
 const SubTitle = styled.h2`
   margin: 0;
   text-shadow: ${shadowSize} 0 ${shadowBlur} ${shadowColor},
