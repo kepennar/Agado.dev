@@ -1,11 +1,12 @@
 const TITLE = `Kevin Pennarun`
+const DESCRIPTION = "Freelance @ Agado Dev"
 
 module.exports = {
   siteMetadata: {
     title: TITLE,
-    description: `Développeur Veb`,
+    description: DESCRIPTION,
     author: `@kepennar`,
-    siteUrl: "https://kevin.penna.run",
+    siteUrl: "https://agado.dev",
     image: `src/images/code.png`,
   },
   plugins: [
@@ -34,10 +35,10 @@ module.exports = {
         name: TITLE,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#0185a1`,
-        theme_color: `#0185a1`,
+        background_color: `#4267b2`,
+        theme_color: `#4267b2`,
         display: `minimal-ui`,
-        icon: `src/images/panda.png`, // This path is relative to the root of the site.
+        icon: `src/images/agado-logo/agado-logo_without_text.png`, // This path is relative to the root of the site.
       },
     },
     {
@@ -49,6 +50,7 @@ module.exports = {
         downloadLocal: true,
       },
     },
+    `gatsby-plugin-svgr`,
     `gatsby-plugin-graphql-codegen`,
     `gatsby-plugin-robots-txt`,
     `gatsby-plugin-sitemap`,

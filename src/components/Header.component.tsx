@@ -14,13 +14,28 @@ const Container = styled.header`
 
 const Content = styled.div`
   position: relative;
-  margin: 0 auto;
   max-width: 85%;
   padding: 1.45rem 1.0875rem;
+  @media (max-width: 500px) {
+    max-width: 100%;
+    padding: 0;
+  }
 `
 
 const Title = styled.h1`
   margin: 0;
+  color: white;
+`
+
+const shadowSize = "0.6em"
+const shadowColor = "black"
+const shadowBlur = "0.5rem"
+const SubTitle = styled.h2`
+  margin: 0;
+  text-shadow: ${shadowSize} 0 ${shadowBlur} ${shadowColor},
+    0 ${shadowSize} ${shadowBlur} ${shadowColor},
+    -${shadowSize} 0 ${shadowBlur} ${shadowColor},
+    0 -${shadowSize} ${shadowBlur} ${shadowColor};
 `
 
 const BackgroundImageContainer = styled.div`
@@ -35,23 +50,17 @@ const BackgroundImageContainer = styled.div`
   background: #051523;
 `
 
-const Header: FunctionComponent<{ siteTitle: string }> = ({ siteTitle }) => (
+const Header: FunctionComponent<{ siteTitle: string; subTitle: string }> = ({
+  siteTitle,
+  subTitle,
+}) => (
   <Container>
     <BackgroundImageContainer>
       <CodeImage />
     </BackgroundImageContainer>
     <Content>
-      <Title>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </Title>
+      <Title>{siteTitle}</Title>
+      <SubTitle>{subTitle}</SubTitle>
     </Content>
   </Container>
 )

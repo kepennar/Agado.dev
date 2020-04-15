@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 import styled from "@emotion/styled"
 
 import Layout from "../components/Layout"
-import { PandaImage } from "../components/Images"
+import { AgadoLogo } from "../components/Images"
 import SEO from "../components/Seo"
 import { Experiences } from "../components/Experiences.component"
 import { Abstract } from "../components/Abstract.component"
@@ -17,8 +17,8 @@ const Content = styled.div`
 const AvatarContainer = styled.div`
   position: relative;
   max-width: 300px;
-  top: -150px;
-  margin-bottom: -150px;
+  top: -170px;
+  margin-bottom: -170px;
 `
 
 const Articles = styled.div`
@@ -31,7 +31,7 @@ const IndexPage = () => (
 
     <Content>
       <AvatarContainer>
-        <PandaImage />
+        <AgadoLogo width="200px" />
       </AvatarContainer>
       <Socials />
       <Articles>

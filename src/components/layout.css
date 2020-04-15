@@ -64,10 +64,7 @@ h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
-mark {
-  background-color: #ff0;
-  color: #000;
-}
+
 small {
   font-size: 80%;
 }
@@ -309,6 +306,12 @@ h6 {
   text-rendering: optimizeLegibility;
   font-size: 0.78405rem;
   line-height: 1.1;
+}
+
+h1,
+h2,
+h3 {
+  color: #4267b2;
 }
 hgroup {
   margin-left: 0;
@@ -625,15 +628,4 @@ pre tt:after {
   .content {
     padding: 2rem;
   }
-}
-
-.content > ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-gap: 1rem;
-}
-
-.content > ul > li {
-  border: 1px solid #e2e2e2;
-  border-radius: 0.5rem;
 }
