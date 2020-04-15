@@ -30,7 +30,7 @@ export const codeImageQuery = graphql`
     mobileImage: file(relativePath: { eq: "code.png" }) {
       childImageSharp {
         fluid(maxWidth: 768) {
-          ...GatsbyImageSharpFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
@@ -38,7 +38,7 @@ export const codeImageQuery = graphql`
     desktopImage: file(relativePath: { eq: "code-desktop.png" }) {
       childImageSharp {
         fluid(maxWidth: 2000) {
-          ...GatsbyImageSharpFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
