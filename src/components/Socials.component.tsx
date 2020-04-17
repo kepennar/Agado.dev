@@ -4,9 +4,12 @@ import Img from "gatsby-image"
 
 import { SocialsQuery } from "../../graphql-types"
 import styled from "@emotion/styled"
+import { Spacer } from "./Spacer"
 
 const SocialsContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `
 
 const SocialLink = styled.a`
@@ -21,24 +24,23 @@ export const Socials: FunctionComponent = () => {
   return (
     <SocialsContainer>
       {socials.edges.map(({ node }, index) => (
-        <div key={index}>
-          <SocialLink href={node.url}>
-            {node.picto.fixed && (
-              <Img
-                alt={node.picto.title}
-                title={node.picto.title}
-                fixed={node.picto.fixed}
-              />
-            )}
-            {!node.picto.fixed && (
-              <SocialImage
-                alt={node.picto.title}
-                title={node.picto.title}
-                src={node.picto.file.url}
-              />
-            )}
-          </SocialLink>
-        </div>
+        <SocialLink key={index} href={node.url}>
+          {node.picto.fixed && (
+            <Img
+              alt={node.picto.title}
+              title={node.picto.title}
+              fixed={node.picto.fixed}
+            />
+          )}
+          {!node.picto.fixed && (
+            <SocialImage
+              alt={node.picto.title}
+              title={node.picto.title}
+              src={node.picto.file.url}
+            />
+          )}
+          <Spacer direction="vertical" size="0.5rem" />
+        </SocialLink>
       ))}
     </SocialsContainer>
   )

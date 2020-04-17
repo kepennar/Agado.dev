@@ -20,6 +20,7 @@ const Content = styled.div`
   @media (max-width: 500px) {
     max-width: 100%;
     padding: 0;
+    text-align: center;
   }
 `
 

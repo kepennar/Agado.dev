@@ -20,7 +20,7 @@ const AvatarContainer = styled.div`
   position: relative;
   max-width: 300px;
   top: -170px;
-  margin-bottom: -170px;
+  margin: 0 auto -170px auto;
 `
 
 const Articles = styled.div`
