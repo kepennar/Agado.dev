@@ -2,6 +2,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import React, { FunctionComponent } from "react"
 import { AbstractQuery } from "../../graphql-types"
 import { RichText } from "./RichText.component"
+import { Socials } from "./Socials.component"
 import styled from "@emotion/styled"
 
 const AbstractContainer = styled.div`
@@ -13,6 +14,8 @@ export const Abstract: FunctionComponent = () => {
 
   return (
     <AbstractContainer>
+      <h2>À propos de Kevin</h2>
+      <Socials />
       <RichText richText={abstract.content.json} />
     </AbstractContainer>
   )

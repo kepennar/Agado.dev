@@ -7,7 +7,7 @@ module.exports = {
     description: DESCRIPTION,
     author: `@kepennar`,
     siteUrl: "https://agado.dev",
-    image: `src/images/code.png`,
+    image: `/icons/icon-192x192.png`,
   },
   plugins: [
     {

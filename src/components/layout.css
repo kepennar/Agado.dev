@@ -39,7 +39,8 @@ progress {
 template {
   display: none;
 }
-a {
+
+.csmTxt a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
   border-bottom: 1px solid;
@@ -49,13 +50,17 @@ a {
   transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out,
     background 0.3s ease-in-out;
 }
-a:active,
-a:hover {
+.csmTxt a:active,
+.csmTxt a:hover {
   outline-width: 0;
   color: #2d3647;
   border-color: #2d3647;
   background: #d0d9f6;
 }
+.csmTxt p {
+  margin-bottom: 1rem;
+}
+
 abbr[title] {
   border-bottom: none;
   text-decoration: underline;
@@ -495,7 +500,7 @@ th {
   font-weight: bold;
 }
 li {
-  margin-bottom: calc(1.45rem / 2);
+  margin-bottom: calc(1rem / 2);
 }
 ol li {
   padding-left: 0;

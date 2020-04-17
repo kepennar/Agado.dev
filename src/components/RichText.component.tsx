@@ -4,4 +4,4 @@ import React, { FunctionComponent } from "react"
 
 export const RichText: FunctionComponent<{ richText: ContentfulDocument }> = ({
   richText,
-}) => <>{documentToReactComponents(richText)}</>
+}) => <div className="csmTxt">{documentToReactComponents(richText)}</div>

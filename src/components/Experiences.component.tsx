@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { graphql, useStaticQuery } from "gatsby"
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useState, MouseEvent, Fragment } from "react"
 import {
   ContentfulExperiencesDetailsRichTextNode,
   ExperiencesQuery,
@@ -14,8 +14,11 @@ const ProjectMetas = styled.div`
   justify-content: space-between;
 `
 const Project = styled.span`
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: bold;
+`
+const ProjectLink = styled.a`
+  color: #496396;
 `
 const Duration = styled.span`
   font-style: italic;
@@ -39,7 +42,15 @@ const Experience: FunctionComponent<{
   <div>
     <h3>{experience.title}</h3>
     <ProjectMetas>
-      <Project>{experience.project}</Project>
+      <Project>
+        {experience.projectLink ? (
+          <ProjectLink href={experience.projectLink}>
+            {experience.project}
+          </ProjectLink>
+        ) : (
+          experience.project
+        )}
+      </Project>
       <Duration>{experience.duration}</Duration>
     </ProjectMetas>
 
@@ -62,17 +73,18 @@ export const Experiences: FunctionComponent = () => {
   const lastExperiences = experiences.edges.slice(0, 4)
   const oldExperiences = experiences.edges.slice(4)
 
-  const handleShowMore = () => {
+  const handleShowMore = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
     setShowMore(true)
   }
 
   return (
     <div>
       {lastExperiences.map(({ node }, index) => (
-        <>
+        <Fragment key={index}>
           <Experience key={index} experience={node} />
           <Spacer direction="vertical" size="1rem" />
-        </>
+        </Fragment>
       ))}
       {!showMore && (
         <ShowMoreContainer>
@@ -84,10 +96,10 @@ export const Experiences: FunctionComponent = () => {
       )}
       {showMore &&
         oldExperiences.map(({ node }, index) => (
-          <>
+          <Fragment key={index}>
             <Experience key={index} experience={node} />
             <Spacer direction="vertical" size="1rem" />
-          </>
+          </Fragment>
         ))}
     </div>
   )
@@ -100,6 +112,7 @@ export const experiencesQuery = graphql`
         node {
           title
           project
+          projectLink
           duration
           details {
             json

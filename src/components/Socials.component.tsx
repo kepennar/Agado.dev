@@ -9,14 +9,21 @@ import { Spacer } from "./Spacer"
 const SocialsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 `
 
 const SocialLink = styled.a`
   margin: 1rem;
+
+  @media (max-width: 500px) {
+    margin: 0.5rem;
+  }
 `
 const SocialImage = styled.img`
   height: 25px;
+  @media (max-width: 500px) {
+    height: 20px;
+  }
 `
 
 export const Socials: FunctionComponent = () => {

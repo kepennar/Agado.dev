@@ -1,15 +1,13 @@
-import React from "react"
-import { Link } from "gatsby"
 import styled from "@emotion/styled"
-
-import Layout from "../components/Layout"
-import { AgadoLogo } from "../components/Images"
-import SEO from "../components/Seo"
-import { Experiences } from "../components/Experiences.component"
+import React from "react"
 import { Abstract } from "../components/Abstract.component"
-import { Socials } from "../components/Socials.component"
-import { Spacer } from "../components/Spacer"
+import { Experiences } from "../components/Experiences.component"
+import { AgadoLogo } from "../components/Images"
+import Layout from "../components/Layout"
+import SEO from "../components/Seo"
 import { SideProjects } from "../components/SideProjects.component"
+import { Spacer } from "../components/Spacer"
+import { Slogan } from "../components/Slogan.component"
 
 const Content = styled.div`
   max-width: 1280px;
@@ -35,17 +33,14 @@ const IndexPage = () => (
       <AvatarContainer>
         <AgadoLogo width="200px" />
       </AvatarContainer>
-      <Socials />
+
+      <Slogan />
       <Spacer direction="vertical" size="1rem" />
       <Articles>
         <Abstract />
-
         <Spacer direction="vertical" size="1rem" />
-
         <Experiences />
-
         <Spacer direction="vertical" size="1rem" />
-
         <SideProjects />
       </Articles>
     </Content>

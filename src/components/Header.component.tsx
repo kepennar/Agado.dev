@@ -3,6 +3,7 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React, { FunctionComponent } from "react"
 import { CodeImage } from "./Images"
+import { css } from "@emotion/core"
 
 const Container = styled.header`
   position: relative;
@@ -52,17 +53,23 @@ const BackgroundImageContainer = styled.div`
   background: #051523;
 `
 
-const Header: FunctionComponent<{ siteTitle: string; subTitle: string }> = ({
-  siteTitle,
-  subTitle,
-}) => (
+const Header: FunctionComponent<{ siteTitle: string }> = ({ siteTitle }) => (
   <Container>
     <BackgroundImageContainer>
       <CodeImage />
     </BackgroundImageContainer>
     <Content>
       <Title>{siteTitle}</Title>
-      <SubTitle>{subTitle}</SubTitle>
+      <SubTitle>
+        Freelance{" "}
+        <span
+          css={css`
+            white-space: nowrap;
+          `}
+        >
+          @ Agado Dev
+        </span>
+      </SubTitle>
     </Content>
   </Container>
 )
