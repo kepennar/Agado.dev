@@ -29,7 +29,10 @@ export const codeImageQuery = graphql`
   query CodeImageFluid {
     mobileImage: file(relativePath: { eq: "code.png" }) {
       childImageSharp {
-        fluid(maxWidth: 768) {
+        fluid(
+          maxWidth: 768
+          duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
+        ) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
@@ -37,7 +40,10 @@ export const codeImageQuery = graphql`
 
     desktopImage: file(relativePath: { eq: "code-desktop.png" }) {
       childImageSharp {
-        fluid(maxWidth: 2000) {
+        fluid(
+          maxWidth: 2000
+          duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
+        ) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }

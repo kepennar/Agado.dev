@@ -16,6 +16,7 @@ const Content = styled.div`
   position: relative;
   max-width: 85%;
   padding: 1.45rem 1.0875rem;
+  margin-left: 2rem;
   @media (max-width: 500px) {
     max-width: 100%;
     padding: 0;
@@ -27,9 +28,9 @@ const Title = styled.h1`
   color: white;
 `
 
-const shadowSize = "0.4em"
+const shadowSize = "8px"
 const shadowColor = "black"
-const shadowBlur = "0.2rem"
+const shadowBlur = "8px"
 const SubTitle = styled.h2`
   margin: 0;
   text-shadow: ${shadowSize} 0 ${shadowBlur} ${shadowColor},

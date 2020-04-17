@@ -1,11 +1,12 @@
+import styled from "@emotion/styled"
 import { graphql, useStaticQuery } from "gatsby"
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useState } from "react"
 import {
-  ExperiencesQuery,
   ContentfulExperiencesDetailsRichTextNode,
+  ExperiencesQuery,
 } from "../../graphql-types"
 import { RichText } from "./RichText.component"
-import styled from "@emotion/styled"
+import { Spacer } from "./Spacer"
 
 const ProjectMetas = styled.div`
   color: #565656;
@@ -50,14 +51,44 @@ const Experience: FunctionComponent<{
   </div>
 )
 
+const ShowMoreContainer = styled.div`
+  text-align: center;
+`
+
 export const Experiences: FunctionComponent = () => {
   const { experiences } = useStaticQuery<ExperiencesQuery>(experiencesQuery)
+  const [showMore, setShowMore] = useState(false)
+
+  const lastExperiences = experiences.edges.slice(0, 4)
+  const oldExperiences = experiences.edges.slice(4)
+
+  const handleShowMore = () => {
+    setShowMore(true)
+  }
 
   return (
     <div>
-      {experiences.edges.map(({ node }, index) => (
-        <Experience key={index} experience={node} />
+      {lastExperiences.map(({ node }, index) => (
+        <>
+          <Experience key={index} experience={node} />
+          <Spacer direction="vertical" size="1rem" />
+        </>
       ))}
+      {!showMore && (
+        <ShowMoreContainer>
+          <a href="" onClick={handleShowMore}>
+            VOIR +
+          </a>
+          <Spacer direction="vertical" size="1rem" />
+        </ShowMoreContainer>
+      )}
+      {showMore &&
+        oldExperiences.map(({ node }, index) => (
+          <>
+            <Experience key={index} experience={node} />
+            <Spacer direction="vertical" size="1rem" />
+          </>
+        ))}
     </div>
   )
 }

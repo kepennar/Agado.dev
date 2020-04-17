@@ -8,6 +8,8 @@ import SEO from "../components/Seo"
 import { Experiences } from "../components/Experiences.component"
 import { Abstract } from "../components/Abstract.component"
 import { Socials } from "../components/Socials.component"
+import { Spacer } from "../components/Spacer"
+import { SideProjects } from "../components/SideProjects.component"
 
 const Content = styled.div`
   max-width: 1280px;
@@ -34,9 +36,17 @@ const IndexPage = () => (
         <AgadoLogo width="200px" />
       </AvatarContainer>
       <Socials />
+      <Spacer direction="vertical" size="1rem" />
       <Articles>
         <Abstract />
+
+        <Spacer direction="vertical" size="1rem" />
+
         <Experiences />
+
+        <Spacer direction="vertical" size="1rem" />
+
+        <SideProjects />
       </Articles>
     </Content>
   </Layout>

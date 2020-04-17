@@ -1,5 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby"
 import React, { FunctionComponent } from "react"
+import Img from "gatsby-image"
 
 import { SocialsQuery } from "../../graphql-types"
 import styled from "@emotion/styled"
@@ -12,22 +13,30 @@ const SocialLink = styled.a`
   margin: 1rem;
 `
 const SocialImage = styled.img`
-  width: 60px;
+  height: 25px;
 `
 
 export const Socials: FunctionComponent = () => {
   const { socials } = useStaticQuery<SocialsQuery>(socialsQuery)
-
   return (
     <SocialsContainer>
       {socials.edges.map(({ node }, index) => (
         <div key={index}>
           <SocialLink href={node.url}>
-            <SocialImage
-              src={node.picto.file.url}
-              title={node.label}
-              alt={node.label}
-            />
+            {node.picto.fixed && (
+              <Img
+                alt={node.picto.title}
+                title={node.picto.title}
+                fixed={node.picto.fixed}
+              />
+            )}
+            {!node.picto.fixed && (
+              <SocialImage
+                alt={node.picto.title}
+                title={node.picto.title}
+                src={node.picto.file.url}
+              />
+            )}
           </SocialLink>
         </div>
       ))}
@@ -43,8 +52,12 @@ export const socialsQuery = graphql`
           label
           url
           picto {
+            title
             file {
               url
+            }
+            fixed(height: 25) {
+              ...GatsbyContentfulFixed_withWebp
             }
           }
         }
