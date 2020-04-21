@@ -39,7 +39,11 @@ progress {
 template {
   display: none;
 }
-
+@media (max-width: 500px) {
+  .csmTxt p {
+    text-align: justify;
+  }
+}
 .csmTxt a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
