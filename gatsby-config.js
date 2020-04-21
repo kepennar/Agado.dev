@@ -33,7 +33,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: TITLE,
-        short_name: `starter`,
+        short_name: `Agado Dev`,
         start_url: `/`,
         background_color: `#4267b2`,
         theme_color: `#4267b2`,
