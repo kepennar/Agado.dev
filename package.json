@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "@types/react-helmet": "^5.0.15",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.2",
+    "standard-version": "^7.1.0"
   },
   "keywords": [
     "Agado Dev",
@@ -51,6 +52,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "release": "standard-version"
   }
 }
