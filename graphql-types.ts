@@ -953,8 +953,8 @@ export type ContentfulExperiences = Node & {
   duration?: Maybe<Scalars['String']>;
   project?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  techEnvs?: Maybe<Array<Maybe<Scalars['String']>>>;
   rank?: Maybe<Scalars['Int']>;
-  projectLink?: Maybe<Scalars['String']>;
   details?: Maybe<ContentfulExperiencesDetailsRichTextNode>;
   spaceId?: Maybe<Scalars['String']>;
   contentful_id?: Maybe<Scalars['String']>;
@@ -962,7 +962,7 @@ export type ContentfulExperiences = Node & {
   updatedAt?: Maybe<Scalars['Date']>;
   sys?: Maybe<ContentfulExperiencesSys>;
   node_locale?: Maybe<Scalars['String']>;
-  techEnvs?: Maybe<Array<Maybe<Scalars['String']>>>;
+  projectLink?: Maybe<Scalars['String']>;
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNode>;
 };
 
@@ -1338,8 +1338,8 @@ export type ContentfulExperiencesFieldsEnum =
   'duration' |
   'project' |
   'description' |
+  'techEnvs' |
   'rank' |
-  'projectLink' |
   'details___id' |
   'details___parent___id' |
   'details___parent___parent___id' |
@@ -1398,7 +1398,7 @@ export type ContentfulExperiencesFieldsEnum =
   'sys___contentType___sys___id' |
   'sys___contentType___sys___contentful_id' |
   'node_locale' |
-  'techEnvs' |
+  'projectLink' |
   'childContentfulExperiencesDetailsRichTextNode___id' |
   'childContentfulExperiencesDetailsRichTextNode___parent___id' |
   'childContentfulExperiencesDetailsRichTextNode___parent___parent___id' |
@@ -1458,8 +1458,8 @@ export type ContentfulExperiencesFilterInput = {
   duration?: Maybe<StringQueryOperatorInput>;
   project?: Maybe<StringQueryOperatorInput>;
   description?: Maybe<StringQueryOperatorInput>;
+  techEnvs?: Maybe<StringQueryOperatorInput>;
   rank?: Maybe<IntQueryOperatorInput>;
-  projectLink?: Maybe<StringQueryOperatorInput>;
   details?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>;
   spaceId?: Maybe<StringQueryOperatorInput>;
   contentful_id?: Maybe<StringQueryOperatorInput>;
@@ -1467,7 +1467,7 @@ export type ContentfulExperiencesFilterInput = {
   updatedAt?: Maybe<DateQueryOperatorInput>;
   sys?: Maybe<ContentfulExperiencesSysFilterInput>;
   node_locale?: Maybe<StringQueryOperatorInput>;
-  techEnvs?: Maybe<StringQueryOperatorInput>;
+  projectLink?: Maybe<StringQueryOperatorInput>;
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>;
 };
 
@@ -4846,18 +4846,18 @@ export type Query = {
   allSite: SiteConnection;
   imageSharp?: Maybe<ImageSharp>;
   allImageSharp: ImageSharpConnection;
+  contentfulAsset?: Maybe<ContentfulAsset>;
+  allContentfulAsset: ContentfulAssetConnection;
   contentfulSloganTextRichTextNode?: Maybe<ContentfulSloganTextRichTextNode>;
   allContentfulSloganTextRichTextNode: ContentfulSloganTextRichTextNodeConnection;
   contentfulSlogan?: Maybe<ContentfulSlogan>;
   allContentfulSlogan: ContentfulSloganConnection;
-  contentfulAbstractContentRichTextNode?: Maybe<ContentfulAbstractContentRichTextNode>;
-  allContentfulAbstractContentRichTextNode: ContentfulAbstractContentRichTextNodeConnection;
-  contentfulAsset?: Maybe<ContentfulAsset>;
-  allContentfulAsset: ContentfulAssetConnection;
   contentfulSideProject?: Maybe<ContentfulSideProject>;
   allContentfulSideProject: ContentfulSideProjectConnection;
   contentfulSocials?: Maybe<ContentfulSocials>;
   allContentfulSocials: ContentfulSocialsConnection;
+  contentfulAbstractContentRichTextNode?: Maybe<ContentfulAbstractContentRichTextNode>;
+  allContentfulAbstractContentRichTextNode: ContentfulAbstractContentRichTextNodeConnection;
   contentfulAbstract?: Maybe<ContentfulAbstract>;
   allContentfulAbstract: ContentfulAbstractConnection;
   contentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNode>;
@@ -5048,6 +5048,32 @@ export type QueryAllImageSharpArgs = {
 };
 
 
+export type QueryContentfulAssetArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  contentful_id?: Maybe<StringQueryOperatorInput>;
+  file?: Maybe<ContentfulAssetFileFilterInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  description?: Maybe<StringQueryOperatorInput>;
+  node_locale?: Maybe<StringQueryOperatorInput>;
+  fixed?: Maybe<ContentfulFixedFilterInput>;
+  resolutions?: Maybe<ContentfulResolutionsFilterInput>;
+  fluid?: Maybe<ContentfulFluidFilterInput>;
+  sizes?: Maybe<ContentfulSizesFilterInput>;
+  resize?: Maybe<ContentfulResizeFilterInput>;
+};
+
+
+export type QueryAllContentfulAssetArgs = {
+  filter?: Maybe<ContentfulAssetFilterInput>;
+  sort?: Maybe<ContentfulAssetSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryContentfulSloganTextRichTextNodeArgs = {
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
@@ -5087,51 +5113,6 @@ export type QueryContentfulSloganArgs = {
 export type QueryAllContentfulSloganArgs = {
   filter?: Maybe<ContentfulSloganFilterInput>;
   sort?: Maybe<ContentfulSloganSortInput>;
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryContentfulAbstractContentRichTextNodeArgs = {
-  id?: Maybe<StringQueryOperatorInput>;
-  parent?: Maybe<NodeFilterInput>;
-  children?: Maybe<NodeFilterListInput>;
-  internal?: Maybe<InternalFilterInput>;
-  nodeType?: Maybe<StringQueryOperatorInput>;
-  content?: Maybe<StringQueryOperatorInput>;
-  json?: Maybe<JsonQueryOperatorInput>;
-};
-
-
-export type QueryAllContentfulAbstractContentRichTextNodeArgs = {
-  filter?: Maybe<ContentfulAbstractContentRichTextNodeFilterInput>;
-  sort?: Maybe<ContentfulAbstractContentRichTextNodeSortInput>;
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryContentfulAssetArgs = {
-  id?: Maybe<StringQueryOperatorInput>;
-  parent?: Maybe<NodeFilterInput>;
-  children?: Maybe<NodeFilterListInput>;
-  internal?: Maybe<InternalFilterInput>;
-  contentful_id?: Maybe<StringQueryOperatorInput>;
-  file?: Maybe<ContentfulAssetFileFilterInput>;
-  title?: Maybe<StringQueryOperatorInput>;
-  description?: Maybe<StringQueryOperatorInput>;
-  node_locale?: Maybe<StringQueryOperatorInput>;
-  fixed?: Maybe<ContentfulFixedFilterInput>;
-  resolutions?: Maybe<ContentfulResolutionsFilterInput>;
-  fluid?: Maybe<ContentfulFluidFilterInput>;
-  sizes?: Maybe<ContentfulSizesFilterInput>;
-  resize?: Maybe<ContentfulResizeFilterInput>;
-};
-
-
-export type QueryAllContentfulAssetArgs = {
-  filter?: Maybe<ContentfulAssetFilterInput>;
-  sort?: Maybe<ContentfulAssetSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
@@ -5183,6 +5164,25 @@ export type QueryContentfulSocialsArgs = {
 export type QueryAllContentfulSocialsArgs = {
   filter?: Maybe<ContentfulSocialsFilterInput>;
   sort?: Maybe<ContentfulSocialsSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryContentfulAbstractContentRichTextNodeArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  nodeType?: Maybe<StringQueryOperatorInput>;
+  content?: Maybe<StringQueryOperatorInput>;
+  json?: Maybe<JsonQueryOperatorInput>;
+};
+
+
+export type QueryAllContentfulAbstractContentRichTextNodeArgs = {
+  filter?: Maybe<ContentfulAbstractContentRichTextNodeFilterInput>;
+  sort?: Maybe<ContentfulAbstractContentRichTextNodeSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
@@ -5242,8 +5242,8 @@ export type QueryContentfulExperiencesArgs = {
   duration?: Maybe<StringQueryOperatorInput>;
   project?: Maybe<StringQueryOperatorInput>;
   description?: Maybe<StringQueryOperatorInput>;
+  techEnvs?: Maybe<StringQueryOperatorInput>;
   rank?: Maybe<IntQueryOperatorInput>;
-  projectLink?: Maybe<StringQueryOperatorInput>;
   details?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>;
   spaceId?: Maybe<StringQueryOperatorInput>;
   contentful_id?: Maybe<StringQueryOperatorInput>;
@@ -5251,7 +5251,7 @@ export type QueryContentfulExperiencesArgs = {
   updatedAt?: Maybe<DateQueryOperatorInput>;
   sys?: Maybe<ContentfulExperiencesSysFilterInput>;
   node_locale?: Maybe<StringQueryOperatorInput>;
-  techEnvs?: Maybe<StringQueryOperatorInput>;
+  projectLink?: Maybe<StringQueryOperatorInput>;
   childContentfulExperiencesDetailsRichTextNode?: Maybe<ContentfulExperiencesDetailsRichTextNodeFilterInput>;
 };
 

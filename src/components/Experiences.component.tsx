@@ -107,7 +107,7 @@ export const Experiences: FunctionComponent = () => {
 
 export const experiencesQuery = graphql`
   query Experiences {
-    experiences: allContentfulExperiences(sort: { fields: rank, order: ASC }) {
+    experiences: allContentfulExperiences(sort: { fields: rank, order: DESC }) {
       edges {
         node {
           title
