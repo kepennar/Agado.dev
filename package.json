@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/react-helmet": "^5.0.15",
     "prettier": "^2.0.2",
-    "standard-version": "^7.1.0"
+    "standard-version": "^8.0.1"
   },
   "keywords": [
     "Agado Dev",
