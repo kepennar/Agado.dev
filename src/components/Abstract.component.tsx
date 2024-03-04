@@ -12,6 +12,9 @@ const AbstractContainer = styled.div`
 export const Abstract: FunctionComponent = () => {
   const { abstract } = useStaticQuery<AbstractQuery>(abstractQuery)
 
+  if (!abstract?.content) {
+    return null
+  }
   return (
     <AbstractContainer>
       <h2>À propos de Kevin</h2>
