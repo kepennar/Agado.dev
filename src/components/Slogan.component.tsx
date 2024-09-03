@@ -1,29 +1,19 @@
-import { graphql, useStaticQuery } from "gatsby"
-import React, { FunctionComponent } from "react"
-import { SloganQuery } from "../../graphql-types"
-import { RichText } from "./RichText.component"
 import styled from "@emotion/styled"
+import { HomePageDataQuery } from "../../graphql-types"
+import { RichText } from "./RichText.component"
 
 const AbstractContainer = styled.div`
-  font-size: 1.05rem;
+  font-size: 1.25rem;
 `
 
-export const Slogan: FunctionComponent = () => {
-  const { Slogan } = useStaticQuery<SloganQuery>(sloganQuery)
+export function Slogan({ slogan }: { slogan: HomePageDataQuery["slogan"] }) {
+  if (!slogan?.text?.raw) {
+    return null
+  }
 
   return (
     <AbstractContainer>
-      <RichText richText={Slogan.text.json} />
+      <RichText rawRichText={slogan.text.raw} />
     </AbstractContainer>
   )
 }
-
-export const sloganQuery = graphql`
-  query Slogan {
-    Slogan: contentfulSlogan {
-      text {
-        json
-      }
-    }
-  }
-`

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "perso": "page-perso-22170"
+    "perso": "page-perso-22170",
+    "default": "page-perso-22170"
   }
 }

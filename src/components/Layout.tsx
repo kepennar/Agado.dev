@@ -1,17 +1,14 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
-import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 import styled from "@emotion/styled"
+import { graphql, useStaticQuery } from "gatsby"
+import PropTypes from "prop-types"
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
+import { SiteTitleQuery } from "../../graphql-types"
 import Header from "./Header.component"
 import "./layout.css"
+import { LanguageProvider } from "../i18n/Language.context"
+import { AvailableLanguageType } from "../i18n/i18n.model"
 
 const Content = styled.div`
   margin: 0 auto;
@@ -24,11 +21,19 @@ const Footer = styled.footer`
   padding: 0.75rem;
   text-align: center;
   font-size: 0.75rem;
+
+  background-color: #ffffff0f;
 `
 
-const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
+function Layout({
+  language,
+  children,
+}: {
+  language: AvailableLanguageType
+  children: React.ReactNode
+}) {
+  const data = useStaticQuery<SiteTitleQuery>(graphql`
+    query SiteTitle {
       site {
         siteMetadata {
           title
@@ -39,12 +44,9 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
+    <LanguageProvider language={language}>
       <div className="head">
-        <Header
-          siteTitle={data.site.siteMetadata.title}
-          subTitle={data.site.siteMetadata.description}
-        />
+        <Header siteTitle={data.site?.siteMetadata?.title ?? ""} />
       </div>
       <div className="content">
         <Content>
@@ -52,12 +54,19 @@ const Layout = ({ children }) => {
         </Content>
       </div>
       <Footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.org">Gatsby</a> Source code is available
-        on <a href="https://github.com/kepennar/page-perso">Github</a>
+        <FormattedMessage
+          id="footerAttribution"
+          values={{
+            year: new Date().getFullYear(),
+            a1: (chunks) => <a href="https://www.gatsbyjs.org">{chunks}</a>,
+            a2: (chunks) => <a href="https://www.contentful.com">{chunks}</a>,
+            a3: (chunks) => (
+              <a href="https://github.com/kepennar/page-perso">{chunks}</a>
+            ),
+          }}
+        />
       </Footer>
-    </>
+    </LanguageProvider>
   )
 }
 

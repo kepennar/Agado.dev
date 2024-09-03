@@ -1,7 +1,9 @@
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { Document as ContentfulDocument } from "@contentful/rich-text-types"
-import React, { FunctionComponent } from "react"
+import { renderRichText } from "gatsby-source-contentful/rich-text"
+import { Maybe } from "../../graphql-types"
 
-export const RichText: FunctionComponent<{ richText: ContentfulDocument }> = ({
-  richText,
-}) => <div className="csmTxt">{documentToReactComponents(richText)}</div>
+export function RichText({ rawRichText }: { rawRichText: Maybe<string> }) {
+  if (!rawRichText) {
+    return null
+  }
+  return <div className="cmsTxt">{renderRichText({ raw: rawRichText })}</div>
+}

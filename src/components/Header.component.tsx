@@ -1,9 +1,7 @@
+import { css } from "@emotion/react"
 import styled from "@emotion/styled"
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React, { FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import { CodeImage } from "./Images"
-import { css } from "@emotion/core"
 
 const Container = styled.header`
   position: relative;
@@ -11,6 +9,9 @@ const Container = styled.header`
   padding: 4rem 2rem;
   margin-bottom: 1.45rem;
   height: 300px;
+  @media print {
+    height: 100px;
+  }
 `
 
 const Content = styled.div`
@@ -35,10 +36,14 @@ const shadowColor = "black"
 const shadowBlur = "8px"
 const SubTitle = styled.h2`
   margin: 0;
-  text-shadow: ${shadowSize} 0 ${shadowBlur} ${shadowColor},
+  text-shadow:
+    ${shadowSize} 0 ${shadowBlur} ${shadowColor},
     0 ${shadowSize} ${shadowBlur} ${shadowColor},
     -${shadowSize} 0 ${shadowBlur} ${shadowColor},
     0 -${shadowSize} ${shadowBlur} ${shadowColor};
+  @media print {
+    display: none;
+  }
 `
 
 const BackgroundImageContainer = styled.div`
@@ -51,9 +56,14 @@ const BackgroundImageContainer = styled.div`
   max-height: 300px;
   overflow: hidden;
   background: #051523;
+  @media print {
+    display: none;
+  }
 `
 
-const Header: FunctionComponent<{ siteTitle: string }> = ({ siteTitle }) => (
+const Header: FunctionComponent<{ siteTitle: string }> = ({
+  siteTitle = "",
+}) => (
   <Container>
     <BackgroundImageContainer>
       <CodeImage />
@@ -73,13 +83,5 @@ const Header: FunctionComponent<{ siteTitle: string }> = ({ siteTitle }) => (
     </Content>
   </Container>
 )
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
 
 export default Header

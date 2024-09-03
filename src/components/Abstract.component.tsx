@@ -1,35 +1,27 @@
-import { graphql, useStaticQuery } from "gatsby"
-import React, { FunctionComponent } from "react"
-import { AbstractQuery } from "../../graphql-types"
+import { useIntl } from "react-intl"
+import { HomePageDataQuery } from "../../graphql-types"
 import { RichText } from "./RichText.component"
 import { Socials } from "./Socials.component"
-import styled from "@emotion/styled"
+import { Spacer } from "./Spacer"
 
-const AbstractContainer = styled.div`
-  font-size: 1.05rem;
-`
+export function Abstract({
+  abstract,
+  socials,
+}: {
+  abstract: HomePageDataQuery["abstract"]
+  socials: HomePageDataQuery["socials"]
+}) {
+  const intl = useIntl()
 
-export const Abstract: FunctionComponent = () => {
-  const { abstract } = useStaticQuery<AbstractQuery>(abstractQuery)
-
-  if (!abstract?.content) {
+  if (!abstract?.content?.raw) {
     return null
   }
   return (
-    <AbstractContainer>
-      <h2>À propos de Kevin</h2>
-      <Socials />
-      <RichText richText={abstract.content.json} />
-    </AbstractContainer>
+    <div>
+      <h2>{intl.formatMessage({ id: "about" })}</h2>
+      <Socials socials={socials} />
+      <Spacer direction="vertical" size="1rem" />
+      <RichText rawRichText={abstract.content.raw} />
+    </div>
   )
 }
-
-export const abstractQuery = graphql`
-  query Abstract {
-    abstract: contentfulAbstract {
-      content {
-        json
-      }
-    }
-  }
-`

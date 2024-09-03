@@ -1,17 +1,19 @@
 import styled from "@emotion/styled"
-import { graphql, useStaticQuery } from "gatsby"
-import React, { FunctionComponent, useState, MouseEvent, Fragment } from "react"
-import {
-  ContentfulExperiencesDetailsRichTextNode,
-  ExperiencesQuery,
-} from "../../graphql-types"
+import { Fragment, FunctionComponent, MouseEvent, useState } from "react"
+import { HomePageDataQuery } from "../../graphql-types"
 import { RichText } from "./RichText.component"
 import { Spacer } from "./Spacer"
+import { useIntl } from "react-intl"
 
+const ExperienceContainer = styled.div`
+  @media print {
+    break-inside: avoid;
+  }
+`
 const ProjectMetas = styled.div`
-  color: #565656;
   display: flex;
   justify-content: space-between;
+  color: var(--secondary-text-color);
 `
 const Project = styled.span`
   font-size: 1.05rem;
@@ -29,17 +31,13 @@ const Details = styled.div`
   margin-top: 1rem;
 `
 
-interface Experience {
-  title?: string
-  project?: string
-  duration?: string
-  details?: Pick<ContentfulExperiencesDetailsRichTextNode, "json"> | null
-  rank?: number
-}
+type ExperiencesQueryType = HomePageDataQuery["experiences"]
+type ExperienceType = ExperiencesQueryType["edges"][0]["node"]
+
 const Experience: FunctionComponent<{
-  experience: Experience
+  experience: ExperienceType
 }> = ({ experience }) => (
-  <div>
+  <ExperienceContainer>
     <h3>{experience.title}</h3>
     <ProjectMetas>
       <Project>
@@ -54,20 +52,25 @@ const Experience: FunctionComponent<{
       <Duration>{experience.duration}</Duration>
     </ProjectMetas>
 
-    {experience.details && (
+    {experience.details?.raw && (
       <Details>
-        <RichText richText={experience.details.json} />
+        <RichText rawRichText={experience.details.raw} />
       </Details>
     )}
-  </div>
+  </ExperienceContainer>
 )
 
 const ShowMoreContainer = styled.div`
   text-align: center;
 `
 
-export const Experiences: FunctionComponent = () => {
-  const { experiences } = useStaticQuery<ExperiencesQuery>(experiencesQuery)
+export function Experiences({
+  experiences,
+}: {
+  experiences: ExperiencesQueryType
+}) {
+  const intl = useIntl()
+
   const [showMore, setShowMore] = useState(false)
 
   const lastExperiences = experiences.edges.slice(0, 4)
@@ -80,6 +83,7 @@ export const Experiences: FunctionComponent = () => {
 
   return (
     <div>
+      <h2>{intl.formatMessage({ id: "experiences" })}</h2>
       {lastExperiences.map(({ node }, index) => (
         <Fragment key={index}>
           <Experience key={index} experience={node} />
@@ -104,22 +108,3 @@ export const Experiences: FunctionComponent = () => {
     </div>
   )
 }
-
-export const experiencesQuery = graphql`
-  query Experiences {
-    experiences: allContentfulExperiences(sort: { fields: rank, order: DESC }) {
-      edges {
-        node {
-          title
-          project
-          projectLink
-          duration
-          details {
-            json
-          }
-          rank
-        }
-      }
-    }
-  }
-`

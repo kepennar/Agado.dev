@@ -1,51 +1,51 @@
-import { graphql, useStaticQuery } from "gatsby"
-import Img, { FluidObject } from "gatsby-image"
 import React from "react"
+import { graphql, useStaticQuery } from "gatsby"
+import { GatsbyImage, getImage, withArtDirection } from "gatsby-plugin-image"
 
-import { CodeImageFluidQuery } from "../../../graphql-types"
+import { CodeImageQuery } from "../../../graphql-types"
 
 export const CodeImage = () => {
-  const { mobileImage, desktopImage } = useStaticQuery<CodeImageFluidQuery>(
-    codeImageQuery
-  )
+  const { mobileImage, desktopImage } =
+    useStaticQuery<CodeImageQuery>(codeImageQuery)
 
-  const sources: FluidObject[] = [
-    mobileImage.childImageSharp.fluid,
-    {
-      ...desktopImage.childImageSharp.fluid,
-      media: `(min-width: 768px)`,
-    },
-  ]
+  if (!desktopImage || !mobileImage) {
+    throw new Error("Image is not available")
+  }
+  const images = withArtDirection(getImage(desktopImage), [
+    { media: `(max-width: 768px)`, image: getImage(mobileImage) },
+  ])
   return (
-    <Img
-      style={{ height: "100%" }}
-      fluid={sources}
-      alt="Line of codes on dark background"
-    />
+    <React.Fragment>
+      <GatsbyImage
+        image={images}
+        style={{ height: "100%" }}
+        alt="Line of codes on dark background"
+      />
+    </React.Fragment>
   )
 }
 
 export const codeImageQuery = graphql`
-  query CodeImageFluid {
+  query CodeImage {
     mobileImage: file(relativePath: { eq: "code.png" }) {
       childImageSharp {
-        fluid(
-          maxWidth: 768
-          duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
-        ) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
+        gatsbyImageData(
+          width: 768
+          transformOptions: {
+            duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
+          }
+          layout: CONSTRAINED
+        )
       }
     }
-
     desktopImage: file(relativePath: { eq: "code-desktop.png" }) {
       childImageSharp {
-        fluid(
-          maxWidth: 2000
-          duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
-        ) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
+        gatsbyImageData(
+          transformOptions: {
+            duotone: { highlight: "#4267b2", shadow: "#051424", opacity: 60 }
+          }
+          layout: FULL_WIDTH
+        )
       }
     }
   }

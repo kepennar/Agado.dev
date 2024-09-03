@@ -8,10 +8,11 @@ const LogoContainer = styled.div`
   justify-content: center;
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.1);
-  margin-left: 3rem;
-  @media (max-width: 500px) {
-    margin: auto;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(255, 255, 255, 0.01);
   }
+  margin: auto;
 `
 interface AgadoLogoProps {
   width?: string
