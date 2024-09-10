@@ -1,14 +1,13 @@
 import styled from "@emotion/styled"
-import { graphql, useStaticQuery } from "gatsby"
-import PropTypes from "prop-types"
+import { graphql, Script, useStaticQuery } from "gatsby"
 import React from "react"
 import { FormattedMessage } from "react-intl"
 
 import { SiteTitleQuery } from "../../graphql-types"
-import Header from "./Header.component"
-import "./layout.css"
 import { LanguageProvider } from "../i18n/Language.context"
 import { AvailableLanguageType } from "../i18n/i18n.model"
+import Header from "./Header.component"
+import "./layout.css"
 
 const Content = styled.div`
   margin: 0 auto;
@@ -66,12 +65,25 @@ function Layout({
           }}
         />
       </Footer>
+      <Script id="openpanel-inline-script" strategy="off-main-thread">
+        {`
+        window.op = window.op||function(...args){(window.op.q=window.op.q||[]).push(args);};
+          window.op('init', {
+            clientId: '${process.env.OP_CLIENT_ID}',
+            trackScreenViews: true,
+            trackOutgoingLinks: true,
+            trackAttributes: true,
+          });
+        `}
+      </Script>
+      <Script
+        id="openpanel-sdk-script"
+        src="https://openpanel.dev/op1.js"
+        strategy="off-main-thread"
+        forward={["op.track"]}
+      />
     </LanguageProvider>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default Layout
