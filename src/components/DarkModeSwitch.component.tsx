@@ -71,7 +71,11 @@ export function DarkModeSwitch() {
   const intl = useIntl()
 
   return (
-    <SwitchContainer onClick={toggleTheme}>
+    <SwitchContainer
+      onClick={toggleTheme}
+      data-track="switch-theme"
+      data-theme={theme === "light" ? "dark" : "light"}
+    >
       <Slider>
         <SliderButton theme={theme} />
       </Slider>

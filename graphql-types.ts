@@ -248,7 +248,6 @@ export type Site = Node & {
   port?: Maybe<Scalars['Int']>;
   host?: Maybe<Scalars['String']>;
   graphqlTypegen?: Maybe<SiteGraphqlTypegen>;
-  partytownProxiedURLs?: Maybe<Array<Maybe<Scalars['String']>>>;
   polyfill?: Maybe<Scalars['Boolean']>;
   pathPrefix?: Maybe<Scalars['String']>;
   jsxRuntime?: Maybe<Scalars['String']>;
@@ -1389,7 +1388,6 @@ export type QuerySiteArgs = {
   port?: InputMaybe<IntQueryOperatorInput>;
   host?: InputMaybe<StringQueryOperatorInput>;
   graphqlTypegen?: InputMaybe<SiteGraphqlTypegenFilterInput>;
-  partytownProxiedURLs?: InputMaybe<StringQueryOperatorInput>;
   polyfill?: InputMaybe<BooleanQueryOperatorInput>;
   pathPrefix?: InputMaybe<StringQueryOperatorInput>;
   jsxRuntime?: InputMaybe<StringQueryOperatorInput>;
@@ -2592,7 +2590,6 @@ export type SiteFieldSelector = {
   port?: InputMaybe<FieldSelectorEnum>;
   host?: InputMaybe<FieldSelectorEnum>;
   graphqlTypegen?: InputMaybe<SiteGraphqlTypegenFieldSelector>;
-  partytownProxiedURLs?: InputMaybe<FieldSelectorEnum>;
   polyfill?: InputMaybe<FieldSelectorEnum>;
   pathPrefix?: InputMaybe<FieldSelectorEnum>;
   jsxRuntime?: InputMaybe<FieldSelectorEnum>;
@@ -2664,7 +2661,6 @@ export type SiteFilterInput = {
   port?: InputMaybe<IntQueryOperatorInput>;
   host?: InputMaybe<StringQueryOperatorInput>;
   graphqlTypegen?: InputMaybe<SiteGraphqlTypegenFilterInput>;
-  partytownProxiedURLs?: InputMaybe<StringQueryOperatorInput>;
   polyfill?: InputMaybe<BooleanQueryOperatorInput>;
   pathPrefix?: InputMaybe<StringQueryOperatorInput>;
   jsxRuntime?: InputMaybe<StringQueryOperatorInput>;
@@ -2681,7 +2677,6 @@ export type SiteSortInput = {
   port?: InputMaybe<SortOrderEnum>;
   host?: InputMaybe<SortOrderEnum>;
   graphqlTypegen?: InputMaybe<SiteGraphqlTypegenSortInput>;
-  partytownProxiedURLs?: InputMaybe<SortOrderEnum>;
   polyfill?: InputMaybe<SortOrderEnum>;
   pathPrefix?: InputMaybe<SortOrderEnum>;
   jsxRuntime?: InputMaybe<SortOrderEnum>;

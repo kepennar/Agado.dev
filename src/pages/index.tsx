@@ -10,7 +10,6 @@ import { LanguageSwitch } from "../components/LanguageSwitch.component"
 import Layout from "../components/Layout"
 import { Slogan } from "../components/Slogan.component"
 import { Spacer } from "../components/Spacer"
-import { LanguageProvider } from "../i18n/Language.context"
 import { AvailableLanguageType } from "../i18n/i18n.model"
 
 const ActionsContainer = styled.div`

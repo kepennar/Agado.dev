@@ -4261,7 +4261,6 @@ type Query_siteArgs = {
   internal: InputMaybe<InternalFilterInput>;
   jsxRuntime: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
-  partytownProxiedURLs: InputMaybe<StringQueryOperatorInput>;
   pathPrefix: InputMaybe<StringQueryOperatorInput>;
   polyfill: InputMaybe<BooleanQueryOperatorInput>;
   port: InputMaybe<IntQueryOperatorInput>;
@@ -4436,7 +4435,6 @@ type Site = Node & {
   readonly internal: Internal;
   readonly jsxRuntime: Maybe<Scalars['String']>;
   readonly parent: Maybe<Node>;
-  readonly partytownProxiedURLs: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly pathPrefix: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly port: Maybe<Scalars['Int']>;
@@ -4632,7 +4630,6 @@ type SiteFieldSelector = {
   readonly internal: InputMaybe<InternalFieldSelector>;
   readonly jsxRuntime: InputMaybe<FieldSelectorEnum>;
   readonly parent: InputMaybe<NodeFieldSelector>;
-  readonly partytownProxiedURLs: InputMaybe<FieldSelectorEnum>;
   readonly pathPrefix: InputMaybe<FieldSelectorEnum>;
   readonly polyfill: InputMaybe<FieldSelectorEnum>;
   readonly port: InputMaybe<FieldSelectorEnum>;
@@ -4649,7 +4646,6 @@ type SiteFilterInput = {
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly jsxRuntime: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
-  readonly partytownProxiedURLs: InputMaybe<StringQueryOperatorInput>;
   readonly pathPrefix: InputMaybe<StringQueryOperatorInput>;
   readonly polyfill: InputMaybe<BooleanQueryOperatorInput>;
   readonly port: InputMaybe<IntQueryOperatorInput>;
@@ -5197,7 +5193,6 @@ type SiteSortInput = {
   readonly internal: InputMaybe<InternalSortInput>;
   readonly jsxRuntime: InputMaybe<SortOrderEnum>;
   readonly parent: InputMaybe<NodeSortInput>;
-  readonly partytownProxiedURLs: InputMaybe<SortOrderEnum>;
   readonly pathPrefix: InputMaybe<SortOrderEnum>;
   readonly polyfill: InputMaybe<SortOrderEnum>;
   readonly port: InputMaybe<SortOrderEnum>;

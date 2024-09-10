@@ -65,23 +65,18 @@ function Layout({
           }}
         />
       </Footer>
-      <Script id="openpanel-inline-script" strategy="off-main-thread">
+      <Script id="openpanel-inline-script">
         {`
         window.op = window.op||function(...args){(window.op.q=window.op.q||[]).push(args);};
           window.op('init', {
-            clientId: '${process.env.OP_CLIENT_ID}',
+            clientId: '${process.env.GATSBY_OP_CLIENT_ID}',
             trackScreenViews: true,
             trackOutgoingLinks: true,
             trackAttributes: true,
           });
         `}
       </Script>
-      <Script
-        id="openpanel-sdk-script"
-        src="https://openpanel.dev/op1.js"
-        strategy="off-main-thread"
-        forward={["op.track"]}
-      />
+      <Script id="openpanel-sdk-script" src="https://openpanel.dev/op1.js" />
     </LanguageProvider>
   )
 }
