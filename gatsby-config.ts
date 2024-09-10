@@ -20,7 +20,6 @@ const gatsbyConfig: GatsbyConfig = {
     image: `/icons/icon-192x192.png`,
   },
   graphqlTypegen: true,
-  partytownProxiedURLs: ["https://openpanel.dev/op1.js"],
   plugins: [
     "gatsby-plugin-pnpm",
     "gatsby-plugin-preact",

@@ -65,7 +65,7 @@ function Layout({
           }}
         />
       </Footer>
-      <Script id="openpanel-inline-script" strategy="off-main-thread">
+      <Script id="openpanel-inline-script">
         {`
         window.op = window.op||function(...args){(window.op.q=window.op.q||[]).push(args);};
           window.op('init', {
@@ -76,12 +76,7 @@ function Layout({
           });
         `}
       </Script>
-      <Script
-        id="openpanel-sdk-script"
-        src="https://openpanel.dev/op1.js"
-        strategy="off-main-thread"
-        forward={["op.track"]}
-      />
+      <Script id="openpanel-sdk-script" src="https://openpanel.dev/op1.js" />
     </LanguageProvider>
   )
 }
