@@ -11,6 +11,7 @@ const config = {
   contentfulSpaceId: process.env.CONTENTFUL_SPACE_ID,
   contentfulAccessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 }
+
 const gatsbyConfig: GatsbyConfig = {
   siteMetadata: {
     title: TITLE,

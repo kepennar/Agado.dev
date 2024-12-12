@@ -22,7 +22,7 @@ const StyledSelect = styled.select`
   }
 `
 
-export function LanguageSwitch() {
+export function LanguageSwitch({ currentPage }: { currentPage: string }) {
   const language =
     typeof window !== "undefined" && window.location.pathname.startsWith("/en")
       ? "en"
@@ -33,7 +33,8 @@ export function LanguageSwitch() {
       // not available server side
       return
     }
-    window.location.href = event.target.value === "en" ? "/en" : "/"
+    window.location.href =
+      event.target.value === "en" ? `/en${currentPage}` : `${currentPage}`
   }
 
   return (

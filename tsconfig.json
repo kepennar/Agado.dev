@@ -1,33 +1,25 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
-
   "compilerOptions": {
-    /* Language and Environment */
-    "target": "esnext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "lib": [
-      "dom",
-      "esnext"
-    ] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+    "target": "ES2022",
     "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsxImportSource": "@emotion/react",
-    /* Modules */
-    "module": "esnext" /* Specify what module code is generated. */,
-    // "rootDir": "./",                                  /* Specify the root folder within your source files. */
-    "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
 
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
-    // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
 
-    /* Type Checking */
-    "strict": true /* Enable all strict type-checking options. */,
-    "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied `any` type.. */,
-    "strictNullChecks": true /* When type checking, take into account `null` and `undefined`. */,
-    "noUnusedLocals": true /* Enable error reporting when a local variables aren't read. */,
-    "noUnusedParameters": true /* Raise an error when a function parameter isn't read */,
-    "noUncheckedIndexedAccess": true /* Include 'undefined' in index signature results */,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+
+    "noEmit": true,
+    "skipLibCheck": true
   },
   "include": ["./src/**/*", "./gatsby-config.ts", "./gatsby-browser.ts"]
 }

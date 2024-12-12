@@ -1210,6 +1210,73 @@ export type ContentfulNews = ContentfulReference & ContentfulEntry & Node & {
   internal: Internal;
 };
 
+export type ContentfulBlogPost = ContentfulReference & ContentfulEntry & Node & {
+  contentful_id: Scalars['String'];
+  id: Scalars['ID'];
+  node_locale: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+  publishDate?: Maybe<Scalars['Date']>;
+  abstract?: Maybe<ContentfulBlogPostAbstract>;
+  content?: Maybe<ContentfulBlogPostContent>;
+  spaceId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  updatedAt?: Maybe<Scalars['Date']>;
+  sys?: Maybe<ContentfulBlogPostSys>;
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+};
+
+
+export type ContentfulBlogPostPublishDateArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type ContentfulBlogPostCreatedAtArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type ContentfulBlogPostUpdatedAtArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+export type ContentfulBlogPostAbstract = {
+  raw?: Maybe<Scalars['String']>;
+  references?: Maybe<Array<Maybe<ContentfulAsset>>>;
+};
+
+export type ContentfulBlogPostContent = {
+  raw?: Maybe<Scalars['String']>;
+  references?: Maybe<Array<Maybe<ContentfulAsset>>>;
+};
+
+export type ContentfulBlogPostSys = {
+  type?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Int']>;
+  contentType?: Maybe<ContentfulBlogPostSysContentType>;
+};
+
+export type ContentfulBlogPostSysContentType = {
+  sys?: Maybe<ContentfulBlogPostSysContentTypeSys>;
+};
+
+export type ContentfulBlogPostSysContentTypeSys = {
+  type?: Maybe<Scalars['String']>;
+  linkType?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+};
+
 export type ContentfulExpertisesTechsJsonNode = Node & {
   id: Scalars['ID'];
   parent?: Maybe<Node>;
@@ -1237,6 +1304,109 @@ export type ContentfulContentType = Node & {
 
 export type ContentfulContentTypeSys = {
   type?: Maybe<Scalars['String']>;
+};
+
+export type StaticImage = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+  sourceInstanceName?: Maybe<Scalars['String']>;
+  relativePath?: Maybe<Scalars['String']>;
+  extension?: Maybe<Scalars['String']>;
+  prettySize?: Maybe<Scalars['String']>;
+  modifiedTime?: Maybe<Scalars['Date']>;
+  accessTime?: Maybe<Scalars['Date']>;
+  changeTime?: Maybe<Scalars['Date']>;
+  birthTime?: Maybe<Scalars['Date']>;
+  root?: Maybe<Scalars['String']>;
+  dir?: Maybe<Scalars['String']>;
+  base?: Maybe<Scalars['String']>;
+  ext?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  absolutePath?: Maybe<Scalars['String']>;
+  relativeDirectory?: Maybe<Scalars['String']>;
+  dev?: Maybe<Scalars['Int']>;
+  mode?: Maybe<Scalars['Int']>;
+  nlink?: Maybe<Scalars['Int']>;
+  uid?: Maybe<Scalars['Int']>;
+  rdev?: Maybe<Scalars['Int']>;
+  blksize?: Maybe<Scalars['Int']>;
+  ino?: Maybe<Scalars['Int']>;
+  size?: Maybe<Scalars['Int']>;
+  blocks?: Maybe<Scalars['Int']>;
+  atimeMs?: Maybe<Scalars['Float']>;
+  mtimeMs?: Maybe<Scalars['Float']>;
+  ctimeMs?: Maybe<Scalars['Float']>;
+  birthtimeMs?: Maybe<Scalars['Float']>;
+  atime?: Maybe<Scalars['Date']>;
+  mtime?: Maybe<Scalars['Date']>;
+  ctime?: Maybe<Scalars['Date']>;
+  birthtime?: Maybe<Scalars['Date']>;
+};
+
+
+export type StaticImageModifiedTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageAccessTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageChangeTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageBirthTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageAtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageMtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageCtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageBirthtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -1276,10 +1446,14 @@ export type Query = {
   allContentfulSlogan: ContentfulSloganConnection;
   contentfulNews?: Maybe<ContentfulNews>;
   allContentfulNews: ContentfulNewsConnection;
+  contentfulBlogPost?: Maybe<ContentfulBlogPost>;
+  allContentfulBlogPost: ContentfulBlogPostConnection;
   contentfulExpertisesTechsJsonNode?: Maybe<ContentfulExpertisesTechsJsonNode>;
   allContentfulExpertisesTechsJsonNode: ContentfulExpertisesTechsJsonNodeConnection;
   contentfulContentType?: Maybe<ContentfulContentType>;
   allContentfulContentType: ContentfulContentTypeConnection;
+  staticImage?: Maybe<StaticImage>;
+  allStaticImage: StaticImageConnection;
 };
 
 
@@ -1769,6 +1943,32 @@ export type QueryAllContentfulNewsArgs = {
 };
 
 
+export type QueryContentfulBlogPostArgs = {
+  contentful_id?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  node_locale?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  publishDate?: InputMaybe<DateQueryOperatorInput>;
+  abstract?: InputMaybe<ContentfulBlogPostAbstractFilterInput>;
+  content?: InputMaybe<ContentfulBlogPostContentFilterInput>;
+  spaceId?: InputMaybe<StringQueryOperatorInput>;
+  createdAt?: InputMaybe<DateQueryOperatorInput>;
+  updatedAt?: InputMaybe<DateQueryOperatorInput>;
+  sys?: InputMaybe<ContentfulBlogPostSysFilterInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+};
+
+
+export type QueryAllContentfulBlogPostArgs = {
+  filter?: InputMaybe<ContentfulBlogPostFilterInput>;
+  sort?: InputMaybe<Array<InputMaybe<ContentfulBlogPostSortInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type QueryContentfulExpertisesTechsJsonNodeArgs = {
   id?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
@@ -1803,6 +2003,54 @@ export type QueryContentfulContentTypeArgs = {
 export type QueryAllContentfulContentTypeArgs = {
   filter?: InputMaybe<ContentfulContentTypeFilterInput>;
   sort?: InputMaybe<Array<InputMaybe<ContentfulContentTypeSortInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryStaticImageArgs = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
+  relativePath?: InputMaybe<StringQueryOperatorInput>;
+  extension?: InputMaybe<StringQueryOperatorInput>;
+  prettySize?: InputMaybe<StringQueryOperatorInput>;
+  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
+  accessTime?: InputMaybe<DateQueryOperatorInput>;
+  changeTime?: InputMaybe<DateQueryOperatorInput>;
+  birthTime?: InputMaybe<DateQueryOperatorInput>;
+  root?: InputMaybe<StringQueryOperatorInput>;
+  dir?: InputMaybe<StringQueryOperatorInput>;
+  base?: InputMaybe<StringQueryOperatorInput>;
+  ext?: InputMaybe<StringQueryOperatorInput>;
+  name?: InputMaybe<StringQueryOperatorInput>;
+  absolutePath?: InputMaybe<StringQueryOperatorInput>;
+  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
+  dev?: InputMaybe<IntQueryOperatorInput>;
+  mode?: InputMaybe<IntQueryOperatorInput>;
+  nlink?: InputMaybe<IntQueryOperatorInput>;
+  uid?: InputMaybe<IntQueryOperatorInput>;
+  rdev?: InputMaybe<IntQueryOperatorInput>;
+  blksize?: InputMaybe<IntQueryOperatorInput>;
+  ino?: InputMaybe<IntQueryOperatorInput>;
+  size?: InputMaybe<IntQueryOperatorInput>;
+  blocks?: InputMaybe<IntQueryOperatorInput>;
+  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  atime?: InputMaybe<DateQueryOperatorInput>;
+  mtime?: InputMaybe<DateQueryOperatorInput>;
+  ctime?: InputMaybe<DateQueryOperatorInput>;
+  birthtime?: InputMaybe<DateQueryOperatorInput>;
+};
+
+
+export type QueryAllStaticImageArgs = {
+  filter?: InputMaybe<StaticImageFilterInput>;
+  sort?: InputMaybe<Array<InputMaybe<StaticImageSortInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
 };
@@ -5147,6 +5395,225 @@ export type ContentfulNewsSortInput = {
   internal?: InputMaybe<InternalSortInput>;
 };
 
+export type ContentfulBlogPostAbstractFilterInput = {
+  raw?: InputMaybe<StringQueryOperatorInput>;
+  references?: InputMaybe<ContentfulAssetFilterListInput>;
+};
+
+export type ContentfulAssetFilterListInput = {
+  elemMatch?: InputMaybe<ContentfulAssetFilterInput>;
+};
+
+export type ContentfulBlogPostContentFilterInput = {
+  raw?: InputMaybe<StringQueryOperatorInput>;
+  references?: InputMaybe<ContentfulAssetFilterListInput>;
+};
+
+export type ContentfulBlogPostSysFilterInput = {
+  type?: InputMaybe<StringQueryOperatorInput>;
+  revision?: InputMaybe<IntQueryOperatorInput>;
+  contentType?: InputMaybe<ContentfulBlogPostSysContentTypeFilterInput>;
+};
+
+export type ContentfulBlogPostSysContentTypeFilterInput = {
+  sys?: InputMaybe<ContentfulBlogPostSysContentTypeSysFilterInput>;
+};
+
+export type ContentfulBlogPostSysContentTypeSysFilterInput = {
+  type?: InputMaybe<StringQueryOperatorInput>;
+  linkType?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type ContentfulBlogPostConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<ContentfulBlogPostEdge>;
+  nodes: Array<ContentfulBlogPost>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<ContentfulBlogPostGroupConnection>;
+};
+
+
+export type ContentfulBlogPostConnectionDistinctArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostConnectionMaxArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostConnectionMinArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostConnectionSumArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: ContentfulBlogPostFieldSelector;
+};
+
+export type ContentfulBlogPostEdge = {
+  next?: Maybe<ContentfulBlogPost>;
+  node: ContentfulBlogPost;
+  previous?: Maybe<ContentfulBlogPost>;
+};
+
+export type ContentfulBlogPostFieldSelector = {
+  contentful_id?: InputMaybe<FieldSelectorEnum>;
+  id?: InputMaybe<FieldSelectorEnum>;
+  node_locale?: InputMaybe<FieldSelectorEnum>;
+  title?: InputMaybe<FieldSelectorEnum>;
+  publishDate?: InputMaybe<FieldSelectorEnum>;
+  abstract?: InputMaybe<ContentfulBlogPostAbstractFieldSelector>;
+  content?: InputMaybe<ContentfulBlogPostContentFieldSelector>;
+  spaceId?: InputMaybe<FieldSelectorEnum>;
+  createdAt?: InputMaybe<FieldSelectorEnum>;
+  updatedAt?: InputMaybe<FieldSelectorEnum>;
+  sys?: InputMaybe<ContentfulBlogPostSysFieldSelector>;
+  parent?: InputMaybe<NodeFieldSelector>;
+  children?: InputMaybe<NodeFieldSelector>;
+  internal?: InputMaybe<InternalFieldSelector>;
+};
+
+export type ContentfulBlogPostAbstractFieldSelector = {
+  raw?: InputMaybe<FieldSelectorEnum>;
+  references?: InputMaybe<ContentfulAssetFieldSelector>;
+};
+
+export type ContentfulBlogPostContentFieldSelector = {
+  raw?: InputMaybe<FieldSelectorEnum>;
+  references?: InputMaybe<ContentfulAssetFieldSelector>;
+};
+
+export type ContentfulBlogPostSysFieldSelector = {
+  type?: InputMaybe<FieldSelectorEnum>;
+  revision?: InputMaybe<FieldSelectorEnum>;
+  contentType?: InputMaybe<ContentfulBlogPostSysContentTypeFieldSelector>;
+};
+
+export type ContentfulBlogPostSysContentTypeFieldSelector = {
+  sys?: InputMaybe<ContentfulBlogPostSysContentTypeSysFieldSelector>;
+};
+
+export type ContentfulBlogPostSysContentTypeSysFieldSelector = {
+  type?: InputMaybe<FieldSelectorEnum>;
+  linkType?: InputMaybe<FieldSelectorEnum>;
+  id?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type ContentfulBlogPostGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<ContentfulBlogPostEdge>;
+  nodes: Array<ContentfulBlogPost>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<ContentfulBlogPostGroupConnection>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+
+export type ContentfulBlogPostGroupConnectionDistinctArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostGroupConnectionMaxArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostGroupConnectionMinArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostGroupConnectionSumArgs = {
+  field: ContentfulBlogPostFieldSelector;
+};
+
+
+export type ContentfulBlogPostGroupConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: ContentfulBlogPostFieldSelector;
+};
+
+export type ContentfulBlogPostFilterInput = {
+  contentful_id?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  node_locale?: InputMaybe<StringQueryOperatorInput>;
+  title?: InputMaybe<StringQueryOperatorInput>;
+  publishDate?: InputMaybe<DateQueryOperatorInput>;
+  abstract?: InputMaybe<ContentfulBlogPostAbstractFilterInput>;
+  content?: InputMaybe<ContentfulBlogPostContentFilterInput>;
+  spaceId?: InputMaybe<StringQueryOperatorInput>;
+  createdAt?: InputMaybe<DateQueryOperatorInput>;
+  updatedAt?: InputMaybe<DateQueryOperatorInput>;
+  sys?: InputMaybe<ContentfulBlogPostSysFilterInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+};
+
+export type ContentfulBlogPostSortInput = {
+  contentful_id?: InputMaybe<SortOrderEnum>;
+  id?: InputMaybe<SortOrderEnum>;
+  node_locale?: InputMaybe<SortOrderEnum>;
+  title?: InputMaybe<SortOrderEnum>;
+  publishDate?: InputMaybe<SortOrderEnum>;
+  abstract?: InputMaybe<ContentfulBlogPostAbstractSortInput>;
+  content?: InputMaybe<ContentfulBlogPostContentSortInput>;
+  spaceId?: InputMaybe<SortOrderEnum>;
+  createdAt?: InputMaybe<SortOrderEnum>;
+  updatedAt?: InputMaybe<SortOrderEnum>;
+  sys?: InputMaybe<ContentfulBlogPostSysSortInput>;
+  parent?: InputMaybe<NodeSortInput>;
+  children?: InputMaybe<NodeSortInput>;
+  internal?: InputMaybe<InternalSortInput>;
+};
+
+export type ContentfulBlogPostAbstractSortInput = {
+  raw?: InputMaybe<SortOrderEnum>;
+  references?: InputMaybe<ContentfulAssetSortInput>;
+};
+
+export type ContentfulBlogPostContentSortInput = {
+  raw?: InputMaybe<SortOrderEnum>;
+  references?: InputMaybe<ContentfulAssetSortInput>;
+};
+
+export type ContentfulBlogPostSysSortInput = {
+  type?: InputMaybe<SortOrderEnum>;
+  revision?: InputMaybe<SortOrderEnum>;
+  contentType?: InputMaybe<ContentfulBlogPostSysContentTypeSortInput>;
+};
+
+export type ContentfulBlogPostSysContentTypeSortInput = {
+  sys?: InputMaybe<ContentfulBlogPostSysContentTypeSysSortInput>;
+};
+
+export type ContentfulBlogPostSysContentTypeSysSortInput = {
+  type?: InputMaybe<SortOrderEnum>;
+  linkType?: InputMaybe<SortOrderEnum>;
+  id?: InputMaybe<SortOrderEnum>;
+};
+
 export type ContentfulExpertisesTechsJsonNodeConnection = {
   totalCount: Scalars['Int'];
   edges: Array<ContentfulExpertisesTechsJsonNodeEdge>;
@@ -5364,6 +5831,209 @@ export type ContentfulContentTypeSysSortInput = {
   type?: InputMaybe<SortOrderEnum>;
 };
 
+export type StaticImageConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<StaticImageEdge>;
+  nodes: Array<StaticImage>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<StaticImageGroupConnection>;
+};
+
+
+export type StaticImageConnectionDistinctArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageConnectionMaxArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageConnectionMinArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageConnectionSumArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: StaticImageFieldSelector;
+};
+
+export type StaticImageEdge = {
+  next?: Maybe<StaticImage>;
+  node: StaticImage;
+  previous?: Maybe<StaticImage>;
+};
+
+export type StaticImageFieldSelector = {
+  id?: InputMaybe<FieldSelectorEnum>;
+  parent?: InputMaybe<NodeFieldSelector>;
+  children?: InputMaybe<NodeFieldSelector>;
+  internal?: InputMaybe<InternalFieldSelector>;
+  sourceInstanceName?: InputMaybe<FieldSelectorEnum>;
+  relativePath?: InputMaybe<FieldSelectorEnum>;
+  extension?: InputMaybe<FieldSelectorEnum>;
+  prettySize?: InputMaybe<FieldSelectorEnum>;
+  modifiedTime?: InputMaybe<FieldSelectorEnum>;
+  accessTime?: InputMaybe<FieldSelectorEnum>;
+  changeTime?: InputMaybe<FieldSelectorEnum>;
+  birthTime?: InputMaybe<FieldSelectorEnum>;
+  root?: InputMaybe<FieldSelectorEnum>;
+  dir?: InputMaybe<FieldSelectorEnum>;
+  base?: InputMaybe<FieldSelectorEnum>;
+  ext?: InputMaybe<FieldSelectorEnum>;
+  name?: InputMaybe<FieldSelectorEnum>;
+  absolutePath?: InputMaybe<FieldSelectorEnum>;
+  relativeDirectory?: InputMaybe<FieldSelectorEnum>;
+  dev?: InputMaybe<FieldSelectorEnum>;
+  mode?: InputMaybe<FieldSelectorEnum>;
+  nlink?: InputMaybe<FieldSelectorEnum>;
+  uid?: InputMaybe<FieldSelectorEnum>;
+  rdev?: InputMaybe<FieldSelectorEnum>;
+  blksize?: InputMaybe<FieldSelectorEnum>;
+  ino?: InputMaybe<FieldSelectorEnum>;
+  size?: InputMaybe<FieldSelectorEnum>;
+  blocks?: InputMaybe<FieldSelectorEnum>;
+  atimeMs?: InputMaybe<FieldSelectorEnum>;
+  mtimeMs?: InputMaybe<FieldSelectorEnum>;
+  ctimeMs?: InputMaybe<FieldSelectorEnum>;
+  birthtimeMs?: InputMaybe<FieldSelectorEnum>;
+  atime?: InputMaybe<FieldSelectorEnum>;
+  mtime?: InputMaybe<FieldSelectorEnum>;
+  ctime?: InputMaybe<FieldSelectorEnum>;
+  birthtime?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type StaticImageGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<StaticImageEdge>;
+  nodes: Array<StaticImage>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<StaticImageGroupConnection>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+
+export type StaticImageGroupConnectionDistinctArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageGroupConnectionMaxArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageGroupConnectionMinArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageGroupConnectionSumArgs = {
+  field: StaticImageFieldSelector;
+};
+
+
+export type StaticImageGroupConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: StaticImageFieldSelector;
+};
+
+export type StaticImageFilterInput = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
+  relativePath?: InputMaybe<StringQueryOperatorInput>;
+  extension?: InputMaybe<StringQueryOperatorInput>;
+  prettySize?: InputMaybe<StringQueryOperatorInput>;
+  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
+  accessTime?: InputMaybe<DateQueryOperatorInput>;
+  changeTime?: InputMaybe<DateQueryOperatorInput>;
+  birthTime?: InputMaybe<DateQueryOperatorInput>;
+  root?: InputMaybe<StringQueryOperatorInput>;
+  dir?: InputMaybe<StringQueryOperatorInput>;
+  base?: InputMaybe<StringQueryOperatorInput>;
+  ext?: InputMaybe<StringQueryOperatorInput>;
+  name?: InputMaybe<StringQueryOperatorInput>;
+  absolutePath?: InputMaybe<StringQueryOperatorInput>;
+  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
+  dev?: InputMaybe<IntQueryOperatorInput>;
+  mode?: InputMaybe<IntQueryOperatorInput>;
+  nlink?: InputMaybe<IntQueryOperatorInput>;
+  uid?: InputMaybe<IntQueryOperatorInput>;
+  rdev?: InputMaybe<IntQueryOperatorInput>;
+  blksize?: InputMaybe<IntQueryOperatorInput>;
+  ino?: InputMaybe<IntQueryOperatorInput>;
+  size?: InputMaybe<IntQueryOperatorInput>;
+  blocks?: InputMaybe<IntQueryOperatorInput>;
+  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  atime?: InputMaybe<DateQueryOperatorInput>;
+  mtime?: InputMaybe<DateQueryOperatorInput>;
+  ctime?: InputMaybe<DateQueryOperatorInput>;
+  birthtime?: InputMaybe<DateQueryOperatorInput>;
+};
+
+export type StaticImageSortInput = {
+  id?: InputMaybe<SortOrderEnum>;
+  parent?: InputMaybe<NodeSortInput>;
+  children?: InputMaybe<NodeSortInput>;
+  internal?: InputMaybe<InternalSortInput>;
+  sourceInstanceName?: InputMaybe<SortOrderEnum>;
+  relativePath?: InputMaybe<SortOrderEnum>;
+  extension?: InputMaybe<SortOrderEnum>;
+  prettySize?: InputMaybe<SortOrderEnum>;
+  modifiedTime?: InputMaybe<SortOrderEnum>;
+  accessTime?: InputMaybe<SortOrderEnum>;
+  changeTime?: InputMaybe<SortOrderEnum>;
+  birthTime?: InputMaybe<SortOrderEnum>;
+  root?: InputMaybe<SortOrderEnum>;
+  dir?: InputMaybe<SortOrderEnum>;
+  base?: InputMaybe<SortOrderEnum>;
+  ext?: InputMaybe<SortOrderEnum>;
+  name?: InputMaybe<SortOrderEnum>;
+  absolutePath?: InputMaybe<SortOrderEnum>;
+  relativeDirectory?: InputMaybe<SortOrderEnum>;
+  dev?: InputMaybe<SortOrderEnum>;
+  mode?: InputMaybe<SortOrderEnum>;
+  nlink?: InputMaybe<SortOrderEnum>;
+  uid?: InputMaybe<SortOrderEnum>;
+  rdev?: InputMaybe<SortOrderEnum>;
+  blksize?: InputMaybe<SortOrderEnum>;
+  ino?: InputMaybe<SortOrderEnum>;
+  size?: InputMaybe<SortOrderEnum>;
+  blocks?: InputMaybe<SortOrderEnum>;
+  atimeMs?: InputMaybe<SortOrderEnum>;
+  mtimeMs?: InputMaybe<SortOrderEnum>;
+  ctimeMs?: InputMaybe<SortOrderEnum>;
+  birthtimeMs?: InputMaybe<SortOrderEnum>;
+  atime?: InputMaybe<SortOrderEnum>;
+  mtime?: InputMaybe<SortOrderEnum>;
+  ctime?: InputMaybe<SortOrderEnum>;
+  birthtime?: InputMaybe<SortOrderEnum>;
+};
+
 export type SiteMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5379,12 +6049,29 @@ export type SiteTitleQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SiteTitleQuery = { site?: { siteMetadata?: { title?: string | null, description?: string | null } | null } | null };
 
+export type BlogListPageDataQueryVariables = Exact<{
+  language: Scalars['String'];
+  currentDate: Scalars['Date'];
+}>;
+
+
+export type BlogListPageDataQuery = { allContentfulBlogPost: { edges: Array<{ node: { id: string, title?: string | null, publishDate?: any | null, abstract?: { raw?: string | null, references?: Array<{ __typename: 'ContentfulAsset', contentful_id: string, title?: string | null, description?: string | null, gatsbyImageData?: any | null } | null> | null } | null } }> } };
+
 export type HomePageDataQueryVariables = Exact<{
   language: Scalars['String'];
 }>;
 
 
 export type HomePageDataQuery = { socials: { edges: Array<{ node: { label?: string | null, url?: string | null, picto?: { title?: string | null, description?: string | null, url?: string | null } | null } }> }, experiences: { edges: Array<{ node: { title?: string | null, project?: string | null, projectLink?: string | null, duration?: string | null, rank?: number | null, details?: { raw?: string | null } | null } }> }, abstract?: { content?: { raw?: string | null } | null } | null, slogan?: { text?: { raw?: string | null } | null } | null };
+
+export type BlogPageDataQueryVariables = Exact<{
+  id: Scalars['String'];
+  language: Scalars['String'];
+  currentDate: Scalars['Date'];
+}>;
+
+
+export type BlogPageDataQuery = { contentfulBlogPost?: { title?: string | null, publishDate?: any | null, content?: { raw?: string | null, references?: Array<{ __typename: 'ContentfulAsset', contentful_id: string, title?: string | null, description?: string | null, gatsbyImageData?: any | null } | null> | null } | null } | null };
 
 export type GatsbyImageSharpFixedFragment = { base64?: string | null, width: number, height: number, src: string, srcSet: string };
 
