@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { graphql, Script, useStaticQuery } from "gatsby"
-import React from "react"
+import React, { ReactNode } from "react"
 import { FormattedMessage } from "react-intl"
 
 import { SiteTitleQuery } from "../../graphql-types"
@@ -26,12 +26,14 @@ const Footer = styled.footer`
 
 function Layout({
   language,
+  header,
   children,
 }: {
+  header: (data: { siteMetadata: SiteTitleQuery }) => ReactNode
   language: AvailableLanguageType
   children: React.ReactNode
 }) {
-  const data = useStaticQuery<SiteTitleQuery>(graphql`
+  const siteMetadata = useStaticQuery<SiteTitleQuery>(graphql`
     query SiteTitle {
       site {
         siteMetadata {
@@ -44,9 +46,7 @@ function Layout({
 
   return (
     <LanguageProvider language={language}>
-      <div className="head">
-        <Header siteTitle={data.site?.siteMetadata?.title ?? ""} />
-      </div>
+      <div className="head">{header({ siteMetadata })}</div>
       <div className="content">
         <Content>
           <main>{children}</main>

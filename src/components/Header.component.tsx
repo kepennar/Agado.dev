@@ -1,10 +1,18 @@
-import { css } from "@emotion/react"
 import styled from "@emotion/styled"
-import { FunctionComponent } from "react"
-import { CodeImage } from "./Images"
+import { ReactNode } from "react"
+import { DarkModeSwitch } from "./DarkModeSwitch.component"
+import { AgadoName, CodeImage } from "./Images"
+import { LanguageSwitch } from "./LanguageSwitch.component"
+import { AvailableLanguageType } from "../i18n/i18n.model"
+import { useIntl } from "react-intl"
 
 const Container = styled.header`
-  position: relative;
+  position: absolute;
+  z-index: 0;
+
+  top: 0;
+  left: 0;
+  right: 0;
   background: #051523;
   padding: 4rem 2rem;
   margin-bottom: 1.45rem;
@@ -60,28 +68,104 @@ const BackgroundImageContainer = styled.div`
     display: none;
   }
 `
+export const NavbarContainer = styled.div`
+  z-index: 10;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
 
-const Header: FunctionComponent<{ siteTitle: string }> = ({
+  background-color: #4267b230;
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid #2d3647;
+`
+export const MenuLink = styled.a`
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`
+const MenuLinksContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+`
+export function MenuLinks({
+  links,
+  currentLanguage,
+}: {
+  currentLanguage: AvailableLanguageType
+  links: { href: string; labelId: string; titleLabelId: string }[]
+}) {
+  const intl = useIntl()
+
+  return (
+    <MenuLinksContainer>
+      <MenuLink
+        href={currentLanguage === "fr" ? "/" : `/${currentLanguage}`}
+        title="Visit Kevin Pennarun's profile"
+      >
+        <AgadoName />
+      </MenuLink>
+      <div>
+        {links.map(({ href, labelId, titleLabelId }) => (
+          <MenuLink
+            key={href}
+            href={
+              currentLanguage === "fr"
+                ? `/${href}`
+                : `/${currentLanguage}/${href}`
+            }
+            title={intl.formatMessage({ id: titleLabelId })}
+          >
+            {intl.formatMessage({ id: labelId })}
+          </MenuLink>
+        ))}
+      </div>
+    </MenuLinksContainer>
+  )
+}
+
+export const ActionsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+`
+export function Actions({ currentPage }: { currentPage: string }) {
+  return (
+    <ActionsContainer>
+      <LanguageSwitch currentPage={currentPage} />
+      <DarkModeSwitch />
+    </ActionsContainer>
+  )
+}
+function Header({
   siteTitle = "",
-}) => (
-  <Container>
-    <BackgroundImageContainer>
-      <CodeImage />
-    </BackgroundImageContainer>
-    <Content>
-      <Title>{siteTitle}</Title>
-      <SubTitle>
-        Freelance{" "}
-        <span
-          css={css`
-            white-space: nowrap;
-          `}
-        >
-          @ Agado Dev
-        </span>
-      </SubTitle>
-    </Content>
-  </Container>
-)
+  subtitle,
+  withBackgroundImage,
+}: {
+  siteTitle: ReactNode
+  subtitle?: ReactNode
+  withBackgroundImage?: true
+}) {
+  return (
+    <Container>
+      {withBackgroundImage ? (
+        <BackgroundImageContainer>
+          <CodeImage />
+        </BackgroundImageContainer>
+      ) : null}
+      <Content>
+        <Title>{siteTitle}</Title>
+        {subtitle ? <SubTitle>{subtitle}</SubTitle> : null}
+      </Content>
+    </Container>
+  )
+}
 
 export default Header

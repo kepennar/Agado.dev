@@ -1,24 +1,26 @@
 import styled from "@emotion/styled"
 import { graphql } from "gatsby"
+import React from "react"
 import { HomePageDataQuery } from "../../graphql-types"
 import { Abstract } from "../components/Abstract.component"
 import { DarkModeSwitch } from "../components/DarkModeSwitch.component"
 import { Experiences } from "../components/Experiences.component"
 import { Head as HeadComponent } from "../components/Head"
-import { AgadoLogo } from "../components/Images"
+import Header, {
+  Actions,
+  ActionsContainer,
+  MenuLink,
+  MenuLinks,
+  NavbarContainer,
+} from "../components/Header.component"
+import { AgadoLogo, AgadoName } from "../components/Images"
 import { LanguageSwitch } from "../components/LanguageSwitch.component"
 import Layout from "../components/Layout"
 import { Slogan } from "../components/Slogan.component"
 import { Spacer } from "../components/Spacer"
 import { AvailableLanguageType } from "../i18n/i18n.model"
-
-const ActionsContainer = styled.div`
-  position: absolute;
-  display: flex;
-  column-gap: 0.5rem;
-  top: 1rem;
-  right: 1rem;
-`
+import { css } from "@emotion/react"
+import { useIntl } from "react-intl"
 
 const Content = styled.div`
   max-width: 1080px;
@@ -26,10 +28,17 @@ const Content = styled.div`
 `
 
 const AvatarContainer = styled.div`
+  --offset-y: -80px;
   position: relative;
+  display: flex;
+  justify-content: center;
+
   max-width: 300px;
-  top: -170px;
-  margin: 0 auto -170px auto;
+  top: var(--offset-y);
+  margin: 0 auto var(--offset-y) auto;
+  @media (min-width: 500px) {
+    --offset-y: -120px;
+  }
   @media print {
     display: none;
   }
@@ -47,14 +56,46 @@ function IndexPage({
   pageContext: { language: AvailableLanguageType }
 }) {
   return (
-    <Layout language={language}>
-      <ActionsContainer>
-        <LanguageSwitch />
-        <DarkModeSwitch />
-      </ActionsContainer>
+    <Layout
+      language={language}
+      header={({ siteMetadata }) => (
+        <React.Fragment>
+          <Header
+            siteTitle={siteMetadata.site?.siteMetadata?.title ?? ""}
+            subtitle={
+              <React.Fragment>
+                Freelance{" "}
+                <span
+                  css={css`
+                    white-space: nowrap;
+                  `}
+                >
+                  @ Agado Dev
+                </span>
+              </React.Fragment>
+            }
+            withBackgroundImage
+          />
+          <NavbarContainer>
+            <MenuLinks
+              links={[
+                {
+                  labelId: "goToArticles",
+                  href: "blog",
+                  titleLabelId: "goToArticles",
+                },
+              ]}
+              currentLanguage={language}
+            />
+
+            <Actions currentPage="/" />
+          </NavbarContainer>
+        </React.Fragment>
+      )}
+    >
       <Content>
         <AvatarContainer>
-          <AgadoLogo width="200px" />
+          <AgadoLogo />
         </AvatarContainer>
         <Spacer direction="vertical" size="1rem" />
 

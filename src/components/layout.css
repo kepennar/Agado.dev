@@ -654,12 +654,11 @@ pre tt:after {
 
 /* Styles for the hero image */
 .head {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  align-items: center;
+  height: 14rem;
 }
 
 .content {
+  position: relative;
   padding: 1rem;
 }
 @media (min-width: 450px) {
