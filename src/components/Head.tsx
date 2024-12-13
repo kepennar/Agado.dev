@@ -20,18 +20,21 @@ const useSiteMetadata = () => {
 
 export function Head({
   description = "",
+  image,
   lang = "fr",
   meta = [],
   title,
 }: {
   title: string
   description?: string
+  image?: string
   lang?: string
   meta?: { name: string; content: string }[]
 }) {
   const siteMetadata = useSiteMetadata()
 
-  const metaDescription = description || siteMetadata?.description
+  const metaDescription = description ?? siteMetadata?.description
+  const imageUrl = image ?? siteMetadata?.image
   const allMeta = [
     {
       name: `description`,
@@ -51,7 +54,7 @@ export function Head({
     },
     {
       property: `og:image`,
-      content: siteMetadata?.image,
+      content: imageUrl,
     },
     {
       name: `twitter:card`,
@@ -71,7 +74,7 @@ export function Head({
     },
     {
       name: `twitter:image`,
-      content: siteMetadata?.image,
+      content: imageUrl,
     },
     ...meta,
   ]

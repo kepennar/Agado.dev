@@ -1,13 +1,13 @@
 import { type Options as RenderRichTextOptionsType } from "@contentful/rich-text-react-renderer"
-import { BLOCKS, MARKS } from "@contentful/rich-text-types"
+import { Block, BLOCKS, Inline, MARKS, Text } from "@contentful/rich-text-types"
 import {
   ContentfulRichTextGatsbyReference,
   renderRichText,
 } from "gatsby-source-contentful/rich-text"
 
 import { GatsbyImage, getImage, ImageDataLike } from "gatsby-plugin-image"
-import { Maybe } from "../../graphql-types"
 import { Highlight, themes } from "prism-react-renderer"
+import { Maybe } from "../../graphql-types"
 
 export function RichText({
   rawRichText,
@@ -81,4 +81,26 @@ export function RichText({
       {renderRichText({ raw: rawRichText, references }, options)}
     </div>
   )
+}
+
+export function richTextToString(
+  rawRichText: Maybe<string> | undefined
+): string | null {
+  if (!rawRichText) {
+    return null
+  }
+  const document = JSON.parse(rawRichText)
+  let result = ""
+
+  const processNode = (node: Block | Inline | Text) => {
+    if (node.nodeType === "text") {
+      result += node.value ?? ""
+    } else if (node.content) {
+      node.content.forEach(processNode)
+    }
+  }
+
+  document.content.forEach(processNode)
+
+  return result
 }
