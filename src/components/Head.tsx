@@ -76,6 +76,7 @@ export function Head({
       name: `twitter:image`,
       content: imageUrl,
     },
+    { name: "twitter:card", content: "summary_large_image" },
     ...meta,
   ]
   return (
