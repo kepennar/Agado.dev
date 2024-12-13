@@ -10,9 +10,10 @@ import {
   NavbarContainer,
 } from "../components/Header.component"
 import Layout from "../components/Layout"
-import { RichText } from "../components/RichText.component"
+import { RichText, richTextToString } from "../components/RichText.component"
 import { BlogContainer } from "../components/Typo"
 import { AvailableLanguageType } from "../i18n/i18n.model"
+import { getImage, getSrc } from "gatsby-plugin-image"
 
 const TitleContainer = styled.div`
   margin: 2rem 1rem;
@@ -84,6 +85,18 @@ export const BlogPageQuery = graphql`
     ) {
       title
       publishDate
+      abstract {
+        raw
+        references {
+          __typename
+          contentful_id
+          gatsbyImageData(
+            width: 500
+            placeholder: BLURRED
+            formats: [AUTO, WEBP, AVIF]
+          )
+        }
+      }
       content {
         raw
         references {
@@ -97,4 +110,24 @@ export const BlogPageQuery = graphql`
     }
   }
 `
-export const Head = () => <HeadComponent title="Kevin Pennarun" />
+export function Head({ data }: { data: BlogPageDataQuery }) {
+  const imageData =
+    data.contentfulBlogPost?.abstract?.references?.[0]?.gatsbyImageData
+  const imageSrc = imageData
+    ? imageData.images.sources[0]?.srcSet
+        .split("\n")
+        .map((src: string) => src.split(" ")[0])
+        .at(-1)
+    : undefined
+
+  return (
+    <HeadComponent
+      title={data.contentfulBlogPost?.title ?? ""}
+      description={
+        richTextToString(data.contentfulBlogPost?.abstract?.raw ?? undefined) ??
+        undefined
+      }
+      image={imageSrc}
+    />
+  )
+}
