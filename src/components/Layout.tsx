@@ -6,8 +6,11 @@ import { FormattedMessage } from "react-intl"
 import { SiteTitleQuery } from "../../graphql-types"
 import { LanguageProvider } from "../i18n/Language.context"
 import { AvailableLanguageType } from "../i18n/i18n.model"
-import Header from "./Header.component"
 import "./layout.css"
+
+const Head = styled.div`
+  min-height: 14rem;
+`
 
 const Content = styled.div`
   margin: 0 auto;
@@ -46,7 +49,7 @@ function Layout({
 
   return (
     <LanguageProvider language={language}>
-      <div className="head">{header({ siteMetadata })}</div>
+      <Head>{header({ siteMetadata })}</Head>
       <div className="content">
         <Content>
           <main>{children}</main>

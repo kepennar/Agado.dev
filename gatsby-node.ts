@@ -26,7 +26,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
       allContentfulBlogPost {
         nodes {
           title
-          id
+          slug
         }
       }
     }
@@ -49,10 +49,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
   if (posts.length > 0) {
     for (const post of posts) {
       createPage({
-        path: `/blog/${post.id}/`,
+        path: `/blog/${post.slug}/`,
         component: blogPost,
         context: {
-          id: post.id,
+          slug: post.slug,
           language: DEFAULT_LANGUAGE,
           currentDate,
         },
@@ -61,10 +61,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
         (lang) => lang !== DEFAULT_LANGUAGE
       )) {
         createPage({
-          path: `/${otherLanguage}/blog/${post.id}/`,
+          path: `/${otherLanguage}/blog/${post.slug}/`,
           component: blogPost,
           context: {
-            id: post.id,
+            slug: post.slug,
             language: otherLanguage,
             currentDate,
           },
