@@ -47,15 +47,25 @@ export default function ({
       )}
     >
       <BlogLinksContainer>
-        {data.allContentfulBlogPost.edges.map(({ node }, index, arr) => (
-          <React.Fragment key={node.id}>
-            <BlogLink blogPost={node} language={language} />
-            {index !== arr.length - 1 ? <hr /> : null}
-          </React.Fragment>
-        ))}
+        {data.allContentfulBlogPost.edges
+          .filter(withSlug)
+          .map(({ node }, index, arr) => (
+            <React.Fragment key={node.slug}>
+              <BlogLink blogPost={node} language={language} />
+              {index !== arr.length - 1 ? <hr /> : null}
+            </React.Fragment>
+          ))}
       </BlogLinksContainer>
     </Layout>
   )
+}
+
+type BlogListEdgeType =
+  BlogListPageDataQuery["allContentfulBlogPost"]["edges"][0]
+function withSlug(edge: BlogListEdgeType): edge is BlogListEdgeType & {
+  node: BlogListEdgeType["node"] & { slug: string }
+} {
+  return !!edge.node.slug
 }
 
 export const BlogListPageQuery = graphql`
@@ -68,7 +78,7 @@ export const BlogListPageQuery = graphql`
     ) {
       edges {
         node {
-          id
+          slug
           title
           publishDate
           abstract {

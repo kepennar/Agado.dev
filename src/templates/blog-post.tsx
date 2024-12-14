@@ -77,9 +77,9 @@ export default function ({
 }
 
 export const BlogPageQuery = graphql`
-  query BlogPageData($id: String!, $language: String!, $currentDate: Date!) {
+  query BlogPageData($slug: String!, $language: String!, $currentDate: Date!) {
     contentfulBlogPost(
-      id: { eq: $id }
+      slug: { eq: $slug }
       node_locale: { eq: $language }
       publishDate: { lte: $currentDate }
     ) {

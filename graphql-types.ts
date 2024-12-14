@@ -1215,6 +1215,7 @@ export type ContentfulBlogPost = ContentfulReference & ContentfulEntry & Node & 
   id: Scalars['ID'];
   node_locale: Scalars['String'];
   title?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
   publishDate?: Maybe<Scalars['Date']>;
   abstract?: Maybe<ContentfulBlogPostAbstract>;
   content?: Maybe<ContentfulBlogPostContent>;
@@ -1843,6 +1844,7 @@ export type QueryContentfulBlogPostArgs = {
   id?: InputMaybe<StringQueryOperatorInput>;
   node_locale?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
+  slug?: InputMaybe<StringQueryOperatorInput>;
   publishDate?: InputMaybe<DateQueryOperatorInput>;
   abstract?: InputMaybe<ContentfulBlogPostAbstractFilterInput>;
   content?: InputMaybe<ContentfulBlogPostContentFilterInput>;
@@ -5322,6 +5324,7 @@ export type ContentfulBlogPostFieldSelector = {
   id?: InputMaybe<FieldSelectorEnum>;
   node_locale?: InputMaybe<FieldSelectorEnum>;
   title?: InputMaybe<FieldSelectorEnum>;
+  slug?: InputMaybe<FieldSelectorEnum>;
   publishDate?: InputMaybe<FieldSelectorEnum>;
   abstract?: InputMaybe<ContentfulBlogPostAbstractFieldSelector>;
   content?: InputMaybe<ContentfulBlogPostContentFieldSelector>;
@@ -5406,6 +5409,7 @@ export type ContentfulBlogPostFilterInput = {
   id?: InputMaybe<StringQueryOperatorInput>;
   node_locale?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
+  slug?: InputMaybe<StringQueryOperatorInput>;
   publishDate?: InputMaybe<DateQueryOperatorInput>;
   abstract?: InputMaybe<ContentfulBlogPostAbstractFilterInput>;
   content?: InputMaybe<ContentfulBlogPostContentFilterInput>;
@@ -5423,6 +5427,7 @@ export type ContentfulBlogPostSortInput = {
   id?: InputMaybe<SortOrderEnum>;
   node_locale?: InputMaybe<SortOrderEnum>;
   title?: InputMaybe<SortOrderEnum>;
+  slug?: InputMaybe<SortOrderEnum>;
   publishDate?: InputMaybe<SortOrderEnum>;
   abstract?: InputMaybe<ContentfulBlogPostAbstractSortInput>;
   content?: InputMaybe<ContentfulBlogPostContentSortInput>;
@@ -5699,7 +5704,7 @@ export type BlogListPageDataQueryVariables = Exact<{
 }>;
 
 
-export type BlogListPageDataQuery = { allContentfulBlogPost: { edges: Array<{ node: { id: string, title?: string | null, publishDate?: any | null, abstract?: { raw?: string | null, references?: Array<{ __typename: 'ContentfulAsset', contentful_id: string, title?: string | null, description?: string | null, gatsbyImageData?: any | null } | null> | null } | null } }> } };
+export type BlogListPageDataQuery = { allContentfulBlogPost: { edges: Array<{ node: { slug?: string | null, title?: string | null, publishDate?: any | null, abstract?: { raw?: string | null, references?: Array<{ __typename: 'ContentfulAsset', contentful_id: string, title?: string | null, description?: string | null, gatsbyImageData?: any | null } | null> | null } | null } }> } };
 
 export type HomePageDataQueryVariables = Exact<{
   language: Scalars['String'];
@@ -5709,7 +5714,7 @@ export type HomePageDataQueryVariables = Exact<{
 export type HomePageDataQuery = { socials: { edges: Array<{ node: { label?: string | null, url?: string | null, picto?: { title?: string | null, description?: string | null, url?: string | null } | null } }> }, experiences: { edges: Array<{ node: { title?: string | null, project?: string | null, projectLink?: string | null, duration?: string | null, rank?: number | null, details?: { raw?: string | null } | null } }> }, abstract?: { content?: { raw?: string | null } | null } | null, slogan?: { text?: { raw?: string | null } | null } | null };
 
 export type BlogPageDataQueryVariables = Exact<{
-  id: Scalars['String'];
+  slug: Scalars['String'];
   language: Scalars['String'];
   currentDate: Scalars['Date'];
 }>;

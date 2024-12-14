@@ -653,6 +653,7 @@ type ContentfulBlogPost = ContentfulEntry & ContentfulReference & Node & {
   readonly node_locale: Scalars['String'];
   readonly parent: Maybe<Node>;
   readonly publishDate: Maybe<Scalars['Date']>;
+  readonly slug: Maybe<Scalars['String']>;
   readonly spaceId: Maybe<Scalars['String']>;
   readonly sys: Maybe<ContentfulBlogPostSys>;
   readonly title: Maybe<Scalars['String']>;
@@ -779,6 +780,7 @@ type ContentfulBlogPostFieldSelector = {
   readonly node_locale: InputMaybe<FieldSelectorEnum>;
   readonly parent: InputMaybe<NodeFieldSelector>;
   readonly publishDate: InputMaybe<FieldSelectorEnum>;
+  readonly slug: InputMaybe<FieldSelectorEnum>;
   readonly spaceId: InputMaybe<FieldSelectorEnum>;
   readonly sys: InputMaybe<ContentfulBlogPostSysFieldSelector>;
   readonly title: InputMaybe<FieldSelectorEnum>;
@@ -796,6 +798,7 @@ type ContentfulBlogPostFilterInput = {
   readonly node_locale: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
   readonly publishDate: InputMaybe<DateQueryOperatorInput>;
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
   readonly spaceId: InputMaybe<StringQueryOperatorInput>;
   readonly sys: InputMaybe<ContentfulBlogPostSysFilterInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
@@ -854,6 +857,7 @@ type ContentfulBlogPostSortInput = {
   readonly node_locale: InputMaybe<SortOrderEnum>;
   readonly parent: InputMaybe<NodeSortInput>;
   readonly publishDate: InputMaybe<SortOrderEnum>;
+  readonly slug: InputMaybe<SortOrderEnum>;
   readonly spaceId: InputMaybe<SortOrderEnum>;
   readonly sys: InputMaybe<ContentfulBlogPostSysSortInput>;
   readonly title: InputMaybe<SortOrderEnum>;
@@ -4311,6 +4315,7 @@ type Query_contentfulBlogPostArgs = {
   node_locale: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
   publishDate: InputMaybe<DateQueryOperatorInput>;
+  slug: InputMaybe<StringQueryOperatorInput>;
   spaceId: InputMaybe<StringQueryOperatorInput>;
   sys: InputMaybe<ContentfulBlogPostSysFilterInput>;
   title: InputMaybe<StringQueryOperatorInput>;
@@ -5692,10 +5697,10 @@ type BlogListPageDataQueryVariables = Exact<{
 }>;
 
 
-type BlogListPageDataQuery = { readonly allContentfulBlogPost: { readonly edges: ReadonlyArray<{ readonly node: { readonly id: string, readonly title: string | null, readonly publishDate: string | null, readonly abstract: { readonly raw: string | null, readonly references: ReadonlyArray<{ readonly __typename: 'ContentfulAsset', readonly contentful_id: string, readonly title: string | null, readonly description: string | null, readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null> | null } | null } }> } };
+type BlogListPageDataQuery = { readonly allContentfulBlogPost: { readonly edges: ReadonlyArray<{ readonly node: { readonly slug: string | null, readonly title: string | null, readonly publishDate: string | null, readonly abstract: { readonly raw: string | null, readonly references: ReadonlyArray<{ readonly __typename: 'ContentfulAsset', readonly contentful_id: string, readonly title: string | null, readonly description: string | null, readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null } | null> | null } | null } }> } };
 
 type BlogPageDataQueryVariables = Exact<{
-  id: Scalars['String'];
+  slug: Scalars['String'];
   language: Scalars['String'];
   currentDate: Scalars['Date'];
 }>;
@@ -5754,7 +5759,7 @@ type SiteTitleQuery = { readonly site: { readonly siteMetadata: { readonly title
 type listBlogPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type listBlogPostsQuery = { readonly allContentfulBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly id: string }> } };
+type listBlogPostsQuery = { readonly allContentfulBlogPost: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly slug: string | null }> } };
 
 
 }

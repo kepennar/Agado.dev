@@ -24,7 +24,7 @@ const ArticleLinks = styled.div`
 interface BlogLinkProps {
   language: AvailableLanguageType
   blogPost: {
-    id: string
+    slug: string
     title?: Maybe<string>
     publishDate?: Maybe<string>
 
@@ -41,8 +41,8 @@ export function BlogLink({ language, blogPost }: BlogLinkProps) {
     <BlogLinkContainer
       href={
         language === "fr"
-          ? `/blog/${blogPost.id}`
-          : `/${language}/blog/${blogPost.id}`
+          ? `/blog/${blogPost.slug}`
+          : `/${language}/blog/${blogPost.slug}`
       }
     >
       <BlogContainer>
