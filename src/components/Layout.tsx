@@ -9,7 +9,7 @@ import { AvailableLanguageType } from "../i18n/i18n.model"
 import "./layout.css"
 
 const Head = styled.div`
-  height: 14rem;
+  min-height: 14rem;
 `
 
 const Content = styled.div`
