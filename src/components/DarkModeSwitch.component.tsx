@@ -17,8 +17,13 @@ const SwitchContainer = styled.button`
 `
 
 const Slider = styled.div`
-  width: 50px;
-  height: 24px;
+  width: 36px;
+  height: 18px;
+  @media (min-width: 500px) {
+    height: 24px;
+    width: 50px;
+  }
+
   background-color: var(--secondary-background-color);
   mix-blend-mode: plus-lighter;
   border-radius: 24px;
@@ -27,21 +32,37 @@ const Slider = styled.div`
 `
 
 const SliderButton = styled.div<{ theme: ThemeValueType }>`
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
+  left: ${(props) => (props.theme === "dark" ? "18px" : "1px")};
+
+  @media (min-width: 500px) {
+    width: 22px;
+    height: 22px;
+    left: ${(props) => (props.theme === "dark" ? "26px" : "1px")};
+  }
   background-color: var(--background-color);
   border-radius: 50%;
   position: absolute;
   top: 1px;
-  left: ${(props) => (props.theme === "dark" ? "26px" : "1px")};
   transition:
     transform 0.2s ease-in-out,
     left 0.2s ease-in-out;
 `
 
-const SliderLabel = styled.span`
-  margin-left: 10px;
-  color: #e0e0e0cc;
+const SliderLabel = styled.span<{ isLarge?: true }>`
+  font-size: 0.9rem;
+  margin-left: 5px;
+  color: var(--secondary-text-color);
+
+  @media (max-width: 500px) {
+    display: ${(props) => (props.isLarge ? "none" : "inline")};
+  }
+  @media (min-width: 500px) {
+    font-size: 1rem;
+    margin-left: 10px;
+    display: ${(props) => (props.isLarge ? "inline" : "none")};
+  }
 `
 
 export function DarkModeSwitch() {
@@ -71,15 +92,14 @@ export function DarkModeSwitch() {
   const intl = useIntl()
 
   return (
-    <SwitchContainer
-      onClick={toggleTheme}
-      data-track="switch-theme"
-      data-theme={theme === "light" ? "dark" : "light"}
-    >
+    <SwitchContainer onClick={toggleTheme}>
       <Slider>
         <SliderButton theme={theme} />
       </Slider>
-      <SliderLabel>{intl.formatMessage({ id: "darkMode" })}</SliderLabel>
+      <SliderLabel isLarge>
+        {intl.formatMessage({ id: "darkMode" })}
+      </SliderLabel>
+      <SliderLabel>{intl.formatMessage({ id: "dark" })}</SliderLabel>
     </SwitchContainer>
   )
 }
