@@ -16,12 +16,12 @@ export const BlogContainer = styled.div`
 
   .metadata {
     font-size: 1rem;
-    color: #c9d9fb;
+    color: var(--light-text-color);
   }
 
   a {
-    color: #c9d9fb;
-    border-color: #c9d9fb;
+    color: var(--light-text-color);
+    border-color: var(--light-text-color);
   }
 
   ul {

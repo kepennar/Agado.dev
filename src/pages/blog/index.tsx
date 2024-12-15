@@ -21,7 +21,7 @@ const BlogLinksContainer = styled.div`
   margin: 0 auto;
 
   hr {
-    background: hsl(0deg 0% 100% / 19%);
+    background: var(--secondary-background-color);
   }
 `
 

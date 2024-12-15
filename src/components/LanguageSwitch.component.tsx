@@ -5,7 +5,9 @@ const SelectContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
+  @media (min-width: 500px) {
+    font-size: 1.4rem;
+  }
 `
 
 const StyledSelect = styled.select`
