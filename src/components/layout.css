@@ -3,6 +3,7 @@
   --background-color: #ffffff;
   --secondary-background-color: #1e1e1e;
   --header-background-color: #ffffff;
+  --article-title-color: #111;
 
   --text-color: hsla(0, 0%, 0%, 0.8);
   --secondary-text-color: #565656;
@@ -16,6 +17,7 @@
   --background-color: #0d1421;
   --secondary-background-color: #f9f9f9;
   --header-background-color: #051523;
+  --article-title-color: #fff;
 
   --text-color: #e0e0e0;
   --secondary-text-color: #e0e0e0;

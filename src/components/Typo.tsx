@@ -14,7 +14,7 @@ export const BlogContainer = styled.div`
   h2,
   h3,
   h4 {
-    color: white;
+    color: var(--article-title-color);
     margin-top: 2rem;
   }
 
