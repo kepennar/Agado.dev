@@ -69,9 +69,8 @@ const gatsbyConfig: GatsbyConfig = {
     { resolve: "gatsby-plugin-svgr", options: { svgo: false } },
     "gatsby-plugin-robots-txt",
 
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    "gatsby-plugin-offline",
+    // To learn more, visit: https://www.gatsbyjs.com/plugins/gatsby-plugin-offline/
+    "gatsby-plugin-remove-serviceworker",
   ],
 }
 export default gatsbyConfig
