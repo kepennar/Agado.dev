@@ -663,7 +663,8 @@ pre tt:after {
 .content {
   position: relative;
   padding: 1rem;
-  overflow: auto;
+
+  overflow: visible;
 }
 @media (min-width: 450px) {
   .content {
@@ -675,7 +676,16 @@ pre tt:after {
 @media (prefers-color-scheme: dark) {
   /* Preventing FOUC */
   body:not([data-theme="light"]) {
-    color: #e0e0e0;
-    background-color: #0d1421;
+    --primary-color: #6283c4;
+    --background-color: #0d1421;
+    --secondary-background-color: #f9f9f9;
+    --header-background-color: #051523;
+
+    --text-color: #e0e0e0;
+    --secondary-text-color: #e0e0e0;
+    --light-text-color: #c9d9fb;
+
+    --link-color: #8ab4f8;
+    --code-bg-color: #2d3748;
   }
 }
