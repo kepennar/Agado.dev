@@ -1,26 +1,21 @@
+import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { graphql } from "gatsby"
 import React from "react"
 import { HomePageDataQuery } from "../../graphql-types"
 import { Abstract } from "../components/Abstract.component"
-import { DarkModeSwitch } from "../components/DarkModeSwitch.component"
 import { Experiences } from "../components/Experiences.component"
 import { Head as HeadComponent } from "../components/Head"
 import Header, {
   Actions,
-  ActionsContainer,
-  MenuLink,
   MenuLinks,
   NavbarContainer,
 } from "../components/Header.component"
-import { AgadoLogo, AgadoName } from "../components/Images"
-import { LanguageSwitch } from "../components/LanguageSwitch.component"
+import { AgadoLogo } from "../components/Images"
 import Layout from "../components/Layout"
 import { Slogan } from "../components/Slogan.component"
 import { Spacer } from "../components/Spacer"
 import { AvailableLanguageType } from "../i18n/i18n.model"
-import { css } from "@emotion/react"
-import { useIntl } from "react-intl"
 
 const Content = styled.div`
   max-width: 1080px;
@@ -50,10 +45,11 @@ const Articles = styled.div`
 
 function IndexPage({
   data,
-  pageContext: { language },
+  pageContext: { pathName, language },
 }: {
   data: HomePageDataQuery
-  pageContext: { language: AvailableLanguageType }
+
+  pageContext: { pathName: string; language: AvailableLanguageType }
 }) {
   return (
     <Layout
@@ -88,7 +84,7 @@ function IndexPage({
               currentLanguage={language}
             />
 
-            <Actions currentPage="/" />
+            <Actions pagePath={pathName} />
           </NavbarContainer>
         </React.Fragment>
       )}

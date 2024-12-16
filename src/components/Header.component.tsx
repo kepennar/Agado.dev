@@ -149,10 +149,10 @@ export const ActionsContainer = styled.div`
     column-gap: 0.5rem;
   }
 `
-export function Actions({ currentPage }: { currentPage: string }) {
+export function Actions({ pagePath }: { pagePath: string }) {
   return (
     <ActionsContainer>
-      <LanguageSwitch currentPage={currentPage} />
+      <LanguageSwitch pagePath={pagePath} />
       <DarkModeSwitch />
     </ActionsContainer>
   )

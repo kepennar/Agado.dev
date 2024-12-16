@@ -18,7 +18,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     allContentfulBlogPost: {
       nodes: {
         title: string
-        id: string
+        slug: string
       }[]
     }
   }>(`
@@ -48,10 +48,12 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   if (posts.length > 0) {
     for (const post of posts) {
+      const path = `/blog/${post.slug}/`
       createPage({
-        path: `/blog/${post.slug}/`,
+        path,
         component: blogPost,
         context: {
+          pathName: path,
           slug: post.slug,
           language: DEFAULT_LANGUAGE,
           currentDate,
@@ -60,11 +62,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
       for (const otherLanguage of AVAILABLE_LANGUAGES.filter(
         (lang) => lang !== DEFAULT_LANGUAGE
       )) {
+        const path = `/${otherLanguage}/blog/${post.slug}/`
         createPage({
           path: `/${otherLanguage}/blog/${post.slug}/`,
           component: blogPost,
           context: {
             slug: post.slug,
+            pathName: path,
             language: otherLanguage,
             currentDate,
           },
@@ -77,11 +81,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
 export const onCreatePage: GatsbyNode["onCreatePage"] = ({ page, actions }) => {
   const { createPage, deletePage } = actions
   const currentDate = new Date().toISOString()
+
+  console.log("[DEBUG] Generating html for ", { pagePath: page.path })
+
   deletePage(page)
   createPage({
     ...page,
     context: {
       ...page.context,
+      pathName: page.path,
       language: DEFAULT_LANGUAGE,
       currentDate,
     },
@@ -89,11 +97,13 @@ export const onCreatePage: GatsbyNode["onCreatePage"] = ({ page, actions }) => {
   for (const otherLanguage of AVAILABLE_LANGUAGES.filter(
     (lang) => lang !== DEFAULT_LANGUAGE
   )) {
+    const path = `/${otherLanguage}${page.path}`
     createPage({
       ...page,
-      path: `/${otherLanguage}${page.path}`,
+      path,
       context: {
         ...page.context,
+        pathName: path,
         language: otherLanguage,
         currentDate,
       },

@@ -27,10 +27,14 @@ const BlogLinksContainer = styled.div`
 
 export default function ({
   data,
-  pageContext: { language },
+  pageContext: { pathName, language },
 }: {
   data: BlogListPageDataQuery
-  pageContext: { language: AvailableLanguageType; currentDate: Date }
+  pageContext: {
+    pathName: string
+    language: AvailableLanguageType
+    currentDate: Date
+  }
 }) {
   return (
     <Layout
@@ -41,7 +45,7 @@ export default function ({
           <NavbarContainer>
             <MenuLinks links={[]} currentLanguage={language} />
 
-            <Actions currentPage="/blog" />
+            <Actions pagePath={pathName} />
           </NavbarContainer>
         </React.Fragment>
       )}

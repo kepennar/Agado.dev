@@ -24,17 +24,15 @@ const StyledSelect = styled.select`
   }
 `
 
-export function LanguageSwitch({ currentPage }: { currentPage: string }) {
-  const language =
-    typeof window !== "undefined" && window.location.pathname.startsWith("/en")
-      ? "en"
-      : "fr"
+export function LanguageSwitch({ pagePath }: { pagePath: string }) {
+  const language = pagePath.startsWith("/en") ? "en" : "fr"
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (typeof window === "undefined") {
       // not available server side
       return
     }
+    const currentPage = pagePath.replace("/en", "")
     window.location.href =
       event.target.value === "en" ? `/en${currentPage}` : `${currentPage}`
   }

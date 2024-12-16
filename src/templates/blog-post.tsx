@@ -13,7 +13,6 @@ import Layout from "../components/Layout"
 import { RichText, richTextToString } from "../components/RichText.component"
 import { BlogContainer } from "../components/Typo"
 import { AvailableLanguageType } from "../i18n/i18n.model"
-import { getImage, getSrc } from "gatsby-plugin-image"
 
 const TitleContainer = styled.div`
   margin: 2rem 1rem;
@@ -21,10 +20,15 @@ const TitleContainer = styled.div`
 
 export default function ({
   data,
-  pageContext: { language },
+  pageContext: { pathName, language },
 }: {
   data: BlogPageDataQuery
-  pageContext: { language: AvailableLanguageType; currentDate: Date }
+
+  pageContext: {
+    pathName: string
+    language: AvailableLanguageType
+    currentDate: Date
+  }
 }) {
   if (!data.contentfulBlogPost) {
     return null
@@ -48,7 +52,7 @@ export default function ({
               currentLanguage={language}
             />
 
-            <Actions currentPage="/blog" />
+            <Actions pagePath={pathName} />
           </NavbarContainer>
           <TitleContainer>
             <h1>{title}</h1>
