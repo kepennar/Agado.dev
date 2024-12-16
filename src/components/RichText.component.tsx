@@ -6,8 +6,8 @@ import {
 } from "gatsby-source-contentful/rich-text"
 
 import { GatsbyImage, getImage, ImageDataLike } from "gatsby-plugin-image"
-import { Highlight, themes } from "prism-react-renderer"
 import { Maybe } from "../../graphql-types"
+import { CodeBlock, detectCodeBlock } from "./CodeBlock.component"
 
 export function RichText({
   rawRichText,
@@ -30,32 +30,11 @@ export function RichText({
           node.content?.[0]?.nodeType === "text" ? node.content[0].value : ""
         ) as string
 
-        const codeBlockRegex = /^```(?:\w+)\n([\s\S]*?)\n```$/
-        const matches = text.match(codeBlockRegex)
+        const codeBlock = detectCodeBlock(text)
 
-        if (matches) {
-          const language = text.match(/^```(\w+)/)?.[1] ?? "text"
-          const code = matches[1] ?? ""
-
-          return (
-            <Highlight
-              theme={themes.jettwaveDark}
-              code={code}
-              language={language}
-            >
-              {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                <pre className={className} style={style}>
-                  {tokens.map((line, i) => (
-                    <div {...getLineProps({ line, key: i })}>
-                      {line.map((token, key) => (
-                        <span {...getTokenProps({ token, key })} />
-                      ))}
-                    </div>
-                  ))}
-                </pre>
-              )}
-            </Highlight>
-          )
+        if (codeBlock) {
+          const { code, language } = codeBlock
+          return <CodeBlock code={code} language={language} />
         }
         return <p>{children}</p>
       },

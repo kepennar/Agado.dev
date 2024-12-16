@@ -9,6 +9,7 @@
   --light-text-color: #717a8c;
 
   --link-color: #649fff;
+  --code-bg-color: #f3f3f3;
 }
 [data-theme="dark"] {
   --primary-color: #6283c4;
@@ -21,6 +22,7 @@
   --light-text-color: #c9d9fb;
 
   --link-color: #8ab4f8;
+  --code-bg-color: #2d3748;
 }
 
 html {

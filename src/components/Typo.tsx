@@ -8,10 +8,14 @@ export const BlogContainer = styled.div`
   font-size: 1.125rem;
   line-height: 1.8;
 
+  p {
+    min-height: 2rem;
+  }
   h2,
   h3,
   h4 {
     color: white;
+    margin-top: 2rem;
   }
 
   .metadata {
@@ -76,7 +80,7 @@ export const BlogContainer = styled.div`
       monospace;
 
     padding: 0.2rem 0.3rem;
-    background-color: #2d3748;
+    background-color: var(--code-bg-color);
     border-radius: 6px;
     font-size: 0.875em;
 
@@ -86,6 +90,13 @@ export const BlogContainer = styled.div`
     }
   }
   hr {
-    margin-bottom: calc(2.45rem - 1px);
+    background: var(--secondary-background-color);
+    margin-top: calc(1.45rem - 1px);
+    margin-bottom: calc(3.45rem - 1px);
+
+    @media (min-width: 500px) {
+      margin-top: calc(2.45rem - 1px);
+      margin-bottom: calc(5.45rem - 1px);
+    }
   }
 `
