@@ -252,22 +252,19 @@ textarea {
   -webkit-appearance: button;
   font: inherit;
 }
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
 html {
   font:
     112.5%/1.45em Spectral,
     serif;
-  box-sizing: border-box;
   overflow-y: scroll;
 }
-* {
-  box-sizing: inherit;
-}
-*:before {
-  box-sizing: inherit;
-}
-*:after {
-  box-sizing: inherit;
-}
+
 h1,
 h2,
 h3,

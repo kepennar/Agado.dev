@@ -2,17 +2,18 @@ import styled from "@emotion/styled"
 import { ChangeEvent } from "react"
 
 const SelectContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   @media (min-width: 500px) {
     font-size: 1.4rem;
   }
+
+  border: 0;
+  // padding: 1px;
+  position: relative;
 `
 
 const StyledSelect = styled.select`
+  width: 100%;
   padding: 8px 12px;
-  border-radius: 5px;
   border: none;
   background-color: transparent;
   color: #333;
@@ -20,7 +21,14 @@ const StyledSelect = styled.select`
   appearance: none;
   outline: none;
   &:focus {
-    border-color: #ffffff0f;
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  option {
+    padding-block: 0;
+    padding-inline: 0;
   }
 `
 
