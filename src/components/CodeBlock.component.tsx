@@ -6,6 +6,8 @@ require("prismjs/components/prism-bash")
 require("prismjs/components/prism-shell-session")
 
 const CodeBlockWrapper = styled.div`
+  margin-top: -1.2rem;
+
   .diff-added {
     background-color: rgb(20 83 45 / 0.3);
   }

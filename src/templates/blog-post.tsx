@@ -15,7 +15,8 @@ import { BlogContainer } from "../components/Typo"
 import { AvailableLanguageType } from "../i18n/i18n.model"
 
 const TitleContainer = styled.div`
-  margin: 2rem 1rem;
+  max-width: 1024px;
+  margin: 2rem auto;
 `
 
 export default function ({
