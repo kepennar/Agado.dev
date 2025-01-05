@@ -10,9 +10,13 @@ import {
   NavbarContainer,
 } from "../components/Header.component"
 import Layout from "../components/Layout"
-import { RichText, richTextToString } from "../components/RichText.component"
+import {
+  RichText,
+  richTextToString,
+} from "../components/ContentfulRichText/RichText.component"
 import { BlogContainer } from "../components/Typo"
 import { AvailableLanguageType } from "../i18n/i18n.model"
+import { Toc } from "../components/ContentfulRichText/Toc.component"
 
 const TitleContainer = styled.div`
   max-width: 1024px;
@@ -66,6 +70,7 @@ export default function ({
     >
       <div>
         <BlogContainer>
+          {content?.raw ? <Toc contentFulRaw={content.raw} /> : null}
           {content?.raw ? (
             <RichText
               rawRichText={content.raw}

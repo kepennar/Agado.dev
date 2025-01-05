@@ -6,8 +6,9 @@ import {
 } from "gatsby-source-contentful/rich-text"
 
 import { GatsbyImage, getImage, ImageDataLike } from "gatsby-plugin-image"
-import { Maybe } from "../../graphql-types"
-import { CodeBlock, detectCodeBlock } from "./CodeBlock.component"
+import { Maybe } from "../../../graphql-types"
+import { CodeBlock, detectCodeBlock } from "../CodeBlock.component"
+import { getHeadingId } from "./contentfulRichText.utilities"
 
 export function RichText({
   rawRichText,
@@ -25,6 +26,30 @@ export function RichText({
       [MARKS.CODE]: (text) => <code>{text}</code>,
     },
     renderNode: {
+      [BLOCKS.HEADING_1]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h1 id={slug}>{children}</h1>
+      },
+      [BLOCKS.HEADING_2]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h2 id={slug}>{children}</h2>
+      },
+      [BLOCKS.HEADING_3]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h3 id={slug}>{children}</h3>
+      },
+      [BLOCKS.HEADING_4]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h4 id={slug}>{children}</h4>
+      },
+      [BLOCKS.HEADING_5]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h5 id={slug}>{children}</h5>
+      },
+      [BLOCKS.HEADING_6]: (_node, children) => {
+        const slug = getHeadingId(children)
+        return <h6 id={slug}>{children}</h6>
+      },
       [BLOCKS.PARAGRAPH]: (node, children) => {
         const text = (
           node.content?.[0]?.nodeType === "text" ? node.content[0].value : ""

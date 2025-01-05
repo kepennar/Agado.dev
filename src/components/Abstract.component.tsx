@@ -1,6 +1,6 @@
 import { useIntl } from "react-intl"
 import { HomePageDataQuery } from "../../graphql-types"
-import { RichText } from "./RichText.component"
+import { RichText } from "./ContentfulRichText/RichText.component"
 import { Socials } from "./Socials.component"
 import { Spacer } from "./Spacer"
 

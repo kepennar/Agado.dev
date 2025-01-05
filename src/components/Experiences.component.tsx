@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { Fragment, FunctionComponent, MouseEvent, useState } from "react"
 import { HomePageDataQuery } from "../../graphql-types"
-import { RichText } from "./RichText.component"
+import { RichText } from "./ContentfulRichText/RichText.component"
 import { Spacer } from "./Spacer"
 import { useIntl } from "react-intl"
 

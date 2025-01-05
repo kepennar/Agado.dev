@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import { ContentfulRichTextGatsbyReference } from "gatsby-source-contentful/rich-text"
 import { useIntl } from "react-intl"
 import { AvailableLanguageType } from "../i18n/i18n.model"
-import { RichText } from "./RichText.component"
+import { RichText } from "./ContentfulRichText/RichText.component"
 import { BlogContainer } from "./Typo"
 import { Maybe } from "../../graphql-types"
 

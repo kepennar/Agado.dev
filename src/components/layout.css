@@ -31,6 +31,7 @@ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 body {
   font-family: "Spectral";
@@ -669,6 +670,35 @@ pre tt:after {
   .content {
     padding: 2rem;
   }
+}
+
+#toc {
+  background: var(--code-bg-color);
+  padding: 20px;
+  margin-bottom: 1em;
+
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#toc h2 {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+}
+#toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+#toc li {
+  margin: 5px 0;
+}
+#toc a {
+  text-decoration: none;
+}
+#toc a:hover {
+  text-decoration: underline;
 }
 
 /* DARK MODE */

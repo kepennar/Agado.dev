@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { HomePageDataQuery } from "../../graphql-types"
-import { RichText } from "./RichText.component"
+import { RichText } from "./ContentfulRichText/RichText.component"
 
 const AbstractContainer = styled.div`
   font-size: 1.25rem;
