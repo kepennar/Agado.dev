@@ -40,7 +40,7 @@ export function LanguageSwitch({ pagePath }: { pagePath: string }) {
       // not available server side
       return
     }
-    const currentPage = pagePath.replace("/en", "")
+    const currentPage = pagePath.replace("/en/", "/")
     window.location.href =
       event.target.value === "en" ? `/en${currentPage}` : `${currentPage}`
   }
