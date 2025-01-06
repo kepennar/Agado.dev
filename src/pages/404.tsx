@@ -18,4 +18,10 @@ export default function NotFoundPage({
     </Layout>
   )
 }
-export const Head = () => <HeadComponent title="404: Not found" />
+export const Head = ({
+  pageContext: { language },
+}: {
+  pageContext: {
+    language: AvailableLanguageType
+  }
+}) => <HeadComponent lang={language} title="404: Not found" />

@@ -152,4 +152,10 @@ export const HomePageQuery = graphql`
     }
   }
 `
-export const Head = () => <HeadComponent title="Kevin Pennarun" />
+export const Head = ({
+  pageContext: { language },
+}: {
+  pageContext: {
+    language: AvailableLanguageType
+  }
+}) => <HeadComponent lang={language} title="Kevin Pennarun" />

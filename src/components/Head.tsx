@@ -21,14 +21,14 @@ const useSiteMetadata = () => {
 export function Head({
   description = "",
   image,
-  lang = "fr",
+  lang,
   meta = [],
   title,
 }: {
   title: string
+  lang: string
   description?: string
   image?: string
-  lang?: string
   meta?: { name: string; content: string }[]
 }) {
   const siteMetadata = useSiteMetadata()

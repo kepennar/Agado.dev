@@ -121,7 +121,15 @@ export const BlogPageQuery = graphql`
     }
   }
 `
-export function Head({ data }: { data: BlogPageDataQuery }) {
+export function Head({
+  data,
+  pageContext: { language },
+}: {
+  data: BlogPageDataQuery
+  pageContext: {
+    language: AvailableLanguageType
+  }
+}) {
   const imageData =
     data.contentfulBlogPost?.abstract?.references?.[0]?.gatsbyImageData
   const imageSrc = imageData
@@ -133,6 +141,7 @@ export function Head({ data }: { data: BlogPageDataQuery }) {
 
   return (
     <HeadComponent
+      lang={language}
       title={data.contentfulBlogPost?.title ?? ""}
       description={
         richTextToString(data.contentfulBlogPost?.abstract?.raw ?? undefined) ??
