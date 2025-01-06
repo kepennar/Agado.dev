@@ -21,6 +21,7 @@ import { Toc } from "../components/ContentfulRichText/Toc.component"
 const TitleContainer = styled.div`
   max-width: 1024px;
   margin: 2rem auto;
+  padding: 0 1rem;
 `
 
 export default function ({
