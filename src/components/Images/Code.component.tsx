@@ -1,29 +1,29 @@
-import React from "react"
-import { graphql, useStaticQuery } from "gatsby"
-import { GatsbyImage, getImage, withArtDirection } from "gatsby-plugin-image"
+import { graphql, useStaticQuery } from "gatsby";
+import { GatsbyImage, getImage, withArtDirection } from "gatsby-plugin-image";
+import React from "react";
 
-import { CodeImageQuery } from "../../../graphql-types"
+import type { CodeImageQuery } from "../../../graphql-types";
 
 export const CodeImage = () => {
-  const { mobileImage, desktopImage } =
-    useStaticQuery<CodeImageQuery>(codeImageQuery)
+	const { mobileImage, desktopImage } =
+		useStaticQuery<CodeImageQuery>(codeImageQuery);
 
-  if (!desktopImage || !mobileImage) {
-    throw new Error("Image is not available")
-  }
-  const images = withArtDirection(getImage(desktopImage), [
-    { media: `(max-width: 768px)`, image: getImage(mobileImage) },
-  ])
-  return (
-    <React.Fragment>
-      <GatsbyImage
-        image={images}
-        style={{ height: "100%" }}
-        alt="Line of codes on dark background"
-      />
-    </React.Fragment>
-  )
-}
+	if (!desktopImage || !mobileImage) {
+		throw new Error("Image is not available");
+	}
+	const images = withArtDirection(getImage(desktopImage), [
+		{ media: "(max-width: 768px)", image: getImage(mobileImage) },
+	]);
+	return (
+		<React.Fragment>
+			<GatsbyImage
+				image={images}
+				style={{ height: "100%" }}
+				alt="Line of codes on dark background"
+			/>
+		</React.Fragment>
+	);
+};
 
 export const codeImageQuery = graphql`
   query CodeImage {
@@ -49,4 +49,4 @@ export const codeImageQuery = graphql`
       }
     }
   }
-`
+`;
