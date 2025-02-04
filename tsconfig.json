@@ -1,25 +1,29 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "jsx": "react-jsx",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "jsxImportSource": "@emotion/react",
+	"compilerOptions": {
+		"target": "ES2022",
+		"jsx": "react-jsx",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"jsxImportSource": "@emotion/react",
 
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noUncheckedIndexedAccess": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noUncheckedIndexedAccess": true,
 
-    "noEmit": true,
-    "skipLibCheck": true
-  },
-  "include": ["./src/**/*", "./gatsby-config.ts", "./gatsby-browser.ts"]
+		"noEmit": true,
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["./src/**/*", "./gatsby-config.ts", "./gatsby-browser.ts"]
 }

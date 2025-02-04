@@ -1,10 +1,10 @@
-import styled from "@emotion/styled"
-import { HomePageDataQuery } from "../../graphql-types"
-import { Spacer } from "./Spacer"
+import styled from "@emotion/styled";
+import type { HomePageDataQuery } from "../../graphql-types";
+import { Spacer } from "./Spacer";
 
 const SocialLayout = styled.div`
   display: flex;
-`
+`;
 const SocialsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -12,7 +12,7 @@ const SocialsContainer = styled.div`
   padding: 0.5rem;
   border-radius: 5px;
   background-color: #ffffff4a;
-`
+`;
 
 const SocialLink = styled.a`
   margin: 0 1rem;
@@ -24,39 +24,39 @@ const SocialLink = styled.a`
   @media (max-width: 500px) {
     height: 20px;
   }
-`
+`;
 const SocialImage = styled.img`
   height: 100%;
-`
+`;
 
 export function Socials({
-  socials,
+	socials,
 }: {
-  socials: HomePageDataQuery["socials"]
+	socials: HomePageDataQuery["socials"];
 }) {
-  const socialLinks = socials.edges.map(({ node }) => {
-    return {
-      label: node.label ?? undefined,
-      url: node.url ?? undefined,
-      pictoUrl: node.picto?.url ?? undefined,
-    }
-  })
+	const socialLinks = socials.edges.map(({ node }) => {
+		return {
+			label: node.label ?? undefined,
+			url: node.url ?? undefined,
+			pictoUrl: node.picto?.url ?? undefined,
+		};
+	});
 
-  return (
-    <SocialLayout>
-      <SocialsContainer>
-        {socialLinks.map((node, index) => (
-          <SocialLink key={index} href={node.url}>
-            <SocialImage
-              src={node.pictoUrl}
-              alt={`${node.label} logo`}
-              title={`${node.label} logo`}
-            />
+	return (
+		<SocialLayout>
+			<SocialsContainer>
+				{socialLinks.map((node, index) => (
+					<SocialLink key={index} href={node.url}>
+						<SocialImage
+							src={node.pictoUrl}
+							alt={`${node.label} logo`}
+							title={`${node.label} logo`}
+						/>
 
-            <Spacer direction="vertical" size="0.5rem" />
-          </SocialLink>
-        ))}
-      </SocialsContainer>
-    </SocialLayout>
-  )
+						<Spacer direction="vertical" size="0.5rem" />
+					</SocialLink>
+				))}
+			</SocialsContainer>
+		</SocialLayout>
+	);
 }

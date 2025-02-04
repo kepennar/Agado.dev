@@ -1,8 +1,11 @@
-import styled from "@emotion/styled"
-import { useEffect, useState } from "react"
-import { useIntl } from "react-intl"
+import styled from "@emotion/styled";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import React from "react";
+import { useIntl } from "react-intl";
+import { Button } from "./ui/button";
 
-type ThemeValueType = "light" | "dark"
+type ThemeValueType = "light" | "dark";
 
 const SwitchContainer = styled.button`
   display: inline-flex;
@@ -14,7 +17,7 @@ const SwitchContainer = styled.button`
   @media print {
     display: none;
   }
-`
+`;
 
 const Slider = styled.div`
   width: 36px;
@@ -29,7 +32,7 @@ const Slider = styled.div`
   border-radius: 24px;
   position: relative;
   transition: background-color 0.2s ease-in-out;
-`
+`;
 
 const SliderButton = styled.div<{ theme: ThemeValueType }>`
   width: 16px;
@@ -48,7 +51,7 @@ const SliderButton = styled.div<{ theme: ThemeValueType }>`
   transition:
     transform 0.2s ease-in-out,
     left 0.2s ease-in-out;
-`
+`;
 
 const SliderLabel = styled.span<{ isLarge?: true }>`
   font-size: 0.9rem;
@@ -63,43 +66,55 @@ const SliderLabel = styled.span<{ isLarge?: true }>`
     margin-left: 10px;
     display: ${(props) => (props.isLarge ? "inline" : "none")};
   }
-`
+`;
 
 export function DarkModeSwitch() {
-  const [theme, setTheme] = useState<ThemeValueType>("light")
+	const [theme, setTheme] = useState<ThemeValueType>("light");
 
-  useEffect(() => {
-    const theme =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    setTheme(theme)
-  }, [])
+	useEffect(() => {
+		const theme =
+			typeof window !== "undefined" &&
+			window.matchMedia &&
+			window.matchMedia("(prefers-color-scheme: dark)").matches
+				? "dark"
+				: "light";
+		setTheme(theme);
+	}, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return
-    }
-    window.document.body.setAttribute("data-theme", theme)
-  }, [theme])
+	useEffect(() => {
+		if (typeof window === "undefined") {
+			return;
+		}
+		window.document.body.setAttribute("data-theme", theme);
+	}, [theme]);
 
-  function toggleTheme() {
-    setTheme(theme === "light" ? "dark" : "light")
-  }
+	function toggleTheme() {
+		setTheme(theme === "light" ? "dark" : "light");
+	}
 
-  const intl = useIntl()
+	const intl = useIntl();
 
-  return (
-    <SwitchContainer onClick={toggleTheme}>
-      <Slider>
-        <SliderButton theme={theme} />
-      </Slider>
-      <SliderLabel isLarge>
-        {intl.formatMessage({ id: "darkMode" })}
-      </SliderLabel>
-      <SliderLabel>{intl.formatMessage({ id: "dark" })}</SliderLabel>
-    </SwitchContainer>
-  )
+	return (
+		<>
+			<SwitchContainer onClick={toggleTheme}>
+				<Slider>
+					<SliderButton theme={theme} />
+				</Slider>
+				<SliderLabel isLarge>
+					{intl.formatMessage({ id: "darkMode" })}
+				</SliderLabel>
+				<SliderLabel>{intl.formatMessage({ id: "dark" })}</SliderLabel>
+			</SwitchContainer>
+			<Button
+				variant="ghost"
+				size="icon"
+				aria-label="Toggle theme"
+				className="relative h-9 w-9"
+				onClick={() => toggleTheme()}
+			>
+				<Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+				<Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+			</Button>
+		</>
+	);
 }

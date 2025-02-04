@@ -1,16 +1,16 @@
-import styled from "@emotion/styled"
-import { graphql } from "gatsby"
-import React from "react"
-import { BlogListPageDataQuery } from "../../../graphql-types"
-import { BlogLink } from "../../components/BlogLink.component"
-import { Head as HeadComponent } from "../../components/Head"
+import styled from "@emotion/styled";
+import { graphql } from "gatsby";
+import React from "react";
+import type { BlogListPageDataQuery } from "../../../graphql-types";
+import { BlogLink } from "../../components/BlogLink.component";
+import { Head as HeadComponent } from "../../components/Head";
 import Header, {
-  Actions,
-  MenuLinks,
-  NavbarContainer,
-} from "../../components/Header.component"
-import Layout from "../../components/Layout"
-import { AvailableLanguageType } from "../../i18n/i18n.model"
+	Actions,
+	MenuLinks,
+	NavbarContainer,
+} from "../../components/Header.component";
+import Layout from "../../components/Layout";
+import type { AvailableLanguageType } from "../../i18n/i18n.model";
 
 const BlogLinksContainer = styled.div`
   display: flex;
@@ -23,53 +23,53 @@ const BlogLinksContainer = styled.div`
   hr {
     background: var(--secondary-background-color);
   }
-`
+`;
 
 export default function ({
-  data,
-  pageContext: { pathName, language },
+	data,
+	pageContext: { pathName, language },
 }: {
-  data: BlogListPageDataQuery
-  pageContext: {
-    pathName: string
-    language: AvailableLanguageType
-    currentDate: Date
-  }
+	data: BlogListPageDataQuery;
+	pageContext: {
+		pathName: string;
+		language: AvailableLanguageType;
+		currentDate: Date;
+	};
 }) {
-  return (
-    <Layout
-      language={language}
-      header={() => (
-        <React.Fragment>
-          <Header siteTitle={"Articles"} />
-          <NavbarContainer>
-            <MenuLinks links={[]} currentLanguage={language} />
+	return (
+		<Layout
+			language={language}
+			header={() => (
+				<React.Fragment>
+					<Header siteTitle={"Articles"} />
+					<NavbarContainer>
+						<MenuLinks links={[]} currentLanguage={language} />
 
-            <Actions pagePath={pathName} />
-          </NavbarContainer>
-        </React.Fragment>
-      )}
-    >
-      <BlogLinksContainer>
-        {data.allContentfulBlogPost.edges
-          .filter(withSlug)
-          .map(({ node }, index, arr) => (
-            <React.Fragment key={node.slug}>
-              <BlogLink blogPost={node} language={language} />
-              {index !== arr.length - 1 ? <hr /> : null}
-            </React.Fragment>
-          ))}
-      </BlogLinksContainer>
-    </Layout>
-  )
+						<Actions pagePath={pathName} />
+					</NavbarContainer>
+				</React.Fragment>
+			)}
+		>
+			<BlogLinksContainer>
+				{data.allContentfulBlogPost.edges
+					.filter(withSlug)
+					.map(({ node }, index, arr) => (
+						<React.Fragment key={node.slug}>
+							<BlogLink blogPost={node} language={language} />
+							{index !== arr.length - 1 ? <hr /> : null}
+						</React.Fragment>
+					))}
+			</BlogLinksContainer>
+		</Layout>
+	);
 }
 
 type BlogListEdgeType =
-  BlogListPageDataQuery["allContentfulBlogPost"]["edges"][0]
+	BlogListPageDataQuery["allContentfulBlogPost"]["edges"][0];
 function withSlug(edge: BlogListEdgeType): edge is BlogListEdgeType & {
-  node: BlogListEdgeType["node"] & { slug: string }
+	node: BlogListEdgeType["node"] & { slug: string };
 } {
-  return !!edge.node.slug
+	return !!edge.node.slug;
 }
 
 export const BlogListPageQuery = graphql`
@@ -103,11 +103,11 @@ export const BlogListPageQuery = graphql`
       }
     }
   }
-`
+`;
 export const Head = ({
-  pageContext: { language },
+	pageContext: { language },
 }: {
-  pageContext: {
-    language: AvailableLanguageType
-  }
-}) => <HeadComponent lang={language} title="Kevin Pennarun" />
+	pageContext: {
+		language: AvailableLanguageType;
+	};
+}) => <HeadComponent lang={language} title="Kevin Pennarun" />;

@@ -1,7 +1,7 @@
-import { FunctionComponent } from "react"
+import type { FunctionComponent } from "react";
 
-import styled from "@emotion/styled"
-import { ReactComponent as LogoSvg } from "../../images/agado-logo/agado-logo.svg"
+import styled from "@emotion/styled";
+import { ReactComponent as LogoSvg } from "../../images/agado-logo/agado-logo.svg";
 
 const LogoContainer = styled.div`
   display: flex;
@@ -20,27 +20,27 @@ const LogoContainer = styled.div`
   @media (prefers-color-scheme: dark) {
     background: rgba(255, 255, 255, 0.01);
   }
-`
+`;
 
 export const AgadoLogo: FunctionComponent<{}> = () => (
-  <LogoContainer>
-    <LogoSvg />
-  </LogoContainer>
-)
+	<LogoContainer>
+		<LogoSvg />
+	</LogoContainer>
+);
 
 const EmphasedName = styled.span`
   font-family: "Arial", sans-serif;
   color: white;
-`
+`;
 const Ext = styled.span`
   font-family: "Arial", sans-serif;
 
   color: #4267b2;
-`
+`;
 export function AgadoName() {
-  return (
-    <div>
-      <EmphasedName>Agado</EmphasedName> <Ext>Dev</Ext>
-    </div>
-  )
+	return (
+		<div>
+			<EmphasedName>Agado</EmphasedName> <Ext>Dev</Ext>
+		</div>
+	);
 }

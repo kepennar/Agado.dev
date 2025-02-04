@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Highlight, themes, Prism } from "prism-react-renderer";
+import { Highlight, Prism, themes } from "prism-react-renderer";
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 require("prismjs/components/prism-diff");
 require("prismjs/components/prism-bash");
