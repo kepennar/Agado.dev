@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 export const BlogContainer = styled.div`
   max-width: 54rem;
@@ -99,4 +99,4 @@ export const BlogContainer = styled.div`
       margin-bottom: calc(5.45rem - 1px);
     }
   }
-`
+`;

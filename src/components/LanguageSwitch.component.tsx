@@ -1,5 +1,5 @@
-import styled from "@emotion/styled"
-import { ChangeEvent } from "react"
+import styled from "@emotion/styled";
+import type { ChangeEvent } from "react";
 
 const SelectContainer = styled.div`
   @media (min-width: 500px) {
@@ -9,7 +9,7 @@ const SelectContainer = styled.div`
   border: 0;
   // padding: 1px;
   position: relative;
-`
+`;
 
 const StyledSelect = styled.select`
   width: 100%;
@@ -30,27 +30,27 @@ const StyledSelect = styled.select`
     padding-block: 0;
     padding-inline: 0;
   }
-`
+`;
 
 export function LanguageSwitch({ pagePath }: { pagePath: string }) {
-  const language = pagePath.startsWith("/en") ? "en" : "fr"
+	const language = pagePath.startsWith("/en") ? "en" : "fr";
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (typeof window === "undefined") {
-      // not available server side
-      return
-    }
-    const currentPage = pagePath.replace("/en/", "/")
-    window.location.href =
-      event.target.value === "en" ? `/en${currentPage}` : `${currentPage}`
-  }
+	const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		if (typeof window === "undefined") {
+			// not available server side
+			return;
+		}
+		const currentPage = pagePath.replace("/en/", "/");
+		window.location.href =
+			event.target.value === "en" ? `/en${currentPage}` : `${currentPage}`;
+	};
 
-  return (
-    <SelectContainer>
-      <StyledSelect value={language} onChange={handleChange}>
-        <option value="fr">🇫🇷</option>
-        <option value="en">🇬🇧</option>
-      </StyledSelect>
-    </SelectContainer>
-  )
+	return (
+		<SelectContainer>
+			<StyledSelect value={language} onChange={handleChange}>
+				<option value="fr">🇫🇷</option>
+				<option value="en">🇬🇧</option>
+			</StyledSelect>
+		</SelectContainer>
+	);
 }
