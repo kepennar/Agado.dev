@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { graphql } from "gatsby";
@@ -83,7 +84,7 @@ function IndexPage({
 							]}
 							currentLanguage={language}
 						/>
-
+						<Separator orientation="vertical" className="h-6 opacity-30" />
 						<Actions pagePath={pathName} />
 					</NavbarContainer>
 				</React.Fragment>

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { useIntl } from "react-intl";
 import type { AvailableLanguageType } from "../i18n/i18n.model";
@@ -32,11 +33,6 @@ const Content = styled.div`
     padding: 0;
     text-align: center;
   }
-`;
-
-const Title = styled.h1`
-  margin: 0;
-  color: var(--text-color);
 `;
 
 const shadowSize = "8px";
@@ -74,26 +70,37 @@ export const NavbarContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: .5rem;
   padding: 0 1rem;
 
   background-color: #4267b230;
   backdrop-filter: blur(4px);
   border-bottom: 1px solid #2d3647;
+
+  @media (min-width: 500px) {
+    gap: 1rem;
+
+  }
+
 `;
 export const MenuLink = styled.a`
+  display: inline-flex;
+  align-items: center;
   color: var(--link-color);
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+  gap: .2rem;
   &:hover {
     text-decoration: underline;
   }
 `;
 const MenuLinksContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   gap: 0.8rem;
   @media (min-width: 500px) {
     gap: 2rem;
@@ -133,7 +140,8 @@ export function MenuLinks({
 						}
 						title={intl.formatMessage({ id: titleLabelId })}
 					>
-						{intl.formatMessage({ id: labelId })}
+						<span>{intl.formatMessage({ id: labelId })}</span>
+						<ArrowRight className="h-4 w-4" />
 					</MenuLink>
 				))}
 			</Centered>
@@ -174,7 +182,7 @@ function Header({
 				</BackgroundImageContainer>
 			) : null}
 			<Content>
-				<Title>{siteTitle}</Title>
+				<h1 className="m-0 text-gray-50">{siteTitle}</h1>
 				{subtitle ? <SubTitle>{subtitle}</SubTitle> : null}
 			</Content>
 		</Container>

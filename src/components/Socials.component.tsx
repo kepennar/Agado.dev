@@ -46,6 +46,7 @@ export function Socials({
 		<SocialLayout>
 			<SocialsContainer>
 				{socialLinks.map((node, index) => (
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					<SocialLink key={index} href={node.url}>
 						<SocialImage
 							src={node.pictoUrl}

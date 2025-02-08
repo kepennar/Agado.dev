@@ -22,7 +22,7 @@ const LogoContainer = styled.div`
   }
 `;
 
-export const AgadoLogo: FunctionComponent<{}> = () => (
+export const AgadoLogo: FunctionComponent = () => (
 	<LogoContainer>
 		<LogoSvg />
 	</LogoContainer>

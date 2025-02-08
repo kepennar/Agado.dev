@@ -27,6 +27,11 @@
 	--code-bg-color: #2d3748;
 }
 
+html body[data-scroll-locked] {
+	overflow: visible !important;
+	margin-right: 0 !important;
+}
+
 html {
 	font-family: sans-serif;
 	-ms-text-size-adjust: 100%;
@@ -161,7 +166,7 @@ code,
 kbd,
 pre,
 samp {
-	font-family: monospace, monospace;
+	font-family: monospace;
 	font-size: 1em;
 }
 figure {

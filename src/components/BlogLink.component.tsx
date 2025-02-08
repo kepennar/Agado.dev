@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import type { ContentfulRichTextGatsbyReference } from "gatsby-source-contentful/rich-text";
+import { ArrowRight } from "lucide-react";
 import { useIntl } from "react-intl";
 import type { Maybe } from "../../graphql-types";
 import type { AvailableLanguageType } from "../i18n/i18n.model";
@@ -16,9 +17,16 @@ const BlogLinkContainer = styled.a`
 `;
 
 const ArticleLinks = styled.div`
+
+	display: inline-flex;
+	align-items: center;
+  gap: .2rem;
+
   font-size: 1.2rem;
-  text-decoration: none;
   text-align: right;
+  :hover {
+		text-decoration: underline;
+	}
 `;
 
 interface BlogLinkProps {
@@ -64,7 +72,10 @@ export function BlogLink({ language, blogPost }: BlogLinkProps) {
 				) : null}
 			</BlogContainer>
 
-			<ArticleLinks>{intl.formatMessage({ id: "read" })}</ArticleLinks>
+			<ArticleLinks>
+				<span>{intl.formatMessage({ id: "read" })}</span>{" "}
+				<ArrowRight className="h-4 w-4" />
+			</ArticleLinks>
 		</BlogLinkContainer>
 	);
 }

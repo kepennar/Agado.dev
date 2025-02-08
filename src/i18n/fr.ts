@@ -1,10 +1,11 @@
 export const frenchLocales = {
 	darkMode: "Mode sombre",
+	lightMode: "Mode clair",
 	dark: "Sombre",
 	about: "À propos de Kevin",
 	experiences: "Expériences",
-	goToArticles: "Articles →",
-	read: "Lire →",
+	goToArticles: "Articles",
+	read: "Lire",
 	footerAttribution:
 		"© {year}, Créé avec <a1>Gatsby</a1> et <a2>Contentful</a2> Code source disponible sur <a3>Github</a3>",
 	toc: "Table des matières",
