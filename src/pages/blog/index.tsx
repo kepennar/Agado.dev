@@ -79,6 +79,7 @@ export const BlogListPageQuery = graphql`
         node_locale: { eq: $language }
         publishDate: { lte: $currentDate }
       }
+      sort: { publishDate: DESC }
     ) {
       edges {
         node {
