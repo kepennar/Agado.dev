@@ -1,0 +1,152 @@
+---
+// Layout component with SEO meta tags
+
+// Import critical font files to get hashed URLs for preloading
+import spectralRegular from "@fontsource/spectral/files/spectral-latin-400-normal.woff2?url";
+import ubuntuRegular from "@fontsource/ubuntu/files/ubuntu-latin-400-normal.woff2?url";
+import ubuntuBold from "@fontsource/ubuntu/files/ubuntu-latin-700-normal.woff2?url";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "fr" | "en";
+  image?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title = "Agado Dev - Kevin Pennarun",
+  description = "Portfolio et blog de Kevin Pennarun - Développeur web passionné",
+  lang = "fr",
+  image = "/images/og-default.png",
+  type = "website",
+} = Astro.props;
+
+// Construct canonical URL
+const currentPath = Astro.url.pathname;
+const baseUrl = Astro.site?.toString() || "https://agado.dev";
+const canonicalURL = new URL(currentPath, baseUrl).toString();
+
+// Generate alternate language URLs for hreflang
+const alternateUrl =
+  lang === "fr"
+    ? new URL(`/en${currentPath}`, baseUrl).toString()
+    : new URL(currentPath.replace(/^\/en/, "") || "/", baseUrl).toString();
+
+// Ensure image URL is absolute
+const imageURL = image.startsWith("http")
+  ? image
+  : new URL(image, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Inline script runs before render to prevent flash -->
+    <script is:inline>
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      window.__theme = theme;
+    </script>
+
+    <!-- Client-side language detection for SSG (FR-031) -->
+    <script is:inline>
+      (function () {
+        var p = window.location.pathname;
+        if (p !== "/" && p !== "/en" && p !== "/en/") return;
+        var c = ("; " + document.cookie).split("; locale=");
+        var cl = c.length === 2 ? c.pop().split(";").shift() : null;
+        var bl = (navigator.language || "").split("-")[0].toLowerCase();
+        var tl = cl || (bl === "en" ? "en" : "fr");
+        var cur = p.startsWith("/en") ? "en" : "fr";
+        if (tl !== cur) {
+          if (!cl) document.cookie = "locale=" + tl + "; path=/; max-age=2592000; SameSite=Lax";
+          window.location.replace(tl === "fr" ? "/" : "/en");
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags (FR-022) -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Kevin Pennarun" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- hreflang tags for SEO (FR-031) -->
+    <link
+      rel="alternate"
+      hreflang="fr"
+      href={lang === "fr" ? canonicalURL : alternateUrl}
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href={lang === "en" ? canonicalURL : alternateUrl}
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={lang === "fr" ? canonicalURL : alternateUrl}
+    />
+
+    <!-- Open Graph / Facebook (FR-022) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:site_name" content="Agado Dev" />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+
+    <!-- Twitter Card (FR-022) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <meta name="twitter:creator" content="@kevinpennarun" />
+
+    <!-- Preload critical fonts -->
+    <link rel="preload" href={spectralRegular} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={ubuntuRegular} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={ubuntuBold} as="font" type="font/woff2" crossorigin />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- PWA Manifest (FR-023) -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#3457a0" />
+  </head>
+  <body
+    class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen"
+  >
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>

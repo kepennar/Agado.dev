@@ -1,0 +1,196 @@
+---
+// Navbar component - site navigation bar with anchor links
+
+import DarkModeSwitch from "./DarkModeSwitch.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+
+interface Props {
+  currentLanguage: "fr" | "en";
+  translations: {
+    brand?: string;
+    about?: string;
+    services?: string;
+    experience?: string;
+    posts?: string;
+    talk?: string;
+    articles?: string;
+    toggleDarkMode?: string;
+    switchToLight?: string;
+    switchToDark?: string;
+  };
+}
+
+const { currentLanguage = "fr", translations } = Astro.props;
+
+const homeUrl = currentLanguage === "fr" ? "/" : `/${currentLanguage}`;
+
+// Get current path for language switching
+const currentPath = Astro.url.pathname;
+
+// If we have the full nav links, show anchor nav; otherwise show blog link
+const hasFullNav = !!translations.brand;
+
+const navLinks = hasFullNav
+  ? [
+      { label: translations.about!, href: "#about" },
+      { label: translations.services!, href: "#services" },
+      { label: translations.experience!, href: "#experience" },
+      { label: translations.posts!, href: "#posts" },
+    ]
+  : [];
+
+const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
+---
+
+<nav
+  class="navbar w-full flex items-center h-16 px-4 sm:px-6 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700/50 bg-white/90 dark:bg-gray-900/90"
+>
+  <div class="flex justify-between items-center w-full max-w-6xl mx-auto">
+    <!-- Brand -->
+    <a
+      href={homeUrl}
+      class="text-lg font-bold text-gray-900 dark:text-white no-underline whitespace-nowrap hover:text-primary dark:hover:text-link-dark transition-colors"
+    >
+      {translations.brand || "Engineer Portfolio"}
+    </a>
+
+    <!-- Nav Links (desktop) -->
+    {
+      hasFullNav ? (
+        <div class="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="nav-link text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="flex items-center gap-6">
+          <a
+            href={blogUrl}
+            class="text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+          >
+            {translations.articles || "Articles"}
+          </a>
+        </div>
+      )
+    }
+
+    <!-- Actions -->
+    <div class="flex items-center gap-1 sm:gap-2 print:hidden">
+      <DarkModeSwitch
+        ariaLabel={translations.toggleDarkMode}
+        lightLabel={translations.switchToLight}
+        darkLabel={translations.switchToDark}
+      />
+      <LanguageSwitch
+        currentLanguage={currentLanguage}
+        currentPath={currentPath}
+      />
+      {
+        hasFullNav && (
+          <button
+            class="mobile-menu-btn md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary"
+            aria-label="Toggle menu"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class="menu-icon"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+              <path
+                class="close-icon hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )
+      }
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu (only for pages with full nav) -->
+{
+  hasFullNav && (
+    <div class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg">
+      <div class="flex flex-col py-2 px-4">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link py-3 text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark border-b border-gray-100 dark:border-gray-800 last:border-0"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .navbar {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var nav = document.querySelector(".navbar");
+    if (!nav) return;
+
+    // Scroll shadow
+    function onScroll() {
+      if (window.scrollY > 10) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu toggle
+    var menuBtn = document.querySelector(".mobile-menu-btn");
+    var mobileMenu = document.querySelector(".mobile-menu");
+    var menuIcon = document.querySelector(".menu-icon");
+    var closeIcon = document.querySelector(".close-icon");
+
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+        menuIcon.classList.toggle("hidden");
+        closeIcon.classList.toggle("hidden");
+      });
+
+      // Close menu on link click
+      mobileMenu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          mobileMenu.classList.add("hidden");
+          menuIcon.classList.remove("hidden");
+          closeIcon.classList.add("hidden");
+        });
+      });
+    }
+  })();
+</script>

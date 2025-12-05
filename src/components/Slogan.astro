@@ -1,0 +1,21 @@
+---
+// Slogan component - displays the site tagline
+// Migrated from Gatsby/src/components/Slogan.component.tsx
+
+import type { Slogan as SloganType } from "@/lib/contentful.types";
+import RichText from "./ContentfulRichText/RichText.astro";
+
+interface Props {
+  slogan: SloganType;
+}
+
+const { slogan } = Astro.props;
+
+if (!slogan?.fields?.text) {
+  return null;
+}
+---
+
+<div class="text-xl cms-content">
+  <RichText content={slogan.fields.text} />
+</div>

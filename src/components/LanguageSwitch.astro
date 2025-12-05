@@ -1,0 +1,47 @@
+---
+// LanguageSwitch - pure Astro component (no React needed)
+// Toggle between French (/) and English (/en) versions
+
+interface Props {
+  currentLanguage: "fr" | "en";
+  currentPath: string;
+}
+
+const { currentLanguage, currentPath } = Astro.props;
+const targetLang = currentLanguage === "fr" ? "en" : "fr";
+
+// Calculate target URL
+const targetUrl =
+  currentLanguage === "fr"
+    ? `/en${currentPath === "/" ? "" : currentPath}`
+    : currentPath.replace(/^\/en/, "") || "/";
+---
+
+<a
+  href={targetUrl}
+  id="language-switch"
+  class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer no-underline"
+  aria-label={currentLanguage === "fr" ? "Switch to English" : "Passer en français"}
+  title={currentLanguage === "fr" ? "Switch to English" : "Passer en français"}
+  data-target-lang={targetLang}
+>
+  <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+    <path d="M2 12h20"></path>
+  </svg>
+  <span class="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase">
+    {targetLang}
+  </span>
+</a>
+
+<script is:inline>
+  (function () {
+    var link = document.getElementById("language-switch");
+    if (!link) return;
+    link.addEventListener("click", function () {
+      var lang = link.getAttribute("data-target-lang");
+      document.cookie = "locale=" + lang + "; path=/; max-age=2592000; SameSite=Lax";
+    });
+  })();
+</script>

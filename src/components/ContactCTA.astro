@@ -1,0 +1,29 @@
+---
+// ContactCTA component - "Have a project in mind?" CTA section
+
+interface Props {
+  translations: {
+    ctaTitle: string;
+    ctaDescription: string;
+    ctaButton: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<section id="talk" class="py-16 sm:py-20 bg-gray-100 dark:bg-[#0c1a2e] border-t border-gray-200 dark:border-gray-800 print:hidden">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4 font-sans">{translations.ctaTitle}</h2>
+    <p class="text-lg leading-relaxed text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">{translations.ctaDescription}</p>
+    <a
+      href="mailto:hello@agado.dev"
+      class="inline-flex items-center gap-2 px-8 py-3 bg-primary dark:bg-[#5b8ce0] text-white rounded-lg font-semibold text-sm no-underline font-sans transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      {translations.ctaButton}
+    </a>
+  </div>
+</section>

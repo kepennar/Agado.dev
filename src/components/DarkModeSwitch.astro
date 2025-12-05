@@ -1,0 +1,70 @@
+---
+// DarkModeSwitch - pure Astro component (no React needed)
+// Toggle between light and dark themes with inline SVG icons
+
+interface Props {
+  ariaLabel?: string;
+  lightLabel?: string;
+  darkLabel?: string;
+}
+
+const {
+  ariaLabel = 'Toggle dark mode',
+  lightLabel = 'Switch to light mode',
+  darkLabel = 'Switch to dark mode',
+} = Astro.props;
+---
+
+<button
+  id="dark-mode-toggle"
+  class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+  aria-label={ariaLabel}
+  data-light-label={lightLabel}
+  data-dark-label={darkLabel}
+>
+  <!-- Sun icon (shown in dark mode) -->
+  <svg class="dark-mode-icon-sun w-5 h-5 text-yellow-500 hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2"></path>
+    <path d="M12 20v2"></path>
+    <path d="m4.93 4.93 1.41 1.41"></path>
+    <path d="m17.66 17.66 1.41 1.41"></path>
+    <path d="M2 12h2"></path>
+    <path d="M20 12h2"></path>
+    <path d="m6.34 17.66-1.41 1.41"></path>
+    <path d="m19.07 4.93-1.41 1.41"></path>
+  </svg>
+  <!-- Moon icon (shown in light mode) -->
+  <svg class="dark-mode-icon-moon w-5 h-5 text-gray-700 hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById("dark-mode-toggle");
+    var sun = btn.querySelector(".dark-mode-icon-sun");
+    var moon = btn.querySelector(".dark-mode-icon-moon");
+
+    function updateIcons() {
+      var isDark = document.documentElement.classList.contains("dark");
+      sun.classList.toggle("hidden", !isDark);
+      moon.classList.toggle("hidden", isDark);
+      btn.setAttribute("aria-label", isDark ? btn.getAttribute("data-light-label") : btn.getAttribute("data-dark-label"));
+    }
+
+    updateIcons();
+
+    btn.addEventListener("click", function () {
+      var isDark = document.documentElement.classList.contains("dark");
+      if (isDark) {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      }
+      updateIcons();
+    });
+  })();
+</script>

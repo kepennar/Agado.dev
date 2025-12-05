@@ -1,0 +1,8 @@
+# robots.txt - Allows all search engine crawlers
+# Generated for Agado.dev
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://agado.dev/sitemap-index.xml

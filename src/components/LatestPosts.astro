@@ -1,0 +1,92 @@
+---
+// LatestPosts component - Horizontal 3-card grid with cover images
+// Extracts first embedded image from blog abstract rich text if available
+
+import type { BlogPost } from "@/lib/contentful.types";
+
+interface Props {
+  posts: BlogPost[];
+  locale: "fr" | "en";
+  title: string;
+  seeAllText: string;
+  seeAllUrl: string;
+  sectionLabel: string;
+}
+
+const { posts, locale, title, seeAllText, seeAllUrl, sectionLabel } = Astro.props;
+
+// Take only first 3
+const latestPosts = posts.slice(0, 3);
+
+// Extract the first embedded image URL from a Contentful rich text Document
+function getAbstractImageUrl(post: BlogPost): string | null {
+  const doc = post.fields.abstract as any;
+  if (!doc || !doc.content) return null;
+
+  for (const node of doc.content) {
+    if (node.nodeType === "embedded-asset-block") {
+      const asset = (node as any).data?.target;
+      if (asset?.fields?.file?.url) {
+        const url = asset.fields.file.url as string;
+        return url.startsWith("//") ? `https:${url}?w=600&fm=webp&q=80` : `${url}?w=600&fm=webp&q=80`;
+      }
+    }
+  }
+  return null;
+}
+
+// Placeholder colors for posts without images
+const placeholderColors = [
+  "from-red-700 to-red-900",
+  "from-amber-700 to-amber-900",
+  "from-blue-700 to-blue-900",
+];
+---
+
+{latestPosts.length > 0 && (
+  <section id="posts" class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0a1628] border-t border-gray-200 dark:border-gray-800 print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <span class="section-label">{sectionLabel}</span>
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-8">{title}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
+        {latestPosts.map((post, index) => {
+          const blogUrl = locale === "en"
+            ? `/en/blog/${post.fields.slug}`
+            : `/blog/${post.fields.slug}`;
+          const publishDate = post.fields.publishDate
+            ? new Date(post.fields.publishDate).toLocaleDateString(
+                locale === "en" ? "en-US" : "fr-FR",
+                { year: "numeric", month: "short", day: "numeric" }
+              )
+            : "";
+          const colorClass = placeholderColors[index % placeholderColors.length];
+          const imageUrl = getAbstractImageUrl(post);
+          return (
+            <a href={blogUrl} class="post-card group flex flex-col border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden no-underline text-inherit bg-white dark:bg-gray-900 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_12px_24px_rgba(0,0,0,0.3)]">
+              {imageUrl ? (
+                <div class="aspect-[16/10] overflow-hidden">
+                  <img src={imageUrl} alt={post.fields.title} class="w-full h-full object-cover" loading="lazy" />
+                </div>
+              ) : (
+                <div class={`aspect-[16/10] flex items-center justify-center p-6 bg-gradient-to-br ${colorClass}`}>
+                  <span class="text-white/90 font-sans font-bold text-base text-center leading-snug">{post.fields.title}</span>
+                </div>
+              )}
+              <div class="p-4 pb-5">
+                <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50 leading-snug mb-2 group-hover:text-primary dark:group-hover:text-[#8ab4f8] transition-colors">{post.fields.title}</h3>
+                {publishDate && (
+                  <time class="text-xs text-gray-500 dark:text-gray-400 italic" datetime={post.fields.publishDate}>
+                    {publishDate}
+                  </time>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      <div class="mt-8 text-center">
+        <a href={seeAllUrl} class="btn-outline">{seeAllText}</a>
+      </div>
+    </div>
+  </section>
+)}

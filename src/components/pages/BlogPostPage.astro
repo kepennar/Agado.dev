@@ -1,0 +1,162 @@
+---
+import Layout from "@/components/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Navbar from "@/components/Navbar.astro";
+import Spacer from "@/components/Spacer.astro";
+import RichText from "@/components/ContentfulRichText/RichText.astro";
+import Toc from "@/components/ContentfulRichText/Toc.astro";
+import ReadingProgressBar from "@/components/ReadingProgressBar.astro";
+import ShareButtons from "@/components/ShareButtons.astro";
+import { getBlogPost } from "@/lib/contentful";
+import { estimateReadingTime } from "@/lib/reading-time";
+import type { Language } from "@/i18n/i18n.model";
+import { getTranslations, getContentfulLocaleParam, getDateLocale, localizedUrl } from "@/i18n/i18n.model";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const lang = (Astro.currentLocale || "fr") as Language;
+const t = getTranslations(lang);
+const locale = getContentfulLocaleParam(lang);
+
+const post = await getBlogPost(slug, locale);
+
+if (!post) {
+  return Astro.redirect(localizedUrl("/404", lang));
+}
+
+const publishDate = post.fields.publishDate
+  ? new Date(post.fields.publishDate).toLocaleDateString(getDateLocale(lang), {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : "";
+
+const pageTitle = `${post.fields.title} - Agado Dev`;
+const pageDescription =
+  post.fields.abstract && "content" in post.fields.abstract
+    ? (post.fields.abstract as any).content
+        .filter((node: any) => node.nodeType === "paragraph")
+        .map((node: any) => node.content.map((c: any) => c.value).join(""))
+        .join(" ")
+        .slice(0, 160)
+    : t.seo.defaultDescription;
+
+const readingTime = post.fields.content
+  ? estimateReadingTime(post.fields.content)
+  : undefined;
+
+const featuredImage = "/images/og-default.png";
+const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, lang)}`;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  lang={lang}
+  type="article"
+  image={featuredImage}
+>
+  <div class="min-h-screen pt-16">
+    <ReadingProgressBar />
+    <div class="fixed w-full top-0 z-50">
+      <Navbar
+        currentLanguage={lang}
+        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+      />
+    </div>
+
+    <Header siteTitle={post.fields.title} subtitle={publishDate} />
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <Spacer direction="vertical" size="2rem" />
+
+      <div class="article-meta">
+        {
+          publishDate && (
+            <time datetime={post.fields.publishDate} class="publish-date">
+              {t.common.published} {publishDate}
+            </time>
+          )
+        }
+        {
+          readingTime && (
+            <span class="reading-time">
+              &middot; {readingTime} {t.blog.readingTime}
+            </span>
+          )
+        }
+      </div>
+
+      <Spacer direction="vertical" size="1rem" />
+
+      {post.fields.content && <Toc content={post.fields.content} locale={lang} />}
+
+      <Spacer direction="vertical" size="2rem" />
+
+      {
+        post.fields.content && (
+          <article class="blog-post-content">
+            <RichText content={post.fields.content} />
+          </article>
+        )
+      }
+
+      <ShareButtons
+        url={shareUrl}
+        translations={{
+          shareOn: t.blog.shareOn,
+          copyLink: t.blog.copyLink,
+          linkCopied: t.blog.linkCopied,
+        }}
+      />
+
+      <Spacer direction="vertical" size="2rem" />
+
+      <div class="text-center">
+        <a href={localizedUrl("/blog", lang)} class="btn-outline">
+          {t.common.backToBlog}
+        </a>
+      </div>
+    </main>
+
+    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+  </div>
+</Layout>
+
+<style>
+  .article-meta {
+    text-align: center;
+    color: #666;
+  }
+
+  :global(.dark) .article-meta {
+    color: #999;
+  }
+
+  .publish-date {
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+
+  .reading-time {
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-left: 0.5rem;
+  }
+
+  .blog-post-content {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  @media print {
+    .article-meta {
+      margin-bottom: 2rem;
+    }
+  }
+</style>

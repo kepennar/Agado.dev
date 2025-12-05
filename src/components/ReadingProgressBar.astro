@@ -1,0 +1,63 @@
+---
+// Reading progress bar - shows scroll progress through blog post content
+// Fixed at top of viewport, above navbar
+---
+
+<div class="reading-progress-bar" id="reading-progress-bar" aria-hidden="true"></div>
+
+<style>
+  .reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background-color: var(--color-primary, #3457a0);
+    z-index: 100;
+    transition: width 0.1s linear;
+    pointer-events: none;
+  }
+
+  @media print {
+    .reading-progress-bar {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('reading-progress-bar');
+    var content = document.querySelector('.blog-post-content');
+    if (!bar || !content) return;
+
+    var ticking = false;
+
+    function updateProgress() {
+      var rect = content.getBoundingClientRect();
+      var contentTop = rect.top + window.scrollY;
+      var contentHeight = rect.height;
+      var scrolled = window.scrollY - contentTop;
+      var viewportHeight = window.innerHeight;
+      var total = contentHeight - viewportHeight;
+
+      if (total <= 0) {
+        bar.style.width = '100%';
+        return;
+      }
+
+      var progress = Math.min(Math.max(scrolled / total, 0), 1);
+      bar.style.width = (progress * 100) + '%';
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateProgress();
+  })();
+</script>

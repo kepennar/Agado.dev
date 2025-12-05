@@ -1,0 +1,72 @@
+---
+import Layout from "@/components/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Navbar from "@/components/Navbar.astro";
+import BlogLink from "@/components/BlogLink.astro";
+import Spacer from "@/components/Spacer.astro";
+import { getBlogPosts } from "@/lib/contentful";
+import { estimateReadingTime } from "@/lib/reading-time";
+import type { Language } from "@/i18n/i18n.model";
+import { getTranslations, getContentfulLocaleParam, localizedUrl } from "@/i18n/i18n.model";
+
+const lang = (Astro.currentLocale || "fr") as Language;
+const t = getTranslations(lang);
+const locale = getContentfulLocaleParam(lang);
+
+const posts = await getBlogPosts(locale);
+
+const pageTitle = `${t.blog.title} - Agado Dev`;
+const pageDescription = t.blog.subtitle;
+---
+
+<Layout title={pageTitle} description={pageDescription} lang={lang}>
+  <div class="min-h-screen pt-16">
+    <div class="fixed w-full top-0 z-50">
+      <Navbar
+        currentLanguage={lang}
+        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+      />
+    </div>
+    <Header siteTitle={t.blog.title} subtitle={t.blog.subtitle} />
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      {
+        posts.length > 0 ? (
+          <div class="blog-posts-container">
+            {posts.map((post) => (
+              <BlogLink blogPost={post} locale={lang} readingTime={post.fields.content ? estimateReadingTime(post.fields.content) : undefined} />
+            ))}
+          </div>
+        ) : (
+          <div class="no-posts">
+            <p class="text-center text-gray-600 dark:text-gray-400 text-lg">
+              {t.blog.noPosts}
+            </p>
+          </div>
+        )
+      }
+
+      <Spacer direction="vertical" size="2rem" />
+
+      <div class="text-center">
+        <a href={localizedUrl("/", lang)} class="btn-outline">
+          {t.common.backToHome}
+        </a>
+      </div>
+    </main>
+
+    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+  </div>
+</Layout>
+
+<style>
+  .blog-posts-container {
+    margin: 0 auto;
+  }
+
+  .no-posts {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+</style>

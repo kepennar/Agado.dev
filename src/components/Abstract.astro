@@ -1,0 +1,32 @@
+---
+// Abstract component - displays professional bio
+// Migrated from Gatsby/src/components/Abstract.component.tsx
+
+import type { Abstract as AbstractType, Social } from "@/lib/contentful.types";
+import RichText from "./ContentfulRichText/RichText.astro";
+import Socials from "./Socials.astro";
+import Spacer from "./Spacer.astro";
+
+interface Props {
+  abstract: AbstractType;
+  socials: Social[];
+  translations: {
+    about: string;
+  };
+}
+
+const { abstract, socials, translations } = Astro.props;
+
+if (!abstract?.fields?.content) {
+  return null;
+}
+---
+
+<div>
+  <h2 class="text-2xl font-bold mb-4">{translations.about}</h2>
+  <Socials socials={socials} />
+  <Spacer direction="vertical" size="1rem" />
+  <div class="cms-content text-lg">
+    <RichText content={abstract.fields.content} />
+  </div>
+</div>

@@ -1,0 +1,20 @@
+---
+// Spacer utility component for vertical/horizontal spacing
+// Migrated from Gatsby/src/components/Spacer.tsx
+
+interface Props {
+  direction: "horizontal" | "vertical";
+  size: string;
+}
+
+const { direction = "vertical", size = "1rem" } = Astro.props;
+---
+
+<div
+  class={direction === "vertical" ? "w-full" : "h-full"}
+  style={{
+    height: direction === "vertical" ? size : "100%",
+    width: direction === "vertical" ? "100%" : size,
+  }}
+>
+</div>

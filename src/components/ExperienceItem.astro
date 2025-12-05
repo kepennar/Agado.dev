@@ -1,0 +1,126 @@
+---
+// ExperienceItem component - Two-column timeline entry
+// Left: company + date, Center: line + dot, Right: role + description
+
+import type { Experience } from "@/lib/contentful.types";
+import RichText from "@/components/ContentfulRichText/RichText.astro";
+
+interface Props {
+  experience: Experience;
+  index?: number;
+  recent?: boolean;
+}
+
+const { experience, recent = true } = Astro.props;
+---
+
+<div class="timeline-item">
+  <!-- Left column: company + date -->
+  <div
+    class="timeline-left text-right pt-1 max-sm:text-left max-sm:flex max-sm:flex-wrap max-sm:gap-2 max-sm:items-baseline"
+  >
+    <span
+      class="block text-base font-bold text-gray-700 dark:text-gray-200 font-sans"
+    >
+      {
+        experience.fields.projectLink ? (
+          <a
+            href={experience.fields.projectLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-inherit no-underline transition-colors duration-200 hover:text-primary dark:hover:text-[#8ab4f8]"
+          >
+            {experience.fields.project}
+          </a>
+        ) : (
+          experience.fields.project
+        )
+      }
+    </span>
+    <span class="block text-sm text-gray-400 dark:text-gray-500 italic mt-1"
+      >{experience.fields.duration}</span
+    >
+  </div>
+
+  <!-- Center: dot + line -->
+  <div class="flex flex-col items-center relative w-6">
+    <div
+      class:list={[
+        "rounded-full shrink-0 mt-1.5 z-10",
+        recent
+          ? "w-3.5 h-3.5 bg-primary dark:bg-[#5b8ce0] border-2 border-white dark:border-gray-900 shadow-[0_0_0_2px] shadow-primary dark:shadow-[#5b8ce0]"
+          : "w-2.5 h-2.5 bg-transparent border-2 border-gray-300 dark:border-gray-600",
+      ]}
+    >
+    </div>
+    <div class="timeline-line w-0.5 flex-1 bg-gray-200 dark:bg-gray-800 mt-2">
+    </div>
+  </div>
+
+  <!-- Right column: role + description -->
+  <div class="pb-2">
+    <h3
+      class="text-lg font-bold text-primary dark:text-[#8ab4f8] mb-2 leading-snug"
+    >
+      {experience.fields.title}
+    </h3>
+    {
+      experience.fields.details && (
+        <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <RichText content={experience.fields.details} />
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1fr auto 2fr;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    position: relative;
+  }
+
+  @media (max-width: 640px) {
+    .timeline-item {
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+    }
+
+    .timeline-left {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .timeline-item > div:nth-child(2) {
+      grid-column: 1;
+      grid-row: 1 / -1;
+    }
+
+    .timeline-item > div:nth-child(3) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+
+  /* Hide line on last item */
+  .timeline-item:last-child .timeline-line {
+    display: none;
+  }
+
+  @media print {
+    .timeline-item {
+      break-inside: avoid;
+    }
+
+    .timeline-item > div:nth-child(2) {
+      display: none;
+    }
+
+    .timeline-item {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+</style>

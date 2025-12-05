@@ -1,0 +1,97 @@
+/* Tailwind CSS v4 - Single import replaces @tailwind directives */
+@import "tailwindcss";
+
+/* Optimized font loading */
+@import "./fonts.css";
+
+/* Configure dark mode to use class strategy */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tailwind v4 theme configuration using @theme */
+@theme {
+  /* Custom colors for light mode (with dark mode variants) */
+  --color-primary: #3457a0;
+  --color-header-bg: #ffffff;
+  --color-header-bg-dark: #051523;
+  --color-link: #649fff;
+  --color-link-dark: #8ab4f8;
+
+  /* Font families */
+  --font-family-sans: "Ubuntu", sans-serif;
+  --font-family-serif: "Spectral", serif;
+}
+
+body {
+  @apply bg-white dark:bg-gray-900 text-black dark:text-white;
+  font: 112.5%/1.45em Spectral,serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Ubuntu", sans-serif;
+}
+
+/* Section label utility */
+.section-label {
+  @apply inline-block text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 font-sans;
+}
+
+/* Shared button styles */
+.btn-outline {
+  display: inline-block;
+  padding: 0.625rem 1.5rem;
+  border: 2px solid var(--color-primary, #3457a0);
+  color: var(--color-primary, #3457a0);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  font-size: 1rem;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary, #3457a0);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(52, 87, 160, 0.25);
+}
+
+.dark .btn-outline {
+  border-color: #5b8ce0;
+  color: #5b8ce0;
+}
+
+.dark .btn-outline:hover {
+  background-color: #5b8ce0;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(91, 140, 224, 0.25);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Improve contrast in dark code blocks for WCAG AA (4.5:1 ratio) */
+html.dark .shiki span[style*="--shiki-dark:#758575"] {
+  --shiki-dark: #a3b3a3 !important;
+}
+
+html.dark .shiki span[style*="--shiki-dark:#666666"] {
+  --shiki-dark: #999999 !important;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}

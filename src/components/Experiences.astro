@@ -1,0 +1,78 @@
+---
+// Experiences component - Professional timeline layout
+// Two-column timeline with company names, dots, connecting lines
+
+import type { Experience } from "@/lib/contentful.types";
+import ExperienceItem from "@/components/ExperienceItem.astro";
+
+interface Props {
+  experiences: Experience[];
+  translations: {
+    professionalJourney: string;
+    timelineTitle: string;
+    showMore: string;
+  };
+}
+
+const { experiences, translations } = Astro.props;
+
+const recentExperiences = experiences.slice(0, 4);
+const olderExperiences = experiences.slice(4);
+---
+
+<section id="experience" class="py-16 sm:py-20 print:break-before-page">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <span class="section-label">{translations.professionalJourney}</span>
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-10">{translations.timelineTitle}</h2>
+
+    <div class="relative">
+      <div class="recent-experiences">
+        {recentExperiences.map((experience, index) => (
+          <ExperienceItem experience={experience} index={index} recent={index === 0} />
+        ))}
+      </div>
+
+      {olderExperiences.length > 0 && (
+        <>
+          <div class="show-more-container text-center my-8">
+            <button class="show-more-btn btn-outline">
+              {translations.showMore || "VOIR +"}
+            </button>
+          </div>
+
+          <div class="older-experiences hidden">
+            {olderExperiences.map((experience, index) => (
+              <ExperienceItem experience={experience} index={index + 4} recent={false} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Handle "show more" functionality
+  function setupShowMore() {
+    const showMoreBtn = document.querySelector(".show-more-btn");
+    const olderExperiences = document.querySelector(".older-experiences");
+    const showMoreContainer = document.querySelector(".show-more-container");
+
+    if (showMoreBtn && olderExperiences && showMoreContainer) {
+      showMoreBtn.addEventListener("click", () => {
+        olderExperiences.classList.remove("hidden");
+        showMoreContainer.classList.add("hidden");
+      });
+    }
+  }
+
+  // Run on page load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupShowMore);
+  } else {
+    setupShowMore();
+  }
+
+  // Also run when navigating (for SPAs)
+  document.addEventListener("astro:page-load", setupShowMore);
+</script>

@@ -1,0 +1,210 @@
+---
+// 404 Not Found page
+
+import Layout from "@/components/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Navbar from "@/components/Navbar.astro";
+import Spacer from "@/components/Spacer.astro";
+import type { Language } from "@/i18n/i18n.model";
+import { getTranslations, localizedUrl } from "@/i18n/i18n.model";
+
+const url = new URL(Astro.request.url);
+const lang: Language = url.pathname.startsWith("/en") ? "en" : "fr";
+const t = getTranslations(lang);
+---
+
+<Layout
+  title={t.notFound.title}
+  description={t.notFound.message}
+  lang={lang}
+>
+  <div class="min-h-screen pt-16">
+    <div class="fixed w-full top-0 z-50">
+      <Navbar
+        currentLanguage={lang}
+        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+      />
+    </div>
+
+    <Header siteTitle={t.notFound.title} subtitle="" />
+
+    <!-- Main content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <Spacer direction="vertical" size="4rem" />
+
+      <div class="error-container">
+        <div class="error-code">404</div>
+
+        <Spacer direction="vertical" size="2rem" />
+
+        <h1 class="error-title">{t.notFound.title}</h1>
+        <p class="error-message">{t.notFound.message}</p>
+
+        <Spacer direction="vertical" size="3rem" />
+
+        <div class="action-buttons">
+          <a href={localizedUrl("/", lang)} class="btn btn-primary">
+            {t.notFound.backHome}
+          </a>
+
+          <a
+            href={localizedUrl("/blog", lang)}
+            class="btn btn-secondary"
+          >
+            {t.nav.articles}
+          </a>
+        </div>
+      </div>
+
+      <Spacer direction="vertical" size="4rem" />
+    </main>
+
+    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+  </div>
+</Layout>
+
+<style>
+  .error-container {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .error-code {
+    font-size: 10rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #4267b2;
+    text-shadow: 4px 4px 0 rgba(66, 103, 178, 0.2);
+    margin: 0;
+  }
+
+  :global(.dark) .error-code {
+    color: #5b8ce0;
+    text-shadow: 4px 4px 0 rgba(91, 140, 224, 0.2);
+  }
+
+  .error-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 1rem 0;
+  }
+
+  :global(.dark) .error-title {
+    color: #f5f5f5;
+  }
+
+  .error-message {
+    font-size: 1.25rem;
+    color: #666;
+    margin: 0;
+  }
+
+  :global(.dark) .error-message {
+    color: #999;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background-color: #4267b2;
+    color: white;
+    border: 2px solid #4267b2;
+  }
+
+  .btn-primary:hover {
+    background-color: #3557a2;
+    border-color: #3557a2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(66, 103, 178, 0.3);
+  }
+
+  :global(.dark) .btn-primary {
+    background-color: #5b8ce0;
+    border-color: #5b8ce0;
+  }
+
+  :global(.dark) .btn-primary:hover {
+    background-color: #4a7bc8;
+    border-color: #4a7bc8;
+    box-shadow: 0 4px 8px rgba(91, 140, 224, 0.3);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: #4267b2;
+    border: 2px solid #4267b2;
+  }
+
+  .btn-secondary:hover {
+    background-color: #4267b2;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(66, 103, 178, 0.3);
+  }
+
+  :global(.dark) .btn-secondary {
+    color: #5b8ce0;
+    border-color: #5b8ce0;
+  }
+
+  :global(.dark) .btn-secondary:hover {
+    background-color: #5b8ce0;
+    color: white;
+    box-shadow: 0 4px 8px rgba(91, 140, 224, 0.3);
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .error-code {
+      font-size: 6rem;
+    }
+
+    .error-title {
+      font-size: 1.5rem;
+    }
+
+    .error-message {
+      font-size: 1rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  /* Animation */
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .error-container {
+    animation: slideUp 0.4s ease-out;
+  }
+</style>

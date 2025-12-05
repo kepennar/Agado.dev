@@ -1,0 +1,139 @@
+---
+// Table of Contents component - displays navigation links for blog post headings
+// Extracts H2 headings from rich text content and creates anchor links
+// Task T046
+
+import type { Document } from '@contentful/rich-text-types'
+import { extractTableOfContents } from '@/lib/toc-extractor'
+
+interface Props {
+  content: Document
+  locale?: 'fr' | 'en'
+}
+
+const { content, locale = 'fr' } = Astro.props
+
+// Extract H2 headings for table of contents
+const tocItems = extractTableOfContents(content)
+
+// Only show TOC if there are at least 2 headings
+const showToc = tocItems.length >= 2
+
+// Get translated title
+const tocTitle = locale === 'en' ? 'Table of Contents' : 'Table des matières'
+---
+
+{showToc && (
+  <nav class="toc" id="toc">
+    <h2 class="toc-title">{tocTitle}</h2>
+    <ul class="toc-list">
+      {tocItems.map((item) => (
+        <li class:list={[`toc-item toc-level-${item.level}`]}>
+          <a href={`#${item.id}`} class="toc-link">
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc {
+    background-color: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  :global(.dark) .toc {
+    background-color: #2d2d2d;
+    border-color: #444;
+  }
+
+  .toc-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+  }
+
+  :global(.dark) .toc-title {
+    color: #f5f5f5;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .toc-link {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+    display: inline-block;
+  }
+
+  .toc-link:hover {
+    color: #0052a3;
+    text-decoration: underline;
+  }
+
+  :global(.dark) .toc-link {
+    color: #4da6ff;
+  }
+
+  :global(.dark) .toc-link:hover {
+    color: #66b3ff;
+  }
+
+  /* Indent nested headings */
+  .toc-level-2 {
+    padding-left: 0;
+  }
+
+  .toc-level-3 {
+    padding-left: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .toc-level-4 {
+    padding-left: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .toc-level-5 {
+    padding-left: 3rem;
+    font-size: 0.85rem;
+  }
+
+  .toc-level-6 {
+    padding-left: 4rem;
+    font-size: 0.8rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .toc {
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .toc-title {
+      font-size: 1.1rem;
+    }
+
+    .toc-level-3,
+    .toc-level-4,
+    .toc-level-5,
+    .toc-level-6 {
+      padding-left: 1rem;
+    }
+  }
+</style>

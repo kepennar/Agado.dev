@@ -1,0 +1,20 @@
+---
+// Footer component - Simple copyright footer
+
+interface Props {
+  madeWith: string;
+  by: string;
+  copyright: string;
+}
+
+const { copyright } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="site-footer relative z-10 text-center py-6 text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-800"
+>
+  <p class="text-sm print:hidden">
+    {copyright.replace('{year}', String(year))}
+  </p>
+</footer>

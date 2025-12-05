@@ -1,0 +1,46 @@
+---
+// Socials component - displays social media links
+// Migrated from Gatsby/src/components/Socials.component.tsx
+// Updated to use Astro Image component for optimization
+
+import { Image } from "astro:assets";
+import { getImageMetadata } from "@/lib/contentful";
+import type { Social } from "@/lib/contentful.types";
+
+interface Props {
+  socials: Social[];
+}
+
+const { socials } = Astro.props;
+---
+
+<div class="flex">
+  <div
+    class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/10 gap-12"
+  >
+    {
+      socials.map((social) => {
+        const imageData = getImageMetadata(social.fields.picto);
+        return (
+          <a
+            href={social.fields.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="h-6 print:h-4 sm:h-7 hover:opacity-80 hover:scale-110 transition-all duration-200"
+            title={social.fields.label}
+          >
+            <Image
+              src={imageData.src}
+              alt={imageData.alt || `${social.fields.label} logo`}
+              width={imageData.width}
+              height={imageData.height}
+              class="h-full w-auto"
+              loading="eager"
+              format="webp"
+            />
+          </a>
+        );
+      })
+    }
+  </div>
+</div>

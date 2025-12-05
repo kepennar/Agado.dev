@@ -1,0 +1,122 @@
+---
+// Header component - Hero section (homepage) or simple header (other pages)
+// Hero shows only the first paragraph of the CMS abstract as a short intro.
+
+import type { Abstract, Social } from "@/lib/contentful.types";
+import RichText from "./ContentfulRichText/RichText.astro";
+import Socials from "./Socials.astro";
+
+interface Props {
+  siteTitle?: string;
+  subtitle?: string;
+  translations?: {
+    heroLabel: string;
+    heroSubtitle: string;
+    seeExperienceBtn: string;
+  };
+  abstract?: Abstract;
+  socials?: Social[];
+}
+
+const {
+  siteTitle = "",
+  subtitle,
+  translations,
+  abstract,
+  socials,
+} = Astro.props;
+const isHero = !!translations;
+
+// Extract only the first paragraph from the abstract for the hero intro
+let heroIntroContent: any = null;
+const abstractDoc = abstract?.fields?.content as any;
+if (abstractDoc) {
+  const firstParagraph = abstractDoc.content?.find(
+    (node: any) => node.nodeType === "paragraph",
+  );
+  if (firstParagraph) {
+    heroIntroContent = {
+      ...abstractDoc,
+      content: [firstParagraph],
+    };
+  }
+}
+---
+
+{
+  isHero ? (
+    <header
+      id="about"
+      class="pt-16 pb-12 sm:pt-20 sm:pb-16 print:pt-4 print:pb-0"
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="hero-text text-center">
+          <span class="inline-block text-xs font-semibold tracking-[0.1em] uppercase text-primary dark:text-[#8ab4f8] mb-4 font-sans">
+            {translations.heroLabel}
+          </span>
+          <h1 class="text-[2.75rem] sm:text-[2.75rem] max-sm:text-[2rem] font-extrabold leading-tight mb-2 text-gray-900 dark:text-gray-50">
+            {siteTitle}
+          </h1>
+          <h2 class="text-xl max-sm:text-lg font-medium text-primary dark:text-[#8ab4f8] mb-5 font-sans">
+            {translations.heroSubtitle}
+          </h2>
+          {heroIntroContent && (
+            <div class="text-[0.95rem] leading-relaxed text-gray-600 dark:text-gray-400 mb-6 max-w-[600px] mx-auto">
+              <RichText content={heroIntroContent} />
+            </div>
+          )}
+          {socials && socials.length > 0 && (
+            <div class="flex justify-center mb-6">
+              <Socials socials={socials} />
+            </div>
+          )}
+          <div class="flex gap-4 flex-wrap justify-center">
+            <a href="#experience" class="btn-outline">
+              {translations.seeExperienceBtn}
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+  ) : (
+    <header class="pt-12 pb-4 print:pt-4 print:pb-0">
+      <div class="max-w-[85%] p-6 mx-auto sm:max-w-full sm:p-0 sm:text-center">
+        <h1 class="header-title text-3xl dark:text-gray-50">{siteTitle}</h1>
+        {subtitle && (
+          <h2 class="header-subtitle m-0 print:hidden">{subtitle}</h2>
+        )}
+      </div>
+    </header>
+  )
+}
+
+<style>
+  @keyframes slideUp {
+    from {
+      transform: translateY(12px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .header-title {
+    animation: slideUp 0.4s ease-out both;
+  }
+
+  .header-subtitle {
+    animation: slideUp 0.4s ease-out 0.1s both;
+  }
+
+  .hero-text {
+    animation: slideUp 0.4s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-title,
+    .header-subtitle,
+    .hero-text {
+      animation: none;
+    }
+  }
+</style>
