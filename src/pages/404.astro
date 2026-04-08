@@ -14,16 +14,22 @@ const lang: Language = url.pathname.startsWith("/en") ? "en" : "fr";
 const t = getTranslations(lang);
 ---
 
-<Layout
-  title={t.notFound.title}
-  description={t.notFound.message}
-  lang={lang}
->
+<Layout title={t.notFound.title} description={t.notFound.message} lang={lang}>
   <div class="min-h-screen pt-16">
     <div class="fixed w-full top-0 z-50">
       <Navbar
         currentLanguage={lang}
-        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+        translations={{
+          articles: t.nav.articles,
+          brand: t.nav.brand,
+          about: t.nav.about,
+          expertises: t.nav.expertises,
+          experience: t.nav.experience,
+          posts: t.nav.posts,
+          toggleDarkMode: t.aria.toggleDarkMode,
+          switchToLight: t.aria.switchToLight,
+          switchToDark: t.aria.switchToDark,
+        }}
       />
     </div>
 
@@ -48,10 +54,7 @@ const t = getTranslations(lang);
             {t.notFound.backHome}
           </a>
 
-          <a
-            href={localizedUrl("/blog", lang)}
-            class="btn btn-secondary"
-          >
+          <a href={localizedUrl("/blog", lang)} class="btn btn-secondary">
             {t.nav.articles}
           </a>
         </div>
@@ -60,7 +63,11 @@ const t = getTranslations(lang);
       <Spacer direction="vertical" size="4rem" />
     </main>
 
-    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+    <Footer
+      madeWith={t.footer.madeWith}
+      by={t.footer.by}
+      copyright={t.footer.copyright}
+    />
   </div>
 </Layout>
 

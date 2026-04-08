@@ -9,7 +9,11 @@ import Navbar from "@/components/Navbar.astro";
 import TechnicalMastery from "@/components/TechnicalMastery.astro";
 
 import type { Language } from "@/i18n/i18n.model";
-import { getTranslations, getContentfulLocaleParam, localizedUrl } from "@/i18n/i18n.model";
+import {
+  getTranslations,
+  getContentfulLocaleParam,
+  localizedUrl,
+} from "@/i18n/i18n.model";
 import {
   getAbstract,
   getBlogPosts,
@@ -47,9 +51,10 @@ if (!slogan || !abstract) {
         translations={{
           brand: t.nav.brand,
           about: t.nav.about,
-          services: t.nav.services,
+          expertises: t.nav.expertises,
           experience: t.nav.experience,
           posts: t.nav.posts,
+          articles: t.nav.articles,
           toggleDarkMode: t.aria.toggleDarkMode,
           switchToLight: t.aria.switchToLight,
           switchToDark: t.aria.switchToDark,
@@ -120,7 +125,11 @@ if (!slogan || !abstract) {
       />
     </div>
 
-    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+    <Footer
+      madeWith={t.footer.madeWith}
+      by={t.footer.by}
+      copyright={t.footer.copyright}
+    />
   </div>
 </Layout>
 

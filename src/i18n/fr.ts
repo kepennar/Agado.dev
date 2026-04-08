@@ -8,7 +8,7 @@ export const fr = {
     articles: 'Articles',
     brand: 'Portfolio Ingénieur',
     about: 'À propos',
-    services: 'Services',
+    expertises: 'Expertises',
     experience: 'Expérience',
     posts: 'Articles',
   },

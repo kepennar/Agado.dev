@@ -141,7 +141,7 @@ function createRenderOptions() {
       },
 
       // Render table rows: first row uses <th>, subsequent rows use <td>
-      [BLOCKS.TABLE]: (node: any, next: any) => {
+      [BLOCKS.TABLE]: (node: any) => {
         const rows = node.content || [];
         if (rows.length === 0) return '<table></table>';
 

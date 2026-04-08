@@ -7,16 +7,15 @@ import LanguageSwitch from "./LanguageSwitch.astro";
 interface Props {
   currentLanguage: "fr" | "en";
   translations: {
-    brand?: string;
-    about?: string;
-    services?: string;
-    experience?: string;
-    posts?: string;
-    talk?: string;
-    articles?: string;
-    toggleDarkMode?: string;
-    switchToLight?: string;
-    switchToDark?: string;
+    brand: string;
+    about: string;
+    expertises: string;
+    experience: string;
+    posts: string;
+    articles: string;
+    toggleDarkMode: string;
+    switchToLight: string;
+    switchToDark: string;
   };
 }
 
@@ -32,10 +31,10 @@ const hasFullNav = !!translations.brand;
 
 const navLinks = hasFullNav
   ? [
-      { label: translations.about!, href: "#about" },
-      { label: translations.services!, href: "#services" },
-      { label: translations.experience!, href: "#experience" },
-      { label: translations.posts!, href: "#posts" },
+      { label: translations.about, href: "#about" },
+      { label: translations.expertises, href: "#services" },
+      { label: translations.experience, href: "#experience" },
+      { label: translations.posts, href: "#posts" },
     ]
   : [];
 
@@ -51,7 +50,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
       href={homeUrl}
       class="text-lg font-bold text-gray-900 dark:text-white no-underline whitespace-nowrap hover:text-primary dark:hover:text-link-dark transition-colors"
     >
-      {translations.brand || "Engineer Portfolio"}
+      {translations.brand}
     </a>
 
     <!-- Nav Links (desktop) -->
@@ -73,7 +72,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
             href={blogUrl}
             class="text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
           >
-            {translations.articles || "Articles"}
+            {translations.articles}
           </a>
         </div>
       )

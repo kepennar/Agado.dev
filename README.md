@@ -26,10 +26,6 @@ Modern personal portfolio and technical blog built with Astro, featuring content
 - ✅ Progressive image loading (lazy load, WebP support)
 - ✅ PWA manifest
 
-## Quick Start
-
-For detailed setup instructions, see [specs/001-gatsby-to-astro/quickstart.md](../specs/001-gatsby-to-astro/quickstart.md)
-
 ### Prerequisites
 
 - Node.js 20+ (LTS)
@@ -57,6 +53,22 @@ pnpm build
 ```
 
 Output: `dist/` directory
+
+### End-to-end tests
+
+Playwright is configured to build the site and start `astro preview` automatically before running tests.
+
+```bash
+pnpm test:e2e
+```
+
+Useful variants:
+
+```bash
+pnpm test:e2e:headed
+pnpm test:e2e:ui
+pnpm test:e2e:report
+```
 
 ## Deployment
 

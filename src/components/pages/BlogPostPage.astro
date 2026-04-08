@@ -11,7 +11,12 @@ import ShareButtons from "@/components/ShareButtons.astro";
 import { getBlogPost } from "@/lib/contentful";
 import { estimateReadingTime } from "@/lib/reading-time";
 import type { Language } from "@/i18n/i18n.model";
-import { getTranslations, getContentfulLocaleParam, getDateLocale, localizedUrl } from "@/i18n/i18n.model";
+import {
+  getTranslations,
+  getContentfulLocaleParam,
+  getDateLocale,
+  localizedUrl,
+} from "@/i18n/i18n.model";
 
 interface Props {
   slug: string;
@@ -66,7 +71,17 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
     <div class="fixed w-full top-0 z-50">
       <Navbar
         currentLanguage={lang}
-        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+        translations={{
+          articles: t.nav.articles,
+          brand: t.nav.brand,
+          about: t.nav.about,
+          expertises: t.nav.expertises,
+          experience: t.nav.experience,
+          posts: t.nav.posts,
+          toggleDarkMode: t.aria.toggleDarkMode,
+          switchToLight: t.aria.switchToLight,
+          switchToDark: t.aria.switchToDark,
+        }}
       />
     </div>
 
@@ -94,7 +109,11 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
 
       <Spacer direction="vertical" size="1rem" />
 
-      {post.fields.content && <Toc content={post.fields.content} locale={lang} />}
+      {
+        post.fields.content && (
+          <Toc content={post.fields.content} locale={lang} />
+        )
+      }
 
       <Spacer direction="vertical" size="2rem" />
 
@@ -124,7 +143,11 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
       </div>
     </main>
 
-    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+    <Footer
+      madeWith={t.footer.madeWith}
+      by={t.footer.by}
+      copyright={t.footer.copyright}
+    />
   </div>
 </Layout>
 

@@ -10,7 +10,7 @@ export const en: Translations = {
     articles: 'Articles',
     brand: 'Engineer Portfolio',
     about: 'About',
-    services: 'Services',
+    expertises: 'Expertises',
     experience: 'Experience',
     posts: 'Posts',
   },

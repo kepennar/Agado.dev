@@ -8,7 +8,11 @@ import Spacer from "@/components/Spacer.astro";
 import { getBlogPosts } from "@/lib/contentful";
 import { estimateReadingTime } from "@/lib/reading-time";
 import type { Language } from "@/i18n/i18n.model";
-import { getTranslations, getContentfulLocaleParam, localizedUrl } from "@/i18n/i18n.model";
+import {
+  getTranslations,
+  getContentfulLocaleParam,
+  localizedUrl,
+} from "@/i18n/i18n.model";
 
 const lang = (Astro.currentLocale || "fr") as Language;
 const t = getTranslations(lang);
@@ -25,7 +29,17 @@ const pageDescription = t.blog.subtitle;
     <div class="fixed w-full top-0 z-50">
       <Navbar
         currentLanguage={lang}
-        translations={{ articles: t.nav.articles, toggleDarkMode: t.aria.toggleDarkMode, switchToLight: t.aria.switchToLight, switchToDark: t.aria.switchToDark }}
+        translations={{
+          articles: t.nav.articles,
+          brand: t.nav.brand,
+          about: t.nav.about,
+          expertises: t.nav.expertises,
+          experience: t.nav.experience,
+          posts: t.nav.posts,
+          toggleDarkMode: t.aria.toggleDarkMode,
+          switchToLight: t.aria.switchToLight,
+          switchToDark: t.aria.switchToDark,
+        }}
       />
     </div>
     <Header siteTitle={t.blog.title} subtitle={t.blog.subtitle} />
@@ -35,7 +49,15 @@ const pageDescription = t.blog.subtitle;
         posts.length > 0 ? (
           <div class="blog-posts-container">
             {posts.map((post) => (
-              <BlogLink blogPost={post} locale={lang} readingTime={post.fields.content ? estimateReadingTime(post.fields.content) : undefined} />
+              <BlogLink
+                blogPost={post}
+                locale={lang}
+                readingTime={
+                  post.fields.content
+                    ? estimateReadingTime(post.fields.content)
+                    : undefined
+                }
+              />
             ))}
           </div>
         ) : (
@@ -56,7 +78,11 @@ const pageDescription = t.blog.subtitle;
       </div>
     </main>
 
-    <Footer madeWith={t.footer.madeWith} by={t.footer.by} copyright={t.footer.copyright} />
+    <Footer
+      madeWith={t.footer.madeWith}
+      by={t.footer.by}
+      copyright={t.footer.copyright}
+    />
   </div>
 </Layout>
 
