@@ -1,6 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const port = 4321;
+const webServerCommand = process.env.PLAYWRIGHT_SKIP_BUILD === '1'
+  ? `pnpm preview --host 127.0.0.1 --port ${port}`
+  : `pnpm build && pnpm preview --host 127.0.0.1 --port ${port}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -23,7 +26,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `pnpm build && pnpm preview --host 127.0.0.1 --port ${port}`,
+    command: webServerCommand,
     url: `http://127.0.0.1:${port}`,
     reuseExistingServer: !process.env.CI,
   },

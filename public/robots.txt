@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 # Sitemap location
-Sitemap: https://agado.dev/sitemap.xml
+Sitemap: https://agado.dev/sitemap-index.xml

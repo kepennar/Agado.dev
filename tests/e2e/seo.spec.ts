@@ -36,12 +36,19 @@ test.describe('SEO features for Agado.dev', () => {
   });
 
   test('Sitemap is available and up-to-date', async ({ page, request }) => {
-    const response = await request.get('/sitemap.xml');
-    expect(response.ok()).toBeTruthy();
-    expect(response.headers()['content-type']).toMatch(/(application|text)\/xml/);
+    const sitemapIndexResponse = await request.get('/sitemap-index.xml');
+    expect(sitemapIndexResponse.ok()).toBeTruthy();
+    expect(sitemapIndexResponse.headers()['content-type']).toMatch(/(application|text)\/xml/);
 
-    const sitemap = await response.text();
-    expect(sitemap).toContain('https://agado.dev/');
+    const sitemapIndex = await sitemapIndexResponse.text();
+    expect(sitemapIndex).toContain('https://agado.dev/sitemap-0.xml');
+
+    const sitemapResponse = await request.get('/sitemap-0.xml');
+    expect(sitemapResponse.ok()).toBeTruthy();
+    expect(sitemapResponse.headers()['content-type']).toMatch(/(application|text)\/xml/);
+
+    const sitemap = await sitemapResponse.text();
+    expect(sitemap).toContain('https://agado.dev');
     expect(sitemap).toContain('https://agado.dev/blog');
     expect(sitemap).toContain('https://agado.dev/en/blog');
 
@@ -58,6 +65,6 @@ test.describe('SEO features for Agado.dev', () => {
     const robots = await response.text();
     expect(robots).toContain('User-agent: *');
     expect(robots).toContain('Allow: /');
-    expect(robots).toContain('Sitemap: https://agado.dev/sitemap.xml');
+    expect(robots).toContain('Sitemap: https://agado.dev/sitemap-index.xml');
   });
 });
