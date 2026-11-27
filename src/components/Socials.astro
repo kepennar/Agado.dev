@@ -17,7 +17,7 @@ const { socials } = Astro.props;
 
 <div class="flex">
   <!-- Light backdrop in dark mode too: the logos are dark on transparent -->
-  <div class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/90 gap-12">
+  <div class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/90 gap-8 sm:gap-12">
     {socials.map((social) => {
       const imageData = getImageMetadata(social.fields.picto);
       // Displayed at most 28px tall (sm:h-7): serve 2x for high-DPI screens

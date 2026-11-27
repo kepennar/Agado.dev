@@ -17,7 +17,7 @@ export const fr = {
   common: {
     readMore: "Lire la suite",
     published: "Publié le",
-    backToHome: "Retour à l'accueil",
+    backToHome: "Retour à l’accueil",
     backToBlog: "Retour aux articles",
     tableOfContents: "Table des matières",
     loading: "Chargement...",
@@ -32,7 +32,7 @@ export const fr = {
     latestPosts: "Derniers articles",
     heroLabel: "Explorer & Itérer",
     heroSubtitle: "Ingénieur Logiciel & Architecte Systèmes",
-    seeExperienceBtn: "Voir l'expérience",
+    seeExperienceBtn: "Voir l’expérience",
     // Section labels
     keyDifferentiators: "POINTS FORTS",
     coreCompetencies: "COMPÉTENCES CLÉS",
@@ -40,9 +40,9 @@ export const fr = {
     publishedArticles: "ARTICLES PUBLIÉS",
     // Key Differentiators
     differentiatorQuote2:
-      "\"Le bon engineering, ce n'est pas seulement écrire du code. C'est créer des systèmes qui perdurent et évoluent, à la croisée des besoins utilisateurs et des enjeux métier.\"",
+      '"Le bon engineering, ce n’est pas seulement écrire du code. C’est créer des systèmes qui perdurent et évoluent, à la croisée des besoins utilisateurs et des enjeux métier."',
     // Technical Mastery
-    technicalMasteryTitle: "Domaines d'expertise technique",
+    technicalMasteryTitle: "Domaines d’expertise technique",
     skillArchitectureTitle: "Architecture technique",
     skillArchitectureDesc:
       "Conception de systèmes de bout en bout avec un focus sur les microservices, les architectures événementielles et les solutions cloud-native évolutives.",
@@ -54,7 +54,7 @@ export const fr = {
       "Mentorat de développeurs et développement de la culture engineering à travers les revues de code, le pair programming et les ateliers techniques.",
     skillIntegrationTitle: "Intégration de systèmes",
     skillIntegrationDesc:
-      "Interconnexion de systèmes d'entreprise hétérogènes via des APIs propres, des patterns de messaging et des architectures de flux de données.",
+      "Interconnexion de systèmes d’entreprise hétérogènes via des APIs propres, des patterns de messaging et des architectures de flux de données.",
     skillPerformanceTitle: "Optimisation des performances",
     skillPerformanceDesc:
       "Profilage, benchmarking et optimisation des applications pour un débit maximal et une latence minimale.",
@@ -84,8 +84,8 @@ export const fr = {
   // 404
   notFound: {
     title: "Page introuvable",
-    message: "Désolé, la page que vous recherchez n'existe pas.",
-    backHome: "Retour à l'accueil",
+    message: "Désolé, la page que vous recherchez n’existe pas.",
+    backHome: "Retour à l’accueil",
   },
 
   // SEO

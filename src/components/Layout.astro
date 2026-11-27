@@ -165,9 +165,10 @@ const imageURL = image.startsWith("http")
     <meta name="theme-color" content="#ffffff" />
   </head>
   <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
+    <!-- Shown below the fixed 64px navbar so it does not cover the brand -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-primary dark:focus:bg-gray-800 dark:focus:text-link-dark"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-20 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:bg-white focus:text-primary dark:focus:bg-gray-800 dark:focus:text-link-dark"
     >
       {getTranslations(lang).aria.skipToContent}
     </a>

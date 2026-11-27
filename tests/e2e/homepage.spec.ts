@@ -46,7 +46,7 @@ test.describe("Homepage layout, navigation, and main content", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Voir l'expérience" }),
+      page.getByRole("link", { name: "Voir l’expérience" }),
     ).toBeVisible();
   });
 
