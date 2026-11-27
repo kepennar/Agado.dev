@@ -53,15 +53,22 @@ test.describe("Homepage layout, navigation, and main content", () => {
   test("Responsive layout adapts to screen size", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    const menuButton = page.getByRole("button", { name: "Toggle menu" });
-    await expect(menuButton).toBeVisible();
+    const menuButton = page.locator(".mobile-menu-btn");
+    await expect(menuButton).toHaveAccessibleName("Ouvrir le menu");
+    await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 
     await menuButton.click();
 
     await expect(page.locator(".mobile-menu")).toBeVisible();
+    await expect(menuButton).toHaveAccessibleName("Fermer le menu");
+    await expect(menuButton).toHaveAttribute("aria-expanded", "true");
     await expect(
       page.locator(".mobile-menu").getByRole("link", { name: "À propos" }),
     ).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".mobile-menu")).toBeHidden();
+    await expect(menuButton).toBeFocused();
     await expect(
       page.getByRole("heading", { level: 1, name: "Kevin Pennarun" }),
     ).toBeVisible();
