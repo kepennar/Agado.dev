@@ -179,9 +179,10 @@ const imageURL = image.startsWith("http")
     <ClientRouter />
   </head>
   <body class="bg-bp-bg text-bp-ink min-h-screen">
+    <!-- Shown below the fixed 64px navbar so it does not cover the brand -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:border focus:border-bp-accent focus:bg-bp-surface focus:text-bp-accent focus:font-mono focus:text-sm"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-20 focus:left-4 focus:shadow-lg focus:z-[60] focus:px-4 focus:py-2 focus:border focus:border-bp-accent focus:bg-bp-surface focus:text-bp-accent focus:font-mono focus:text-sm"
     >
       {getTranslations(lang).aria.skipToContent}
     </a>
