@@ -74,8 +74,8 @@ When creating code blocks in Contentful rich text, use standard markdown code fe
 
 \`\`\`typescript
 function example() {
-  const old = "value"; // [!code --]
-  const new = "value"; // [!code ++]
+const old = "value"; // [!code --]
+const new = "value"; // [!code ++]
 }
 \`\`\`
 
@@ -89,7 +89,7 @@ import {
   transformerNotationHighlight,
   transformerNotationFocus,
   transformerNotationErrorLevel,
-} from '@shikijs/transformers';
+} from "@shikijs/transformers";
 
 export default defineConfig({
   markdown: {

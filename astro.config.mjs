@@ -1,13 +1,12 @@
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
-
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
   i18n: {
-    defaultLocale: 'fr',
-    locales: ['fr', 'en'],
+    defaultLocale: "fr",
+    locales: ["fr", "en"],
     routing: {
       prefixDefaultLocale: false,
     },
@@ -15,10 +14,10 @@ export default defineConfig({
   integrations: [
     sitemap({
       i18n: {
-        defaultLocale: 'fr',
+        defaultLocale: "fr",
         locales: {
-          fr: 'fr-FR',
-          en: 'en-US',
+          fr: "fr-FR",
+          en: "en-US",
         },
       },
     }),
@@ -26,13 +25,13 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-   build: {
+  build: {
     inlineStylesheets: "always",
   },
   image: {
-    domains: ['images.ctfassets.net'], // Allow Contentful CDN
-    remotePatterns: [{ protocol: 'https' }],
+    domains: ["images.ctfassets.net"], // Allow Contentful CDN
+    remotePatterns: [{ protocol: "https" }],
   },
-  site: 'https://agado.dev',
-  trailingSlash: 'never',
+  site: "https://agado.dev",
+  trailingSlash: "never",
 });

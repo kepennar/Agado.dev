@@ -13,7 +13,8 @@ interface Props {
   sectionLabel: string;
 }
 
-const { posts, locale, title, seeAllText, seeAllUrl, sectionLabel } = Astro.props;
+const { posts, locale, title, seeAllText, seeAllUrl, sectionLabel } =
+  Astro.props;
 
 // Take only first 3
 const latestPosts = posts.slice(0, 3);
@@ -28,7 +29,9 @@ function getAbstractImageUrl(post: BlogPost): string | null {
       const asset = (node as any).data?.target;
       if (asset?.fields?.file?.url) {
         const url = asset.fields.file.url as string;
-        return url.startsWith("//") ? `https:${url}?w=600&fm=webp&q=80` : `${url}?w=600&fm=webp&q=80`;
+        return url.startsWith("//")
+          ? `https:${url}?w=600&fm=webp&q=80`
+          : `${url}?w=600&fm=webp&q=80`;
       }
     }
   }

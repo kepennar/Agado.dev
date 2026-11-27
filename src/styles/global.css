@@ -23,13 +23,20 @@
 
 body {
   @apply bg-white dark:bg-gray-900 text-black dark:text-white;
-  font: 112.5%/1.45em Spectral,serif;
+  font:
+    112.5% / 1.45em Spectral,
+    serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Ubuntu", sans-serif;
 }
 
@@ -47,7 +54,11 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0.5rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: pointer;
   background: transparent;
   font-size: 1rem;
