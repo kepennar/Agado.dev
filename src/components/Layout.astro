@@ -1,10 +1,12 @@
 ---
 // Layout component with SEO meta tags
 
+import monoRegular from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
 // Import critical font files to get hashed URLs for preloading
 import spectralRegular from "@fontsource/spectral/files/spectral-latin-400-normal.woff2?url";
 import ubuntuRegular from "@fontsource/ubuntu/files/ubuntu-latin-400-normal.woff2?url";
 import ubuntuBold from "@fontsource/ubuntu/files/ubuntu-latin-700-normal.woff2?url";
+import { ClientRouter } from "astro:transitions";
 
 import { getTranslations } from "@/i18n/i18n.model";
 
@@ -48,25 +50,28 @@ const imageURL = image.startsWith("http")
 
     <!-- Inline script runs before render to prevent flash -->
     <script is:inline>
-      const theme = (() => {
-        if (
-          typeof localStorage !== "undefined" &&
-          localStorage.getItem("theme")
-        ) {
-          return localStorage.getItem("theme");
+      (function () {
+        function applyTheme() {
+          var theme =
+            typeof localStorage !== "undefined" && localStorage.getItem("theme")
+              ? localStorage.getItem("theme")
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          window.__theme = theme;
+          // Absent on the first run (meta comes later in <head>); DarkModeSwitch sets it then
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta)
+            meta.setAttribute(
+              "content",
+              theme === "dark" ? "#06101e" : "#f5f7fb",
+            );
         }
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          return "dark";
-        }
-        return "light";
+        applyTheme();
+        // View transitions copy <html> attributes from the new page: re-apply the theme
+        document.addEventListener("astro:after-swap", applyTheme);
       })();
-
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-      window.__theme = theme;
     </script>
 
     <!-- Client-side language detection for SSG (FR-031) -->
@@ -156,19 +161,28 @@ const imageURL = image.startsWith("http")
       type="font/woff2"
       crossorigin
     />
+    <link
+      rel="preload"
+      href={monoRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- PWA Manifest (FR-023) -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#f5f7fb" />
+
+    <ClientRouter />
   </head>
-  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
+  <body class="bg-bp-bg text-bp-ink min-h-screen">
     <!-- Shown below the fixed 64px navbar so it does not cover the brand -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-20 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:bg-white focus:text-primary dark:focus:bg-gray-800 dark:focus:text-link-dark"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-20 focus:left-4 focus:shadow-lg focus:z-[60] focus:px-4 focus:py-2 focus:border focus:border-bp-accent focus:bg-bp-surface focus:text-bp-accent focus:font-mono focus:text-sm"
     >
       {getTranslations(lang).aria.skipToContent}
     </a>

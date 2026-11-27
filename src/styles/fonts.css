@@ -68,3 +68,23 @@
   src: url("@fontsource/ubuntu/files/ubuntu-latin-700-normal.woff2")
     format("woff2");
 }
+
+/* JetBrains Mono - Regular (400): labels, metadata, diagram */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2")
+    format("woff2");
+}
+
+/* JetBrains Mono - Medium (500) */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2")
+    format("woff2");
+}

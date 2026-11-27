@@ -61,6 +61,21 @@ export const fr = {
     // Timeline
     timelineTitle: "La chronologie",
     showMore: "VOIR +",
+    // Hero diagram: one-line notes per node (grounded in the experiences)
+    diagram: {
+      label: "Schéma interactif : boucle d’un agent",
+      orchestrator: "orchestrateur",
+      notes: {
+        orchestrator: "Des systèmes qui perdurent et évoluent",
+        plan: "Discovery et architecture avant d’écrire le code",
+        act: "Livrer par incréments via une CI/CD automatisée",
+        observe: "Observabilité de bout en bout, retours utilisateurs",
+        reflect: "Amélioration continue des pratiques et du legacy",
+        tools: "APIs propres, patterns de messaging, flux de données",
+        memory: "Architecture partagée, mentorat, montée en compétences",
+        human: "Revue de code et pair programming",
+      },
+    },
   },
 
   // Blog

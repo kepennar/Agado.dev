@@ -71,23 +71,18 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     align-items: center;
     gap: 1rem;
     padding: 1.5rem 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
-  }
-
-  :global(.dark) .share-buttons {
-    border-top-color: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--bp-line);
+    margin-top: 2.5rem;
   }
 
   .share-label {
-    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 500;
-    color: #666;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bp-faint);
     white-space: nowrap;
-  }
-
-  :global(.dark) .share-label {
-    color: #999;
   }
 
   .share-icons {
@@ -101,9 +96,9 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     align-items: center;
     gap: 0.4rem;
     padding: 0.5rem 0.75rem;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 6px;
-    color: #555;
+    border: 1px solid var(--bp-line-strong);
+    border-radius: 2px;
+    color: var(--bp-muted);
     background: transparent;
     text-decoration: none;
     font-size: 0.85rem;
@@ -112,28 +107,17 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
       color 0.2s ease,
       border-color 0.2s ease,
       background-color 0.2s ease;
-    font-family: inherit;
+    font-family: var(--font-mono);
   }
 
   .share-btn:hover {
-    color: var(--color-primary, #3457a0);
-    border-color: var(--color-primary, #3457a0);
-    background-color: rgba(52, 87, 160, 0.05);
-  }
-
-  :global(.dark) .share-btn {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #aaa;
-  }
-
-  :global(.dark) .share-btn:hover {
-    color: #8ab4f8;
-    border-color: #8ab4f8;
-    background-color: rgba(138, 180, 248, 0.08);
+    color: var(--bp-accent);
+    border-color: var(--bp-accent);
   }
 
   .copy-link-text {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
   }
 
   @media (max-width: 480px) {
@@ -155,7 +139,8 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var btns = document.querySelectorAll(".copy-link-btn");
     btns.forEach(function (btn) {

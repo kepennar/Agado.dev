@@ -40,18 +40,27 @@ const publishDate = blogPost.fields.publishDate
 const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
 ---
 
-<a href={blogUrl} class="blog-link">
-  <article class="blog-link-container">
-    <h2 class="blog-title">{blogPost.fields.title}</h2>
+<a
+  href={blogUrl}
+  class="blog-link"
+  style={`--vt-cover: post-cover-${blogPost.fields.slug}`}
+>
+  <article class="blog-link-container bp-panel bp-panel-hover">
+    <h2
+      class="blog-title"
+      style={`view-transition-name: post-title-${blogPost.fields.slug}; view-transition-class: vt-title`}
+    >
+      {blogPost.fields.title}
+    </h2>
 
     {publishDate && (
-      <div class="blog-meta">
+      <div class="blog-meta bp-meta">
         <time class="blog-date" datetime={blogPost.fields.publishDate}>
           {publishDate}
         </time>
         {readingTime && (
           <span class="blog-reading-time">
-            &middot; {readingTime} {readingTimeLabel}
+            <span aria-hidden="true">/</span> {readingTime} {readingTimeLabel}
           </span>
         )}
       </div>
@@ -86,136 +95,83 @@ const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
 
 <style>
   .blog-link {
-    text-decoration: none;
-    color: inherit;
     display: block;
-    margin-bottom: 2rem;
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-    border-radius: 8px;
-  }
-
-  .blog-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-
-  :global(.dark) .blog-link:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.25rem;
+    color: inherit;
+    text-decoration: none;
   }
 
   .blog-link-container {
-    padding: 1.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-left: 3px solid transparent;
-    border-radius: 8px;
-    transition: border-color 0.2s ease;
-  }
-
-  :global(.dark) .blog-link-container {
-    border-color: rgba(255, 255, 255, 0.1);
-    border-left-color: transparent;
-  }
-
-  .blog-link:hover .blog-link-container {
-    border-color: rgba(0, 0, 0, 0.2);
-    border-left-color: var(--color-primary, #3457a0);
-  }
-
-  :global(.dark) .blog-link:hover .blog-link-container {
-    border-color: rgba(255, 255, 255, 0.2);
-    border-left-color: var(--color-primary, #3457a0);
+    padding: 1.75rem;
   }
 
   .blog-title {
-    font-size: 1.75rem;
+    margin: 0 0 0.75rem 0;
+    font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.65rem);
     font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    color: #1a1a1a;
-    line-height: 1.3;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--bp-ink);
     transition: color 0.2s ease;
   }
 
   .blog-link:hover .blog-title {
-    color: var(--color-primary, #3457a0);
-  }
-
-  :global(.dark) .blog-title {
-    color: #f5f5f5;
-  }
-
-  :global(.dark) .blog-link:hover .blog-title {
-    color: #8ab4f8;
+    color: var(--bp-accent);
   }
 
   .blog-meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1rem;
-  }
-
-  .blog-date {
-    font-size: 0.875rem;
-    color: #666;
-    font-style: italic;
-  }
-
-  :global(.dark) .blog-date {
-    color: #999;
-  }
-
-  .blog-reading-time {
-    font-size: 0.875rem;
-    color: #666;
-    font-style: italic;
-  }
-
-  :global(.dark) .blog-reading-time {
-    color: #999;
+    text-transform: uppercase;
   }
 
   .blog-abstract {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    color: var(--bp-muted);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  :global(.dark) .blog-abstract {
-    color: #ccc;
+  .blog-abstract :global(.cms-content) {
+    font-size: 1.0625rem;
+    color: inherit;
   }
 
   /* Style images in abstract */
+  /* The abstract opens with the post cover: it morphs into the article's cover */
+  .blog-abstract
+    :global(
+      :is(
+        .cms-content > img.rich-text-image:first-child,
+        .cms-content > picture.rich-text-image:first-child img
+      )
+    ) {
+    view-transition-name: var(--vt-cover);
+    view-transition-class: vt-cover;
+  }
+
   .blog-abstract :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
+    width: 100%;
+    max-height: 18rem;
+    object-fit: cover;
     margin: 1rem 0;
   }
 
   .blog-read-more {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    font-size: 1.1rem;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
     font-weight: 500;
-    color: #0066cc;
-    transition: gap 0.2s ease;
-  }
-
-  :global(.dark) .blog-read-more {
-    color: #4da6ff;
-  }
-
-  .blog-link:hover .blog-read-more {
-    gap: 0.5rem;
-    text-decoration: underline;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bp-accent);
   }
 
   .blog-read-more :global(.arrow-icon) {
@@ -223,6 +179,6 @@ const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
   }
 
   .blog-link:hover .blog-read-more :global(.arrow-icon) {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
 </style>

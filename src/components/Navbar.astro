@@ -44,33 +44,53 @@ const navLinks = hasFullNav
 const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
 ---
 
-<nav class="navbar w-full flex items-center h-16 px-4 sm:px-6 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700/50 bg-white/90 dark:bg-gray-900/90">
+<nav class="navbar w-full flex items-center h-16 px-4 sm:px-6 backdrop-blur-md border-b border-bp-line bg-bp-bg/85 print:border-0">
   <div class="flex justify-between items-center w-full max-w-6xl mx-auto">
     <!-- Brand -->
     <a
       href={homeUrl}
-      class="text-lg font-bold text-gray-900 dark:text-white no-underline whitespace-nowrap hover:text-primary dark:hover:text-link-dark transition-colors"
+      class="group flex items-center gap-2.5 font-sans text-[0.95rem] font-bold tracking-tight text-bp-ink no-underline whitespace-nowrap hover:text-bp-accent transition-colors"
     >
+      <svg
+        aria-hidden="true"
+        class="w-6 h-6 text-bp-accent print:hidden"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.25"
+      >
+        <rect x="1.5" y="1.5" width="21" height="21" rx="1" />
+        <rect x="9" y="5" width="6" height="4" />
+        <rect x="4.5" y="15" width="6" height="4" />
+        <rect x="13.5" y="15" width="6" height="4" />
+        <path d="M12 9v3M7.5 15v-3h9v3" />
+      </svg>
       {translations.brand}
     </a>
 
     <!-- Nav Links (desktop) -->
     {hasFullNav ? (
-      <div class="hidden md:flex items-center gap-6">
-        {navLinks.map((link) => (
+      <div class="hidden md:flex items-center gap-7 print:hidden">
+        {navLinks.map((link, i) => (
           <a
             href={link.href}
-            class="nav-link text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+            class="nav-link group font-mono text-xs font-medium uppercase tracking-[0.12em] text-bp-muted no-underline hover:text-bp-accent transition-colors"
           >
+            <span
+              aria-hidden="true"
+              class="text-bp-faint group-hover:text-bp-accent mr-1.5"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
             {link.label}
           </a>
         ))}
       </div>
     ) : (
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-6 print:hidden">
         <a
           href={blogUrl}
-          class="text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+          class="font-mono text-xs font-medium uppercase tracking-[0.12em] text-bp-muted no-underline hover:text-bp-accent transition-colors"
         >
           {translations.articles}
         </a>
@@ -78,7 +98,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
     )}
 
     <!-- Actions -->
-    <div class="flex items-center gap-1 sm:gap-2 print:hidden">
+    <div class="flex items-center gap-2 print:hidden">
       <DarkModeSwitch
         ariaLabel={translations.toggleDarkMode}
         lightLabel={translations.switchToLight}
@@ -90,7 +110,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
       />
       {hasFullNav && (
         <button
-          class="mobile-menu-btn md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary"
+          class="mobile-menu-btn md:hidden flex items-center justify-center h-9 w-9 rounded-sm border border-bp-line text-bp-ink hover:border-bp-accent hover:text-bp-accent"
           aria-label={openMenu}
           data-open-label={openMenu}
           data-close-label={closeMenu}
@@ -129,14 +149,17 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
 {hasFullNav && (
   <div
     id="mobile-menu"
-    class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg"
+    class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-bp-bg border-b border-bp-line shadow-lg print:hidden"
   >
     <div class="flex flex-col py-2 px-4">
-      {navLinks.map((link) => (
+      {navLinks.map((link, i) => (
         <a
           href={link.href}
-          class="mobile-nav-link py-3 text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark border-b border-gray-100 dark:border-gray-800 last:border-0"
+          class="mobile-nav-link py-3.5 font-mono text-sm font-medium uppercase tracking-[0.1em] text-bp-muted no-underline hover:text-bp-accent border-b border-bp-line last:border-0"
         >
+          <span aria-hidden="true" class="text-bp-faint mr-3">
+            {String(i + 1).padStart(2, "0")}
+          </span>
           {link.label}
         </a>
       ))}
@@ -150,16 +173,25 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
   }
 
   .navbar.scrolled {
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 24px -16px rgb(10 22 40 / 0.35);
+  }
+
+  @media print {
+    .navbar.scrolled {
+      box-shadow: none;
+    }
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var nav = document.querySelector(".navbar");
     if (!nav) return;
+
+    // Re-run after each view-transition swap: drop the previous page's window/document listeners
+    if (window.__navAbort) window.__navAbort.abort();
+    var signal = (window.__navAbort = new AbortController()).signal;
 
     // Scroll shadow
     function onScroll() {
@@ -169,7 +201,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
         nav.classList.remove("scrolled");
       }
     }
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true, signal });
     onScroll();
 
     // Mobile menu toggle
@@ -201,12 +233,16 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
         });
       });
 
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
-          setOpen(false);
-          menuBtn.focus();
-        }
-      });
+      document.addEventListener(
+        "keydown",
+        function (e) {
+          if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+            setOpen(false);
+            menuBtn.focus();
+          }
+        },
+        { signal },
+      );
     }
   })();
 </script>

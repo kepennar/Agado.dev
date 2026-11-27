@@ -17,14 +17,14 @@ const {
 
 <button
   id="dark-mode-toggle"
-  class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+  class="flex items-center justify-center h-9 w-9 rounded-sm border border-bp-line text-bp-ink hover:border-bp-accent hover:text-bp-accent transition-colors cursor-pointer"
   aria-label={ariaLabel}
   data-light-label={lightLabel}
   data-dark-label={darkLabel}
 >
   <!-- Sun icon (shown in dark mode) -->
   <svg
-    class="dark-mode-icon-sun w-5 h-5 text-yellow-500 hidden"
+    class="dark-mode-icon-sun w-[18px] h-[18px] hidden"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -47,7 +47,7 @@ const {
   </svg>
   <!-- Moon icon (shown in light mode) -->
   <svg
-    class="dark-mode-icon-moon w-5 h-5 text-gray-700 hidden"
+    class="dark-mode-icon-moon w-[18px] h-[18px] hidden"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -62,7 +62,8 @@ const {
   </svg>
 </button>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var btn = document.getElementById("dark-mode-toggle");
     var sun = btn.querySelector(".dark-mode-icon-sun");
@@ -70,10 +71,10 @@ const {
 
     function updateIcons() {
       var isDark = document.documentElement.classList.contains("dark");
-      // Match the browser UI to the page background (body: white / gray-900)
+      // Match the browser UI to the page background (--bp-bg in global.css)
       document
         .querySelector('meta[name="theme-color"]')
-        .setAttribute("content", isDark ? "#101828" : "#ffffff");
+        .setAttribute("content", isDark ? "#06101e" : "#f5f7fb");
       sun.classList.toggle("hidden", !isDark);
       moon.classList.toggle("hidden", isDark);
       btn.setAttribute(

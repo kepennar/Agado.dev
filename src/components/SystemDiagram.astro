@@ -1,0 +1,1084 @@
+---
+// SystemDiagram - decorative hero figure: an abstract agentic system drawn as a blueprint.
+// An orchestrator (hexagon) runs a plan -> act -> observe -> reflect loop, calls tools,
+// delegates to sub-agents, writes to memory and passes a human checkpoint.
+// The finished drawing is the base style; motion only runs under
+// prefers-reduced-motion: no-preference, so reduced motion and print get a static figure.
+
+import type { Translations } from "@/i18n/fr";
+
+interface Props {
+  t: Translations["home"]["diagram"];
+}
+
+const { t } = Astro.props;
+
+const C = { x: 270, y: 235 }; // orchestrator centre
+const R_LOOP = 100; // agent loop
+const R_ORBIT = 165; // sub-agent orbit
+const D = Math.SQRT1_2;
+
+const hex = (r: number) =>
+  Array.from({ length: 6 }, (_, k) => {
+    const a = (Math.PI / 3) * k - Math.PI / 2;
+    return `${(C.x + r * Math.cos(a)).toFixed(1)},${(C.y + r * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+
+// Loop phases, clockwise from the top
+const phases = [
+  { x: C.x, y: C.y - R_LOOP, label: "plan", lx: 282, ly: 130, anchor: "start" },
+  { x: C.x + R_LOOP, y: C.y, label: "act", lx: 378, ly: 218, anchor: "start" },
+  {
+    x: C.x,
+    y: C.y + R_LOOP,
+    label: "observe",
+    lx: 282,
+    ly: 354,
+    anchor: "start",
+  },
+  {
+    x: C.x - R_LOOP,
+    y: C.y,
+    label: "reflect",
+    lx: 160,
+    ly: 222,
+    anchor: "end",
+  },
+];
+
+// Direction chevrons on the loop, 30deg after each phase (clockwise tangent)
+const chevrons = [-60, 30, 120, 210].map((deg) => {
+  const a = (deg * Math.PI) / 180;
+  const [nx, ny, tx, ty] = [
+    Math.cos(a),
+    Math.sin(a),
+    -Math.sin(a),
+    Math.cos(a),
+  ];
+  const px = C.x + R_LOOP * nx;
+  const py = C.y + R_LOOP * ny;
+  const pt = (s: number, k: number) =>
+    `${(px + s * tx + k * nx).toFixed(1)} ${(py + s * ty + k * ny).toFixed(1)}`;
+  return `M${pt(-4, 4)} L${pt(1, 0)} L${pt(-4, -4)}`;
+});
+
+// Sub-agents on the outer orbit, delegated to clockwise from lower-right
+const agents = [
+  [D, D],
+  [-D, D],
+  [-D, -D],
+  [D, -D],
+].map(([dx, dy]) => ({
+  x: C.x + R_ORBIT * dx,
+  y: C.y + R_ORBIT * dy,
+  spoke: `M${(C.x + 36 * dx).toFixed(1)} ${(C.y + 36 * dy).toFixed(1)} L${(C.x + 153 * dx).toFixed(1)} ${(C.y + 153 * dy).toFixed(1)}`,
+}));
+
+// Interactive nodes: position in viewBox units and which side the note opens to
+type Key = keyof typeof t.notes;
+const hotspots: {
+  key: Key;
+  x: number;
+  y: number;
+  side: "left" | "right" | "above";
+}[] = [
+  { key: "orchestrator", x: C.x, y: C.y, side: "right" },
+  { key: "plan", x: C.x, y: C.y - R_LOOP, side: "right" },
+  { key: "act", x: C.x + R_LOOP, y: C.y, side: "right" },
+  { key: "observe", x: C.x, y: C.y + R_LOOP, side: "right" },
+  { key: "reflect", x: C.x - R_LOOP, y: C.y, side: "right" },
+  { key: "tools", x: 466, y: 237, side: "above" },
+  { key: "memory", x: 62, y: 233, side: "right" },
+  { key: "human", x: C.x, y: 70, side: "right" },
+];
+const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(3)}%`;
+
+// Loop as two clockwise arcs starting at "plan"
+const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.y + R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.y - R_LOOP}`;
+---
+
+<div class="dg" data-dg>
+  <svg
+    class="system-diagram block w-full h-auto"
+    viewBox="0 0 580 480"
+    role="presentation"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <g class="dg-back">
+      <!-- Construction: axes, orbit, centre mark -->
+      <g class="dg-guides">
+        <line x1="14" x2="566" y1={C.y} y2={C.y} />
+        <line x1={C.x} x2={C.x} y1="30" y2="420" />
+        <circle cx={C.x} cy={C.y} r={R_ORBIT} />
+        <circle cx={C.x} cy={C.y} r={R_LOOP + 22} class="dg-guide-faint" />
+      </g>
+
+      <!-- Dimension: loop diameter -->
+      <g class="dg-dim">
+        <line
+          x1={C.x - R_LOOP}
+          x2={C.x - R_LOOP}
+          y1="246"
+          y2="440"
+          class="dg-ext"
+        />
+        <line
+          x1={C.x + R_LOOP}
+          x2={C.x + R_LOOP}
+          y1="246"
+          y2="440"
+          class="dg-ext"
+        />
+        <line x1={C.x - R_LOOP} x2={C.x + R_LOOP} y1="432" y2="432" />
+        <path
+          d={`M${C.x - R_LOOP + 9} 428 L${C.x - R_LOOP} 432 L${C.x - R_LOOP + 9} 436 M${C.x + R_LOOP - 9} 428 L${C.x + R_LOOP} 432 L${C.x + R_LOOP - 9} 436`}
+        />
+      </g>
+    </g>
+
+    <g class="dg-front">
+      <!-- Connectors -->
+      <g class="dg-edges">
+        <path d={loopPath} pathLength="1" class="dg-loop" style="--i:0" />
+        {agents.map((a, i) => (
+          <path
+            d={a.spoke}
+            pathLength="1"
+            class="dg-spoke"
+            style={`--i:${i + 1}`}
+          />
+        ))}
+        <!-- tool call out (upper) and result back (lower) -->
+        <path d="M378 229 H448" pathLength="1" style="--i:4" />
+        <path d="M448 241 H378" pathLength="1" style="--i:5" />
+        <path
+          d="M442 225 L448 229 L442 233 M384 237 L378 241 L384 245"
+          class="dg-arrow"
+        />
+        {chevrons.map((d) => (
+          <path d={d} class="dg-arrow" />
+        ))}
+        <!-- reflect -> memory -->
+        <path d="M163 235 H94" pathLength="1" style="--i:6" />
+        <!-- human checkpoint gate -> plan -->
+        <path
+          d={`M${C.x} 79 V${C.y - R_LOOP - 7}`}
+          pathLength="1"
+          style="--i:7"
+        />
+        <line x1={C.x - 7} x2={C.x + 7} y1="104" y2="104" class="dg-gate" />
+      </g>
+
+      <!-- Moving packets (animated variant only) -->
+      <g class="dg-packets">
+        <path d={loopPath} pathLength="100" class="dg-orbit-packet" />
+        <path
+          d="M378 229 H448"
+          pathLength="100"
+          class="dg-travel"
+          style="--t:3.8s"
+        />
+        <path
+          d="M448 241 H378"
+          pathLength="100"
+          class="dg-travel"
+          style="--t:4.8s"
+        />
+        {agents.map((a, i) => (
+          <path
+            d={a.spoke}
+            pathLength="100"
+            class="dg-travel"
+            style={`--t:${5.8 + i * 0.4}s`}
+          />
+        ))}
+        <path
+          d="M163 235 H94"
+          pathLength="100"
+          class="dg-travel"
+          style="--t:7.8s"
+        />
+      </g>
+
+      <!-- Orchestrator -->
+      <g class="dg-node dg-orchestrator dg-n-orchestrator" style="--i:0">
+        <circle cx={C.x} cy={C.y} r="46" class="dg-spin" />
+        <polygon points={hex(32)} class="dg-hex" />
+        <g class="dg-gaze">
+          <polygon points={hex(13)} class="dg-hex-core" />
+        </g>
+      </g>
+
+      <!-- Loop phases -->
+      {phases.map((p, i) => (
+        <g class={`dg-node dg-n-${p.label}`} style={`--i:${i + 1}`}>
+          <circle cx={p.x} cy={p.y} r="6" class="dg-phase" />
+          <text x={p.lx} y={p.ly} text-anchor={p.anchor} class="dg-label">
+            {p.label}
+          </text>
+        </g>
+      ))}
+
+      <!-- Sub-agents -->
+      {agents.map((a, i) => (
+        <g
+          class="dg-node dg-agent"
+          style={`--i:${i + 5};--t:${6.6 + i * 0.4}s`}
+        >
+          <circle cx={a.x} cy={a.y} r="17" class="dg-halo" />
+          <circle cx={a.x} cy={a.y} r="10" class="dg-agent-ring" />
+          <circle cx={a.x} cy={a.y} r="3.5" class="dg-agent-core" />
+        </g>
+      ))}
+
+      <!-- Tools -->
+      <g class="dg-node dg-tools dg-n-tools" style="--i:8;--t:4.5s">
+        {[
+          [452, 217],
+          [468, 217],
+          [452, 233],
+          [468, 233],
+        ].map(([x, y]) => (
+          <>
+            <rect x={x} y={y} width="12" height="12" class="dg-box" />
+            <rect x={x} y={y} width="12" height="12" class="dg-glow" />
+          </>
+        ))}
+        <text x="470" y="266" text-anchor="middle" class="dg-label">
+          tools
+        </text>
+      </g>
+
+      <!-- Memory -->
+      <g class="dg-node dg-memory dg-n-memory" style="--i:9;--t:8.5s">
+        {[212, 228, 244].map((y) => (
+          <>
+            <rect x="32" y={y} width="60" height="10" class="dg-box" />
+            <rect x="32" y={y} width="60" height="10" class="dg-glow" />
+          </>
+        ))}
+        <text x="62" y="274" text-anchor="middle" class="dg-label">
+          memory
+        </text>
+      </g>
+
+      <!-- Human checkpoint -->
+      <g class="dg-node dg-human dg-n-human" style="--i:10;--t:9.4s">
+        <rect
+          x={C.x - 8}
+          y="62"
+          width="16"
+          height="16"
+          transform={`rotate(45 ${C.x} 70)`}
+          class="dg-box"
+        />
+        <rect
+          x={C.x - 8}
+          y="62"
+          width="16"
+          height="16"
+          transform={`rotate(45 ${C.x} 70)`}
+          class="dg-glow"
+        />
+        <text x={C.x + 18} y="74" class="dg-label">
+          human
+        </text>
+      </g>
+    </g>
+
+    <!-- Caption -->
+    <g class="dg-title">
+      <rect x="470" y="444" width="96" height="26" />
+      <polygon points="488,451 494,454.5 494,461.5 488,465 482,461.5 482,454.5" />
+      <text x="528" y="461" text-anchor="middle" class="dg-annot">
+        FIG.01
+      </text>
+    </g>
+  </svg>
+
+  <!-- Interactive layer: real buttons over the decorative drawing -->
+  <div class="dg-hotspots" role="group" aria-label={t.label}>
+    {hotspots.map((h) => (
+      <button
+        type="button"
+        class="dg-hot"
+        data-key={h.key}
+        style={`left:${pct(h.x, 580)};top:${pct(h.y, 480)}`}
+        aria-expanded="false"
+        aria-controls={`dg-note-${h.key}`}
+        aria-describedby={`dg-note-${h.key}`}
+      >
+        {h.key === "orchestrator" ? (
+          <span class="sr-only">{t.orchestrator}</span>
+        ) : (
+          <span class="sr-only" lang="en">
+            {h.key}
+          </span>
+        )}
+      </button>
+    ))}
+  </div>
+  {hotspots.map((h) => (
+    <p
+      id={`dg-note-${h.key}`}
+      class="dg-note"
+      data-side={h.side}
+      style={`--x:${pct(h.x, 580)};--y:${pct(h.y, 480)}`}
+      hidden
+    >
+      <span class="dg-note-key" aria-hidden="true">
+        {h.key === "orchestrator" ? t.orchestrator : h.key}
+      </span>
+      <span class="dg-note-text">{t.notes[h.key]}</span>
+    </p>
+  ))}
+</div>
+
+<style>
+  /* ---------- Interactive layer ---------- */
+
+  .dg {
+    position: relative;
+    --px: 0;
+    --py: 0;
+    --gx: 0;
+    --gy: 0;
+  }
+
+  /* Restrained depth: construction layer drifts against the pointer, figure with it */
+  .dg-back {
+    transform: translate(calc(var(--px) * -5px), calc(var(--py) * -5px));
+  }
+
+  .dg-front {
+    transform: translate(calc(var(--px) * 3px), calc(var(--py) * 3px));
+  }
+
+  /* The orchestrator core "attends" towards the pointer or the selected node */
+  .dg-gaze {
+    transform: translate(calc(var(--gx) * 6px), calc(var(--gy) * 6px));
+  }
+
+  .dg-back,
+  .dg-front,
+  .dg-gaze {
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .dg-node :is(.dg-phase, .dg-box, .dg-agent-ring, .dg-hex) {
+    transition: stroke 0.25s ease;
+  }
+
+  .dg-node.is-active :is(.dg-phase, .dg-box, .dg-hex) {
+    stroke: var(--bp-signal);
+  }
+
+  /* The open callout repeats the node name in its header: hide the in-figure label */
+  .dg-node .dg-label {
+    transition: opacity 0.2s ease;
+  }
+
+  .dg-node.is-active .dg-label {
+    opacity: 0;
+  }
+
+  .dg-hotspots {
+    position: absolute;
+    inset: 0;
+  }
+
+  .dg-hot {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    translate: -50% -50%;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .dg-hot[data-key="orchestrator"] {
+    width: 78px;
+    height: 78px;
+  }
+
+  .dg-hot:is([data-key="tools"], [data-key="memory"]) {
+    border-radius: 4px;
+  }
+
+  .dg-hot[data-key="tools"] {
+    width: 46px;
+    height: 46px;
+  }
+
+  .dg-hot[data-key="memory"] {
+    width: 76px;
+    height: 54px;
+  }
+
+  /* Reticle: thin ring that closes in on hover, focus and selection */
+  .dg-hot::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--bp-accent);
+    border-radius: inherit;
+    opacity: 0;
+    scale: 1.35;
+    transition:
+      opacity 0.25s ease,
+      scale 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .dg-hot:hover::before,
+  .dg-hot:focus-visible::before,
+  .dg-hot[aria-expanded="true"]::before {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .dg-hot:focus-visible {
+    outline: 2px solid var(--bp-accent);
+    outline-offset: 2px;
+  }
+
+  /* Note: callout box joined to its node by a leader line, blueprint style */
+  .dg-note {
+    --lead: 30px;
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: max-content;
+    max-width: 14.5rem;
+    margin: 0;
+    padding: 9px 12px 10px;
+    border: 1px solid var(--bp-line-strong);
+    background: color-mix(in oklab, var(--bp-surface) 94%, transparent);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 30px -18px rgb(10 22 40 / 0.45);
+    font-family: var(--font-mono);
+    line-height: 1.4;
+    pointer-events: none;
+    translate: var(--lead) -50%;
+  }
+
+  .dg-note[data-side="left"] {
+    translate: calc(-100% - var(--lead)) -50%;
+  }
+
+  .dg-note[data-side="above"] {
+    translate: -50% calc(-100% - var(--lead));
+  }
+
+  .dg-note[hidden] {
+    display: none;
+  }
+
+  /* Leaders start at the node centre: clear the larger shapes */
+  #dg-note-orchestrator {
+    --lead: 54px;
+  }
+
+  #dg-note-act,
+  #dg-note-memory,
+  #dg-note-tools {
+    --lead: 40px;
+  }
+
+  /* Leader line from the node to the box, with an anchor dot on the node */
+  .dg-note::before,
+  .dg-note::after {
+    content: "";
+    position: absolute;
+  }
+
+  .dg-note::before {
+    top: 50%;
+    right: 100%;
+    width: var(--lead);
+    height: 1px;
+    background: var(--bp-accent);
+  }
+
+  .dg-note::after {
+    top: calc(50% - 2.5px);
+    right: calc(100% + var(--lead) - 2.5px);
+    width: 5px;
+    height: 5px;
+    background: var(--bp-signal);
+  }
+
+  .dg-note[data-side="left"]::before {
+    right: auto;
+    left: 100%;
+  }
+
+  .dg-note[data-side="left"]::after {
+    right: auto;
+    left: calc(100% + var(--lead) - 2.5px);
+  }
+
+  .dg-note[data-side="above"]::before {
+    top: 100%;
+    right: auto;
+    left: 50%;
+    width: 1px;
+    height: var(--lead);
+  }
+
+  .dg-note[data-side="above"]::after {
+    top: calc(100% + var(--lead) - 2.5px);
+    right: auto;
+    left: calc(50% - 2.5px);
+  }
+
+  .dg-note[data-side="below"] {
+    translate: -50% var(--lead);
+  }
+
+  .dg-note[data-side="below"]::before {
+    top: auto;
+    bottom: 100%;
+    right: auto;
+    left: 50%;
+    width: 1px;
+    height: var(--lead);
+  }
+
+  .dg-note[data-side="below"]::after {
+    top: auto;
+    bottom: calc(100% + var(--lead) - 2.5px);
+    right: auto;
+    left: calc(50% - 2.5px);
+  }
+
+  .dg-note-key {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bp-accent);
+  }
+
+  .dg-note-text {
+    font-size: 12.5px;
+    color: var(--bp-ink);
+  }
+
+  /* Small screens: one readout under the figure instead of floating callouts */
+  @media (max-width: 639px) {
+    .dg {
+      margin-bottom: 4rem;
+    }
+
+    .dg-note,
+    .dg-note[data-side] {
+      left: 0;
+      right: 0;
+      top: calc(100% + 12px);
+      width: auto;
+      max-width: none;
+      translate: none;
+    }
+
+    .dg-note::before,
+    .dg-note::after {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dg-note:not([hidden]) {
+      animation: dg-note-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .dg-note[data-side="left"]:not([hidden]) {
+      --dx: 8px;
+    }
+
+    .dg-note:is([data-side="above"], [data-side="below"]):not([hidden]) {
+      --dx: 0px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dg-back,
+    .dg-front,
+    .dg-gaze,
+    .dg-hot::before,
+    .dg-node .dg-label {
+      transition: none;
+    }
+  }
+
+  @keyframes dg-note-in {
+    from {
+      opacity: 0;
+      transform: translateX(var(--dx, -8px));
+    }
+  }
+
+  /* ---------- Drawing ---------- */
+  .system-diagram {
+    overflow: visible;
+    font-family: var(--font-mono);
+  }
+
+  .dg-guides line,
+  .dg-guides circle {
+    fill: none;
+    stroke: var(--bp-line);
+    stroke-dasharray: 2 6;
+  }
+
+  .dg-guides .dg-guide-faint {
+    stroke-dasharray: 1 9;
+  }
+
+  .dg-dim line,
+  .dg-dim path {
+    fill: none;
+    stroke: var(--bp-line-strong);
+  }
+
+  .dg-dim .dg-ext {
+    stroke: var(--bp-line);
+    stroke-dasharray: 2 4;
+  }
+
+  .dg-edges path,
+  .dg-edges line {
+    fill: none;
+    stroke: var(--bp-accent);
+    stroke-width: 1.25;
+    opacity: 0.6;
+  }
+
+  .dg-edges .dg-loop {
+    stroke-width: 1.5;
+    opacity: 0.75;
+  }
+
+  .dg-edges .dg-spoke {
+    stroke-dasharray: 3 4;
+  }
+
+  .dg-edges .dg-arrow {
+    opacity: 0.8;
+  }
+
+  .dg-edges .dg-gate {
+    stroke-width: 2;
+    opacity: 0.9;
+  }
+
+  .dg-packets path {
+    fill: none;
+    stroke: var(--bp-signal);
+    stroke-width: 3;
+    stroke-linecap: round;
+    /* Static: hidden. Animated variant below draws moving packets. */
+    opacity: 0;
+  }
+
+  .dg-spin {
+    fill: none;
+    stroke: var(--bp-line-strong);
+    stroke-dasharray: 2 5;
+  }
+
+  .dg-hex {
+    fill: color-mix(in oklab, var(--bp-accent) 10%, var(--bp-surface));
+    stroke: var(--bp-accent);
+    stroke-width: 1.5;
+  }
+
+  .dg-hex-core {
+    fill: var(--bp-accent);
+  }
+
+  .dg-phase {
+    fill: var(--bp-bg);
+    stroke: var(--bp-accent);
+    stroke-width: 1.5;
+  }
+
+  .dg-agent-ring {
+    fill: var(--bp-surface);
+    stroke: var(--bp-accent);
+  }
+
+  .dg-agent-core {
+    fill: var(--bp-line-strong);
+  }
+
+  .dg-halo {
+    fill: none;
+    stroke: var(--bp-signal);
+    opacity: 0;
+  }
+
+  .dg-box {
+    fill: var(--bp-surface);
+    stroke: var(--bp-line-strong);
+  }
+
+  .dg-glow {
+    fill: var(--bp-signal);
+    stroke: none;
+    opacity: 0;
+  }
+
+  .dg-human .dg-box {
+    stroke: var(--bp-accent);
+    stroke-width: 1.25;
+  }
+
+  .dg-label {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    fill: var(--bp-ink);
+  }
+
+  .dg-annot {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    fill: var(--bp-accent);
+  }
+
+  .dg-title rect,
+  .dg-title polygon {
+    fill: none;
+    stroke: var(--bp-line-strong);
+  }
+
+  /* Below sm the figure is ~0.6x: labels would be unreadable, so it goes label-free */
+  @media (max-width: 639px) {
+    .dg-label,
+    .dg-title {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dg-guides,
+    .dg-dim,
+    .dg-title {
+      opacity: 0;
+      animation: dg-fade 0.9s ease-out 0.1s forwards;
+    }
+
+    .dg-node {
+      opacity: 0;
+      animation: dg-fade 0.6s ease-out forwards;
+      animation-delay: calc(0.2s + var(--i) * 0.1s);
+    }
+
+    .dg-edges path:not(.dg-spoke, .dg-arrow) {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: dg-draw 0.9s ease-in-out forwards;
+      animation-delay: calc(0.3s + var(--i) * 0.08s);
+    }
+
+    .dg-edges .dg-spoke,
+    .dg-edges .dg-arrow,
+    .dg-edges .dg-gate {
+      animation: dg-appear 0.8s ease-out backwards;
+      animation-delay: calc(0.6s + var(--i, 4) * 0.1s);
+    }
+
+    .dg-agent .dg-agent-core {
+      animation: dg-core 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-spin {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: dg-rotate 60s linear infinite;
+    }
+
+    /* One packet circles the loop: plan (0s) -> act (2s) -> observe (4s) -> reflect (6s) */
+    .dg-orbit-packet {
+      stroke-dasharray: 3 97;
+      stroke-dashoffset: 100;
+      animation: dg-orbit 8s linear 1.8s infinite;
+    }
+
+    /* One-shot packets placed in the same 8s cycle by their delay (--t) */
+    .dg-packets .dg-travel {
+      stroke-width: 2.5;
+      stroke-dasharray: 10 190;
+      animation: dg-travel 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-agent .dg-halo,
+    .dg-tools .dg-glow,
+    .dg-memory .dg-glow,
+    .dg-human .dg-glow {
+      animation: dg-lit 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-tools .dg-glow,
+    .dg-memory .dg-glow,
+    .dg-human .dg-glow {
+      --lit: 0.35;
+    }
+  }
+
+  @keyframes dg-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dg-appear {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes dg-core {
+    0%,
+    26%,
+    100% {
+      fill: var(--bp-line-strong);
+    }
+    5%,
+    17% {
+      fill: var(--bp-signal);
+    }
+  }
+
+  @keyframes dg-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes dg-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dg-orbit {
+    0% {
+      opacity: 1;
+      stroke-dashoffset: 100;
+    }
+    100% {
+      opacity: 1;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes dg-travel {
+    0% {
+      opacity: 1;
+      stroke-dashoffset: 10;
+    }
+    11% {
+      opacity: 1;
+      stroke-dashoffset: -100;
+    }
+    11.1%,
+    100% {
+      opacity: 0;
+      stroke-dashoffset: -100;
+    }
+  }
+
+  @keyframes dg-lit {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    5%,
+    17% {
+      opacity: var(--lit, 0.9);
+    }
+    26% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
+  (function () {
+    var root = document.querySelector("[data-dg]");
+    if (!root) return;
+    if (window.__dgAbort) window.__dgAbort.abort();
+    var signal = (window.__dgAbort = new AbortController()).signal;
+    var hots = Array.prototype.slice.call(root.querySelectorAll(".dg-hot"));
+    var motion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var finePointer = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    var pinned = null;
+    var hovered = null;
+
+    // Orchestrator centre, as a fraction of the figure (viewBox 580 x 480)
+    var CX = 270 / 580;
+    var CY = 235 / 480;
+
+    function setGaze(x, y) {
+      var dx = x - CX;
+      var dy = y - CY;
+      var len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var k = Math.min(1, len * 4) / len;
+      root.style.setProperty("--gx", (dx * k).toFixed(3));
+      root.style.setProperty("--gy", (dy * k).toFixed(3));
+    }
+
+    // Keep the callout inside the viewport and off the hero text: try the preferred
+    // side, then the opposite one, then above / below
+    var heroText = root.closest("header")
+      ? root.closest("header").querySelector(".hero-text")
+      : null;
+    function place(note) {
+      var pref = note.dataset.pref || note.dataset.side;
+      note.dataset.pref = pref;
+      note.dataset.side = pref;
+      if (window.matchMedia("(max-width: 639px)").matches) return;
+      var minX = 8;
+      var maxX = document.documentElement.clientWidth - 8;
+      if (heroText) {
+        var t = heroText.getBoundingClientRect();
+        // Side-by-side layout only: the text column is beside the figure
+        if (t.bottom > root.getBoundingClientRect().top + 24)
+          minX = t.right + 12;
+      }
+      var sides = [pref, pref === "left" ? "right" : "left", "above", "below"];
+      for (var i = 0; i < sides.length; i++) {
+        note.dataset.side = sides[i];
+        var r = note.getBoundingClientRect();
+        if (r.left >= minX && r.right <= maxX) return;
+      }
+      note.dataset.side = pref;
+    }
+
+    function show(btn) {
+      // A focused node blurs while a page swap detaches this figure: nothing to update
+      if (!root.isConnected) return;
+      hots.forEach(function (b) {
+        var on = b === btn;
+        var note = document.getElementById(b.getAttribute("aria-controls"));
+        b.setAttribute("aria-expanded", String(on));
+        note.hidden = !on;
+        if (on) place(note);
+        var node = root.querySelector(".dg-n-" + b.dataset.key);
+        if (node) node.classList.toggle("is-active", on);
+      });
+      if (btn && motion) {
+        setGaze(
+          parseFloat(btn.style.left) / 100,
+          parseFloat(btn.style.top) / 100,
+        );
+      }
+    }
+
+    // Which note should stay open: hovered, then pinned, then keyboard-focused
+    function current() {
+      var f = document.activeElement;
+      var focused = hots.indexOf(f) >= 0 && f.dataset.focusOpen ? f : null;
+      return hovered || pinned || focused;
+    }
+
+    hots.forEach(function (b) {
+      b.addEventListener("pointerenter", function (e) {
+        if (e.pointerType !== "mouse") return;
+        hovered = b;
+        show(b);
+      });
+      b.addEventListener("pointerleave", function (e) {
+        if (e.pointerType !== "mouse") return;
+        hovered = null;
+        show(current());
+      });
+      b.addEventListener("focus", function () {
+        b.dataset.focusOpen = "1";
+        show(b);
+      });
+      b.addEventListener("blur", function () {
+        delete b.dataset.focusOpen;
+        if (pinned === b) pinned = null;
+        show(current());
+      });
+      // Tap or click pins / unpins the note
+      b.addEventListener("click", function () {
+        if (pinned === b) {
+          pinned = null;
+          delete b.dataset.focusOpen;
+          show(hovered);
+        } else {
+          pinned = b;
+          show(b);
+        }
+      });
+    });
+
+    document.addEventListener(
+      "keydown",
+      function (e) {
+        if (e.key !== "Escape") return;
+        pinned = null;
+        hovered = null;
+        hots.forEach(function (b) {
+          delete b.dataset.focusOpen;
+        });
+        show(null);
+      },
+      { signal: signal },
+    );
+
+    document.addEventListener(
+      "pointerdown",
+      function (e) {
+        if (!root.contains(e.target)) {
+          pinned = null;
+          show(current());
+        }
+      },
+      { signal: signal },
+    );
+
+    // Pointer parallax and gaze: mouse only, never under reduced motion
+    if (!motion || !finePointer) return;
+    var frame = 0;
+    root.addEventListener(
+      "pointermove",
+      function (e) {
+        if (frame) return;
+        frame = requestAnimationFrame(function () {
+          frame = 0;
+          var r = root.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width;
+          var y = (e.clientY - r.top) / r.height;
+          root.style.setProperty("--px", ((x - 0.5) * 2).toFixed(3));
+          root.style.setProperty("--py", ((y - 0.5) * 2).toFixed(3));
+          if (!current()) setGaze(x, y);
+        });
+      },
+      { signal: signal },
+    );
+    root.addEventListener(
+      "pointerleave",
+      function () {
+        ["--px", "--py", "--gx", "--gy"].forEach(function (v) {
+          root.style.setProperty(v, "0");
+        });
+      },
+      { signal: signal },
+    );
+  })();
+</script>

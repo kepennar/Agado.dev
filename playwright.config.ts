@@ -1,10 +1,13 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const port = 4321;
+// --ignore-lock keeps `astro preview` in the foreground: Astro 7 moves it to
+// the background when it detects an AI agent, and Playwright then sees it exit
+const preview = `pnpm preview --host 127.0.0.1 --port ${port} --ignore-lock`;
 const webServerCommand =
   process.env.PLAYWRIGHT_SKIP_BUILD === "1"
-    ? `pnpm preview --host 127.0.0.1 --port ${port}`
-    : `pnpm build && pnpm preview --host 127.0.0.1 --port ${port}`;
+    ? preview
+    : `pnpm build && ${preview}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
