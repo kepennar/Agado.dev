@@ -374,6 +374,15 @@ const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.
     stroke: var(--bp-signal);
   }
 
+  /* The open callout repeats the node name in its header: hide the in-figure label */
+  .dg-node .dg-label {
+    transition: opacity 0.2s ease;
+  }
+
+  .dg-node.is-active .dg-label {
+    opacity: 0;
+  }
+
   .dg-hotspots {
     position: absolute;
     inset: 0;
@@ -531,6 +540,26 @@ const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.
     left: calc(50% - 2.5px);
   }
 
+  .dg-note[data-side="below"] {
+    translate: -50% var(--lead);
+  }
+
+  .dg-note[data-side="below"]::before {
+    top: auto;
+    bottom: 100%;
+    right: auto;
+    left: 50%;
+    width: 1px;
+    height: var(--lead);
+  }
+
+  .dg-note[data-side="below"]::after {
+    top: auto;
+    bottom: calc(100% + var(--lead) - 2.5px);
+    right: auto;
+    left: calc(50% - 2.5px);
+  }
+
   .dg-note-key {
     font-size: 10.5px;
     font-weight: 500;
@@ -575,7 +604,7 @@ const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.
       --dx: 8px;
     }
 
-    .dg-note[data-side="above"]:not([hidden]) {
+    .dg-note:is([data-side="above"], [data-side="below"]):not([hidden]) {
       --dx: 0px;
     }
   }
@@ -584,7 +613,8 @@ const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.
     .dg-back,
     .dg-front,
     .dg-gaze,
-    .dg-hot::before {
+    .dg-hot::before,
+    .dg-node .dg-label {
       transition: none;
     }
   }
@@ -910,11 +940,42 @@ const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.
       root.style.setProperty("--gy", (dy * k).toFixed(3));
     }
 
+    // Keep the callout inside the viewport and off the hero text: try the preferred
+    // side, then the opposite one, then above / below
+    var heroText = root.closest("header")
+      ? root.closest("header").querySelector(".hero-text")
+      : null;
+    function place(note) {
+      var pref = note.dataset.pref || note.dataset.side;
+      note.dataset.pref = pref;
+      note.dataset.side = pref;
+      if (window.matchMedia("(max-width: 639px)").matches) return;
+      var minX = 8;
+      var maxX = document.documentElement.clientWidth - 8;
+      if (heroText) {
+        var t = heroText.getBoundingClientRect();
+        // Side-by-side layout only: the text column is beside the figure
+        if (t.bottom > root.getBoundingClientRect().top + 24)
+          minX = t.right + 12;
+      }
+      var sides = [pref, pref === "left" ? "right" : "left", "above", "below"];
+      for (var i = 0; i < sides.length; i++) {
+        note.dataset.side = sides[i];
+        var r = note.getBoundingClientRect();
+        if (r.left >= minX && r.right <= maxX) return;
+      }
+      note.dataset.side = pref;
+    }
+
     function show(btn) {
+      // A focused node blurs while a page swap detaches this figure: nothing to update
+      if (!root.isConnected) return;
       hots.forEach(function (b) {
         var on = b === btn;
+        var note = document.getElementById(b.getAttribute("aria-controls"));
         b.setAttribute("aria-expanded", String(on));
-        document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
+        note.hidden = !on;
+        if (on) place(note);
         var node = root.querySelector(".dg-n-" + b.dataset.key);
         if (node) node.classList.toggle("is-active", on);
       });

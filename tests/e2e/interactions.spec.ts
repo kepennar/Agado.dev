@@ -32,6 +32,8 @@ test.describe("Hero diagram, card morph and motion preferences", () => {
   test("Blog card opens the article with matching shared elements", async ({
     page,
   }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/");
 
     const card = page.locator("#posts .post-card").first();
@@ -49,11 +51,14 @@ test.describe("Hero diagram, card morph and motion preferences", () => {
     ).toBe(cardName);
     await expect(page.locator(".post-cover img")).toBeVisible();
     await expect(page.locator("article.blog-post-content")).toBeVisible();
+    // Clicking on the article must not reach the home page's (detached) diagram
+    await page.locator("#dark-mode-toggle").click();
 
     await page.goBack();
     await expect(
       page.getByRole("heading", { level: 1, name: "Kevin Pennarun" }),
     ).toBeVisible();
+    expect(errors).toEqual([]);
   });
 
   test("Reduced motion: no animation runs", async ({ page }) => {
