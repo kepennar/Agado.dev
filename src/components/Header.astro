@@ -2,6 +2,7 @@
 // Header component - Hero section (homepage) or simple header (other pages)
 // Hero shows only the first paragraph of the CMS abstract as a short intro.
 
+import type { Translations } from "@/i18n/fr";
 import type { Abstract, Social } from "@/lib/contentful.types";
 
 import RichText from "./ContentfulRichText/RichText.astro";
@@ -11,10 +12,13 @@ import SystemDiagram from "./SystemDiagram.astro";
 interface Props {
   siteTitle?: string;
   subtitle?: string;
+  /** view-transition-name for the page title (shared-element morph from a card) */
+  titleTransition?: string;
   translations?: {
     heroLabel: string;
     heroSubtitle: string;
     seeExperienceBtn: string;
+    diagram: Translations["home"]["diagram"];
   };
   abstract?: Abstract;
   socials?: Social[];
@@ -23,6 +27,7 @@ interface Props {
 const {
   siteTitle = "",
   subtitle,
+  titleTransition,
   translations,
   abstract,
   socials,
@@ -93,7 +98,7 @@ if (abstractDoc) {
       </div>
 
       <figure class="hero-figure relative m-0 w-full max-w-[560px] mx-auto lg:mr-0 print:hidden">
-        <SystemDiagram />
+        <SystemDiagram t={translations.diagram} />
       </figure>
     </div>
   </header>
@@ -104,7 +109,13 @@ if (abstractDoc) {
       aria-hidden="true"
     ></div>
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <h1 class="header-title font-sans text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-[-0.03em] text-bp-ink">
+      <h1
+        style={
+          titleTransition &&
+          `view-transition-name: ${titleTransition}; view-transition-class: vt-title`
+        }
+        class="header-title font-sans text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-[-0.03em] text-bp-ink"
+      >
         {siteTitle}
       </h1>
       {subtitle && (

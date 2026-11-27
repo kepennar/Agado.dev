@@ -63,6 +63,21 @@ export const en: Translations = {
     // Timeline
     timelineTitle: "The Timeline",
     showMore: "SHOW MORE",
+    // Hero diagram: one-line notes per node (grounded in the experiences)
+    diagram: {
+      label: "Interactive figure: an agent loop",
+      orchestrator: "orchestrator",
+      notes: {
+        orchestrator: "Systems that endure and evolve",
+        plan: "Discovery and architecture before writing code",
+        act: "Ship incrementally through automated CI/CD",
+        observe: "End-to-end observability and real-world feedback",
+        reflect: "Continuous improvement of practices and legacy",
+        tools: "Clean APIs, messaging patterns, data flows",
+        memory: "Shared architecture, mentoring, upskilled teams",
+        human: "Code review and pair programming",
+      },
+    },
   },
 
   // Blog
