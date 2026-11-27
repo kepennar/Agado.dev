@@ -88,10 +88,8 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
     <main id="main-content">
       <Header siteTitle={post.fields.title} subtitle={publishDate} />
 
-      <div class="max-w-4xl mx-auto px-4 py-8">
-        <Spacer direction="vertical" size="2rem" />
-
-        <div class="article-meta">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+        <div class="article-meta bp-meta">
           {publishDate && (
             <time datetime={post.fields.publishDate} class="publish-date">
               {t.common.published} {publishDate}
@@ -99,12 +97,11 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
           )}
           {readingTime && (
             <span class="reading-time">
-              &middot; {readingTime} {t.blog.readingTime}
+              <span aria-hidden="true">/</span> {readingTime}{" "}
+              {t.blog.readingTime}
             </span>
           )}
         </div>
-
-        <Spacer direction="vertical" size="1rem" />
 
         {post.fields.content && (
           <Toc content={post.fields.content} locale={lang} />
@@ -147,23 +144,11 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
 
 <style>
   .article-meta {
-    text-align: center;
-    color: #666;
-  }
-
-  :global(.dark) .article-meta {
-    color: #999;
-  }
-
-  .publish-date {
-    font-size: 0.95rem;
-    font-style: italic;
-  }
-
-  .reading-time {
-    font-size: 0.95rem;
-    font-style: italic;
-    margin-left: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   .blog-post-content {

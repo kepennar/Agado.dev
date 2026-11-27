@@ -45,7 +45,7 @@ const pageDescription = t.blog.subtitle;
     <main id="main-content">
       <Header siteTitle={t.blog.title} subtitle={t.blog.subtitle} />
 
-      <div class="max-w-4xl mx-auto px-4 py-8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         {posts.length > 0 ? (
           <div class="blog-posts-container">
             {posts.map((post) => (
@@ -62,9 +62,7 @@ const pageDescription = t.blog.subtitle;
           </div>
         ) : (
           <div class="no-posts">
-            <p class="text-center text-gray-600 dark:text-gray-400 text-lg">
-              {t.blog.noPosts}
-            </p>
+            <p class="text-center text-bp-muted text-lg">{t.blog.noPosts}</p>
           </div>
         )}
 
