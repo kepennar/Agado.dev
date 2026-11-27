@@ -1,6 +1,6 @@
 # Astro
 
-> Astro is an all-in-one web framework for building websites. 
+> Astro is an all-in-one web framework for building websites.
 
 - Astro uses island architecture and server-first design to reduce client-side JavaScript overhead and ship high performance websites.
 - Astro’s friendly content-focused features like content collections and built-in Markdown support make it an excellent choice for blogs, marketing, and e-commerce sites amongst others.

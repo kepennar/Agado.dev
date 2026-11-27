@@ -4,6 +4,7 @@
 // Used in blog listing page (T041)
 
 import type { BlogPost } from "@/lib/contentful.types";
+
 import RichText from "./ContentfulRichText/RichText.astro";
 
 interface Props {
@@ -43,32 +44,42 @@ const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
   <article class="blog-link-container">
     <h2 class="blog-title">{blogPost.fields.title}</h2>
 
-    {
-      publishDate && (
-        <div class="blog-meta">
-          <time class="blog-date" datetime={blogPost.fields.publishDate}>
-            {publishDate}
-          </time>
-          {readingTime && (
-            <span class="blog-reading-time">
-              &middot; {readingTime} {readingTimeLabel}
-            </span>
-          )}
-        </div>
-      )
-    }
+    {publishDate && (
+      <div class="blog-meta">
+        <time class="blog-date" datetime={blogPost.fields.publishDate}>
+          {publishDate}
+        </time>
+        {readingTime && (
+          <span class="blog-reading-time">
+            &middot; {readingTime} {readingTimeLabel}
+          </span>
+        )}
+      </div>
+    )}
 
-    {
-      blogPost.fields.abstract && (
-        <div class="blog-abstract cms-content">
-          <RichText content={blogPost.fields.abstract} />
-        </div>
-      )
-    }
+    {blogPost.fields.abstract && (
+      <div class="blog-abstract cms-content">
+        <RichText content={blogPost.fields.abstract} />
+      </div>
+    )}
 
     <div class="blog-read-more">
       <span>{readMoreText}</span>
-      <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      <svg
+        class="arrow-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5 12h14"></path>
+        <path d="m12 5 7 7-7 7"></path>
+      </svg>
     </div>
   </article>
 </a>
@@ -79,7 +90,9 @@ const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
     color: inherit;
     display: block;
     margin-bottom: 2rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     border-radius: 8px;
   }
 

@@ -1,11 +1,12 @@
 // Rich text renderer for Contentful documents
 // Converts Contentful rich text to HTML with custom node renderers
 
-import { getImage } from "astro:assets";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { BLOCKS, type Document, INLINES } from "@contentful/rich-text-types";
+import { getImage } from "astro:assets";
 import type { Asset } from "contentful";
 import { createHighlighter, type Highlighter } from "shiki";
+
 import { getImageMetadata } from "./contentful";
 
 /**

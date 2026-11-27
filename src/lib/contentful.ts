@@ -2,6 +2,7 @@
 // Implements FR-028 (fail on CMS errors), FR-029 (language fallback), FR-030 (missing asset handling)
 
 import { createClient } from "contentful";
+
 import type {
   Abstract,
   AbstractSkeleton,

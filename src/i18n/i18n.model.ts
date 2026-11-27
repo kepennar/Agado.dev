@@ -2,6 +2,7 @@
 // Defines available languages and default language constants
 
 import type { ContentfulLocale } from "@/lib/contentful.types";
+
 import { en } from "./en";
 import type { Translations } from "./fr";
 import { fr } from "./fr";

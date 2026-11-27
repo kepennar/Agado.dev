@@ -78,7 +78,9 @@ const imageURL = image.startsWith("http")
         var tl = cl || (bl === "en" ? "en" : "fr");
         var cur = p.startsWith("/en") ? "en" : "fr";
         if (tl !== cur) {
-          if (!cl) document.cookie = "locale=" + tl + "; path=/; max-age=2592000; SameSite=Lax";
+          if (!cl)
+            document.cookie =
+              "locale=" + tl + "; path=/; max-age=2592000; SameSite=Lax";
           window.location.replace(tl === "fr" ? "/" : "/en");
         }
       })();
@@ -131,9 +133,27 @@ const imageURL = image.startsWith("http")
     <meta name="twitter:creator" content="@kevinpennarun" />
 
     <!-- Preload critical fonts -->
-    <link rel="preload" href={spectralRegular} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ubuntuRegular} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ubuntuBold} as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href={spectralRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={ubuntuRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={ubuntuBold}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -142,9 +162,7 @@ const imageURL = image.startsWith("http")
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#3457a0" />
   </head>
-  <body
-    class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen"
-  >
+  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
     <main>
       <slot />
     </main>

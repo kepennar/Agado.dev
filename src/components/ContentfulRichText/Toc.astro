@@ -4,6 +4,7 @@
 // Task T046
 
 import type { Document } from "@contentful/rich-text-types";
+
 import { extractTableOfContents } from "@/lib/toc-extractor";
 
 interface Props {
@@ -76,7 +77,9 @@ const tocTitle = locale === "en" ? "Table of Contents" : "Table des matières";
   .toc-link {
     color: #0066cc;
     text-decoration: none;
-    transition: color 0.2s ease, text-decoration 0.2s ease;
+    transition:
+      color 0.2s ease,
+      text-decoration 0.2s ease;
     display: inline-block;
   }
 

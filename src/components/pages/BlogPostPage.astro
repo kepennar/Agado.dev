@@ -91,39 +91,31 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
       <Spacer direction="vertical" size="2rem" />
 
       <div class="article-meta">
-        {
-          publishDate && (
-            <time datetime={post.fields.publishDate} class="publish-date">
-              {t.common.published} {publishDate}
-            </time>
-          )
-        }
-        {
-          readingTime && (
-            <span class="reading-time">
-              &middot; {readingTime} {t.blog.readingTime}
-            </span>
-          )
-        }
+        {publishDate && (
+          <time datetime={post.fields.publishDate} class="publish-date">
+            {t.common.published} {publishDate}
+          </time>
+        )}
+        {readingTime && (
+          <span class="reading-time">
+            &middot; {readingTime} {t.blog.readingTime}
+          </span>
+        )}
       </div>
 
       <Spacer direction="vertical" size="1rem" />
 
-      {
-        post.fields.content && (
-          <Toc content={post.fields.content} locale={lang} />
-        )
-      }
+      {post.fields.content && (
+        <Toc content={post.fields.content} locale={lang} />
+      )}
 
       <Spacer direction="vertical" size="2rem" />
 
-      {
-        post.fields.content && (
-          <article class="blog-post-content">
-            <RichText content={post.fields.content} />
-          </article>
-        )
-      }
+      {post.fields.content && (
+        <article class="blog-post-content">
+          <RichText content={post.fields.content} />
+        </article>
+      )}
 
       <ShareButtons
         url={shareUrl}
