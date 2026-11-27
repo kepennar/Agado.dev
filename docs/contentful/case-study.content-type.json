@@ -69,13 +69,8 @@
           "message": "Only bold, italic and code marks are allowed."
         },
         {
-          "enabledNodeTypes": [
-            "paragraph",
-            "unordered-list",
-            "ordered-list",
-            "hyperlink"
-          ],
-          "message": "Only paragraphs, lists and links are allowed."
+          "enabledNodeTypes": ["unordered-list", "ordered-list", "hyperlink"],
+          "message": "Only lists and links are allowed besides paragraphs."
         }
       ]
     },

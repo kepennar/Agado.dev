@@ -29,7 +29,7 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
   >
   > - Co-conception d'une architecture cloud-native et secure-by-design sur GCP
   > - SPA Vue.js, API Fastify + tRPC
-  > - Déploiement progressif : équipes internes, puis clients externes
+  > - Déploiement progressif auprès des équipes internes et des clients externes
   > - Monitoring Sentry adapté aux contraintes du groupe, avec les ingénieurs Sentry.io
   > - Mentorat des équipes produit qui ont repris l'architecture
 - EN:
@@ -37,7 +37,7 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
   >
   > - Co-designed a cloud-native, security-by-design architecture on GCP
   > - Vue.js SPA on a Fastify + tRPC API
-  > - Phased roll-out: internal teams first, then external customers
+  > - Phased roll-out to internal teams and external customers
   > - Sentry monitoring tailored to Carrefour's constraints, with Sentry.io engineers
   > - Mentored the product teams that reused the architecture
 
@@ -58,12 +58,12 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
   - `< 3 s | accès aux KPI sur 10 Md+ de transactions, contre plusieurs minutes avant`
   - `8 semaines | du MVP à la bêta, dans les délais`
   - `3 pays | des milliers d'utilisateurs`
-  - `Standard | architecture reprise par les autres produits Carrefour Links`
+  - `Standard | architecture devenue le standard Carrefour Links, reprise par d'autres équipes`
 - EN:
   - `< 3 s | KPI access on 10B+ transactions, down from minutes`
   - `8 weeks | MVP to beta, on schedule`
   - `3 countries | thousands of users`
-  - `Standard | architecture reused by other Carrefour Links products`
+  - `Standard | architecture adopted across Carrefour Links, reused by other teams`
 
 ---
 
@@ -71,12 +71,12 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
 
 `order`: 2 · `stack`: TypeScript, Node.js, Fastify, React, Docker, Clean Architecture, Domain-Driven Design · `experience`: link the "Hoppen" entry
 
-| Field   | FR                                                        | EN                                               |
-| ------- | --------------------------------------------------------- | ------------------------------------------------ |
-| title   | Moderniser des solutions hospitalières sans tout réécrire | Modernizing hospital software one step at a time |
-| context | Hoppen · solutions hospitalières                          | Hoppen · hospital software                       |
-| period  | juil. 2025 / avr. 2026                                    | Jul. 2025 / Apr. 2026                            |
-| role    | Tech Lead / Architecte logiciel                           | Tech Lead / Software Architect                   |
+| Field   | FR                                               | EN                                               |
+| ------- | ------------------------------------------------ | ------------------------------------------------ |
+| title   | Moderniser des solutions hospitalières pas à pas | Modernizing hospital software one step at a time |
+| context | Hoppen · solutions hospitalières                 | Hoppen · hospital software                       |
+| period  | juil. 2025 / avr. 2026                           | Jul. 2025 / Apr. 2026                            |
+| role    | Tech Lead / Architecte logiciel                  | Tech Lead / Software Architect                   |
 
 **problem**
 
@@ -86,7 +86,7 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
 **approach**
 
 - FR:
-  > Faire évoluer l'architecture et l'équipe en même temps.
+  > Deux chantiers : l'architecture et les pratiques de l'équipe.
   >
   > - Conception d'architectures hybrides edge-cloud et event-driven
   > - Refonte progressive des systèmes legacy
@@ -94,7 +94,7 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
   > - Coaching et montée en compétences des équipes
   > - Modernisation de la CI/CD, de la code review et du monitoring
 - EN:
-  > Evolve the architecture and the team together.
+  > Two tracks: the architecture and the team's practices.
   >
   > - Designed hybrid edge-cloud and event-driven architectures
   > - Modernized legacy systems step by step
@@ -141,16 +141,16 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
 **approach**
 
 - FR:
-  > Un back-office modulaire, une seule base de code, une infrastructure en code.
+  > Un back-office modulaire et une infrastructure en code.
   >
-  > - Monorepo TypeScript : React 18, React Query, React Hook Form, Tailwind CSS côté client, Nest.js côté serveur
+  > - Monorepo TypeScript avec React 18, React Query, React Hook Form et Tailwind CSS, associé à Nest.js côté serveur
   > - Infrastructure GCP automatisée avec Pulumi (IaC)
   > - Chaîne CI/CD
   > - Un domaine métier complexe traduit en une expérience fluide
 - EN:
-  > One modular back-office, one codebase, infrastructure as code.
+  > A modular back-office and infrastructure as code.
   >
-  > - TypeScript monorepo: React 18, React Query, React Hook Form, Tailwind CSS on the client, Nest.js on the server
+  > - TypeScript monorepo with React 18, React Query, React Hook Form and Tailwind CSS, paired with Nest.js on the server
   > - GCP infrastructure automated with Pulumi (IaC)
   > - Unified, repeatable CI/CD pipeline
   > - A complex business domain turned into a smooth user experience
@@ -159,11 +159,11 @@ Source: the experience entries on https://agado.dev/ (FR) and https://agado.dev/
 
 - FR:
   - Back-office modulaire
-  - Monorepo TypeScript, front et back
+  - Monorepo TypeScript (React), Nest.js côté serveur
   - Infrastructure as code (Pulumi, GCP)
 - EN:
   - Modular back-office
-  - TypeScript monorepo, front and back
+  - TypeScript monorepo (React), Nest.js on the server
   - Infrastructure as code (Pulumi, GCP)
 
 **results**

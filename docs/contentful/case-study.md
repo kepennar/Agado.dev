@@ -11,7 +11,7 @@ The content type id is in the URL, not in the body. The code queries `caseStudy`
 2. `PUT /spaces/{space_id}/environments/master/content_types/caseStudy/published`
    with header `X-Contentful-Version: <sys.version from step 1>`. An unpublished content type cannot hold entries.
 
-Locales: `fr` (default) and `en` (falls back to `fr`). Localized fields need both values; an empty `en` shows the `fr` text.
+Locales: `fr` (default) and `en` (falls back to `fr`). Fill both locales on localized fields; an empty `en` value shows the `fr` text.
 
 ## Fields
 
