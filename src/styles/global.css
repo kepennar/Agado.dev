@@ -372,3 +372,127 @@ html.dark .shiki span[style*="--shiki-dark:#758575"] {
 html.dark .shiki span[style*="--shiki-dark:#666666"] {
   --shiki-dark: #999999 !important;
 }
+
+/* ---------- Shared-element morph (card -> article, View Transitions) ---------- */
+
+/* Covers keep their crop while the box morphs; titles scale from their height */
+::view-transition-old(*.vt-cover),
+::view-transition-new(*.vt-cover) {
+  height: 100%;
+  object-fit: cover;
+}
+
+::view-transition-old(*.vt-title),
+::view-transition-new(*.vt-title) {
+  width: auto;
+  height: 100%;
+}
+
+::view-transition-group(*.vt-cover),
+::view-transition-group(*.vt-title) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ---------- Sections that draw themselves on scroll ---------- */
+/* Scroll-driven (no JS); unsupported browsers, reduced motion and print keep the final state */
+
+/* Longhands on purpose: a minified "animation" shorthand would drop animation-timeline */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .section-label {
+      view-timeline: --bp-label block;
+    }
+
+    .section-label::before {
+      animation-name: bp-tick;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --bp-label;
+      animation-range: entry 30% cover 30%;
+    }
+
+    .section-label::after {
+      transform-origin: left center;
+      animation-name: bp-rule;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --bp-label;
+      animation-range: entry 40% cover 45%;
+    }
+
+    .bp-panel {
+      view-timeline: --bp-panel block;
+    }
+
+    .bp-panel::before {
+      animation-name: bp-corners;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --bp-panel;
+      animation-range: entry 10% entry 90%;
+    }
+
+    .timeline-item {
+      view-timeline: --bp-item block;
+    }
+
+    .timeline-line {
+      transform-origin: center top;
+      animation-name: bp-rail;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --bp-item;
+      animation-range: entry 20% cover 55%;
+    }
+
+    .timeline-node {
+      animation-name: bp-node;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --bp-item;
+      animation-range: entry 15% entry 45%;
+    }
+  }
+}
+
+@keyframes bp-tick {
+  from {
+    opacity: 0;
+    transform: translateY(0.7em);
+  }
+}
+
+@keyframes bp-rule {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Only the start is given: the end tracks the live value (hover still brightens) */
+@keyframes bp-corners {
+  from {
+    opacity: 0;
+    scale: 1.06;
+  }
+}
+
+@keyframes bp-rail {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes bp-node {
+  from {
+    scale: 0;
+  }
+}
