@@ -73,7 +73,7 @@ test.describe("Internationalization (i18n)", () => {
       page.getByRole("heading", { level: 1, name: "Articles" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Retour à l'accueil" }),
+      page.getByRole("link", { name: "Retour à l’accueil" }),
     ).toBeVisible();
 
     await context.close();
