@@ -1,0 +1,134 @@
+---
+// CaseStudies component - problem → approach → measured results, one card per case study
+// Renders nothing when there are no case studies
+
+import RichText from "@/components/ContentfulRichText/RichText.astro";
+import { parseMetrics } from "@/lib/case-study";
+import { getContentfulImageUrl } from "@/lib/contentful";
+import type { CaseStudy } from "@/lib/contentful.types";
+
+interface Props {
+  caseStudies: CaseStudy[];
+  translations: {
+    caseStudiesLabel: string;
+    caseStudiesTitle: string;
+    caseStudyProblem: string;
+    caseStudyApproach: string;
+    caseStudyResults: string;
+    caseStudyStack: string;
+  };
+}
+
+const { caseStudies, translations } = Astro.props;
+---
+
+{caseStudies.length > 0 && (
+  <section id="case-studies" class="py-16 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <span class="section-label">{translations.caseStudiesLabel}</span>
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-10">
+        {translations.caseStudiesTitle}
+      </h2>
+
+      <div class="flex flex-col gap-8">
+        {caseStudies.map((caseStudy) => {
+          const { fields } = caseStudy;
+          const metrics = parseMetrics(fields.results);
+          const meta = [fields.context, fields.period, fields.role].filter(
+            Boolean,
+          );
+          // An unpublished asset arrives as an unresolved link without fields
+          const cover =
+            fields.cover && "fields" in fields.cover ? fields.cover : undefined;
+          return (
+            <article
+              id={`case-study-${fields.slug}`}
+              class="case-study border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-gray-900"
+            >
+              {cover?.fields.file && (
+                <img
+                  src={getContentfulImageUrl(cover, { width: 1200 })}
+                  alt=""
+                  class="w-full aspect-[16/5] object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-6 sm:p-8">
+                {meta.length > 0 && (
+                  <p class="text-sm text-gray-500 dark:text-gray-400 m-0 mb-2">
+                    {meta.join(" · ")}
+                  </p>
+                )}
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6 leading-snug">
+                  {fields.title}
+                </h3>
+
+                {metrics.length > 0 && (
+                  <div class="mb-8">
+                    <h4 class="sr-only">{translations.caseStudyResults}</h4>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 m-0">
+                      {metrics.map((metric) => (
+                        <div class="flex flex-col-reverse p-4 rounded-lg bg-gray-50 dark:bg-[#0a1628] border border-gray-200 dark:border-gray-800">
+                          <dt class="text-sm text-gray-600 dark:text-gray-400 leading-snug">
+                            {metric.label}
+                          </dt>
+                          {metric.value && (
+                            <dd class="text-2xl font-bold text-primary dark:text-[#8ab4f8] m-0 mb-1">
+                              {metric.value}
+                            </dd>
+                          )}
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+                      {translations.caseStudyProblem}
+                    </h4>
+                    <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed m-0">
+                      {fields.problem}
+                    </p>
+                  </div>
+                  {(fields.approach || fields.architecture?.length) && (
+                    <div>
+                      <h4 class="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+                        {translations.caseStudyApproach}
+                      </h4>
+                      {fields.approach && (
+                        <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          <RichText content={fields.approach} />
+                        </div>
+                      )}
+                      {fields.architecture &&
+                        fields.architecture.length > 0 && (
+                          <ul class="list-disc pl-5 m-0 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                            {fields.architecture.map((item) => (
+                              <li>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                    </div>
+                  )}
+                </div>
+
+                {fields.stack && fields.stack.length > 0 && (
+                  <div class="flex flex-wrap items-center gap-2 mt-6">
+                    <span class="sr-only">{translations.caseStudyStack}:</span>
+                    {fields.stack.map((tech) => (
+                      <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-sans">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}

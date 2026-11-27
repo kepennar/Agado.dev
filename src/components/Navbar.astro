@@ -11,6 +11,7 @@ interface Props {
   translations: {
     brand: string;
     about: string;
+    caseStudies?: string; // only set when the case studies section renders
     expertises: string;
     experience: string;
     posts: string;
@@ -35,6 +36,9 @@ const hasFullNav = !!translations.brand;
 const navLinks = hasFullNav
   ? [
       { label: translations.about, href: "#about" },
+      ...(translations.caseStudies
+        ? [{ label: translations.caseStudies, href: "#case-studies" }]
+        : []),
       { label: translations.expertises, href: "#services" },
       { label: translations.experience, href: "#experience" },
       { label: translations.posts, href: "#posts" },
