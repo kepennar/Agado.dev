@@ -1,60 +1,73 @@
 ---
-// SystemDiagram - decorative hero figure: a layered system architecture drawn as a blueprint.
-// The finished drawing is the base style; the draw-in and data-flow animations only run
-// under prefers-reduced-motion: no-preference, so reduced motion and print get a static figure.
+// SystemDiagram - decorative hero figure: an abstract agentic system drawn as a blueprint.
+// An orchestrator (hexagon) runs a plan -> act -> observe -> reflect loop, calls tools,
+// delegates to sub-agents, writes to memory and passes a human checkpoint.
+// The finished drawing is the base style; motion only runs under
+// prefers-reduced-motion: no-preference, so reduced motion and print get a static figure.
 
-interface Node {
-  id: string;
-  x: number;
-  y: number;
-  w: number;
-  label: string;
-  kind?: "db" | "bus" | "core";
-}
+const C = { x: 270, y: 235 }; // orchestrator centre
+const R_LOOP = 100; // agent loop
+const R_ORBIT = 165; // sub-agent orbit
+const D = Math.SQRT1_2;
 
-const H = 44; // node height
-const nodes: Node[] = [
-  { id: "client", x: 220, y: 28, w: 140, label: "client" },
-  { id: "gateway", x: 205, y: 112, w: 170, label: "api-gateway" },
-  { id: "auth", x: 50, y: 204, w: 136, label: "auth" },
-  { id: "core", x: 222, y: 204, w: 136, label: "core", kind: "core" },
-  { id: "search", x: 394, y: 204, w: 136, label: "search" },
-  { id: "bus", x: 50, y: 300, w: 480, label: "event-bus", kind: "bus" },
-  { id: "db", x: 50, y: 380, w: 136, label: "postgres", kind: "db" },
-  { id: "cache", x: 222, y: 380, w: 136, label: "cache" },
-  { id: "worker", x: 394, y: 380, w: 136, label: "workers" },
+const hex = (r: number) =>
+  Array.from({ length: 6 }, (_, k) => {
+    const a = (Math.PI / 3) * k - Math.PI / 2;
+    return `${(C.x + r * Math.cos(a)).toFixed(1)},${(C.y + r * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+
+// Loop phases, clockwise from the top
+const phases = [
+  { x: C.x, y: C.y - R_LOOP, label: "plan", lx: 282, ly: 130, anchor: "start" },
+  { x: C.x + R_LOOP, y: C.y, label: "act", lx: 378, ly: 218, anchor: "start" },
+  {
+    x: C.x,
+    y: C.y + R_LOOP,
+    label: "observe",
+    lx: 282,
+    ly: 354,
+    anchor: "start",
+  },
+  {
+    x: C.x - R_LOOP,
+    y: C.y,
+    label: "reflect",
+    lx: 160,
+    ly: 222,
+    anchor: "end",
+  },
 ];
 
-// Orthogonal connectors, in drawing order
-const edges = [
-  "M290 72 V112",
-  "M290 156 V180 H118 V204",
-  "M290 156 V204",
-  "M290 156 V180 H462 V204",
-  "M118 248 V300",
-  "M290 248 V300",
-  "M462 248 V300",
-  "M118 328 V380",
-  "M290 328 V380",
-  "M462 328 V380",
-];
+// Direction chevrons on the loop, 30deg after each phase (clockwise tangent)
+const chevrons = [-60, 30, 120, 210].map((deg) => {
+  const a = (deg * Math.PI) / 180;
+  const [nx, ny, tx, ty] = [
+    Math.cos(a),
+    Math.sin(a),
+    -Math.sin(a),
+    Math.cos(a),
+  ];
+  const px = C.x + R_LOOP * nx;
+  const py = C.y + R_LOOP * ny;
+  const pt = (s: number, k: number) =>
+    `${(px + s * tx + k * nx).toFixed(1)} ${(py + s * ty + k * ny).toFixed(1)}`;
+  return `M${pt(-4, 4)} L${pt(1, 0)} L${pt(-4, -4)}`;
+});
 
-// Edges that carry an animated "packet"
-const flows = [
-  { d: "M290 72 V112 M290 156 V204 M290 248 V300 M290 328 V380", dur: 4.2 },
-  { d: "M290 156 V180 H118 V204 M118 248 V300 M118 328 V380", dur: 5.4 },
-  { d: "M290 156 V180 H462 V204 M462 248 V300 M462 328 V380", dur: 6.1 },
-];
+// Sub-agents on the outer orbit, delegated to clockwise from lower-right
+const agents = [
+  [D, D],
+  [-D, D],
+  [-D, -D],
+  [D, -D],
+].map(([dx, dy]) => ({
+  x: C.x + R_ORBIT * dx,
+  y: C.y + R_ORBIT * dy,
+  spoke: `M${(C.x + 36 * dx).toFixed(1)} ${(C.y + 36 * dy).toFixed(1)} L${(C.x + 153 * dx).toFixed(1)} ${(C.y + 153 * dy).toFixed(1)}`,
+}));
 
-const layers = [
-  { y: 50, label: "L0" },
-  { y: 134, label: "L1" },
-  { y: 226, label: "L2" },
-  { y: 314, label: "L3" },
-  { y: 402, label: "L4" },
-];
-
-const year = new Date().getFullYear();
+// Loop as two clockwise arcs starting at "plan"
+const loopPath = `M${C.x} ${C.y - R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.y + R_LOOP} A${R_LOOP} ${R_LOOP} 0 0 1 ${C.x} ${C.y - R_LOOP}`;
 ---
 
 <svg
@@ -64,129 +77,182 @@ const year = new Date().getFullYear();
   aria-hidden="true"
   focusable="false"
 >
-  <!-- Layer guides and indices -->
+  <!-- Construction: axes, orbit, centre mark -->
   <g class="dg-guides">
-    {layers.map((l) => (
-      <>
-        <line x1="34" x2="540" y1={l.y} y2={l.y} />
-        <text x="6" y={l.y + 3.5} class="dg-annot">
-          {l.label}
-        </text>
-      </>
-    ))}
+    <line x1="14" x2="566" y1={C.y} y2={C.y} />
+    <line x1={C.x} x2={C.x} y1="30" y2="420" />
+    <circle cx={C.x} cy={C.y} r={R_ORBIT} />
+    <circle cx={C.x} cy={C.y} r={R_LOOP + 22} class="dg-guide-faint" />
   </g>
 
-  <!-- Vertical dimension line -->
+  <!-- Dimension: loop diameter -->
   <g class="dg-dim">
-    <line x1="560" x2="560" y1="28" y2="424" />
-    <line x1="552" x2="568" y1="28" y2="28" />
-    <line x1="552" x2="568" y1="424" y2="424" />
-    <path d="M556 38 L560 28 L564 38 M556 414 L560 424 L564 414" />
+    <line
+      x1={C.x - R_LOOP}
+      x2={C.x - R_LOOP}
+      y1="246"
+      y2="440"
+      class="dg-ext"
+    />
+    <line
+      x1={C.x + R_LOOP}
+      x2={C.x + R_LOOP}
+      y1="246"
+      y2="440"
+      class="dg-ext"
+    />
+    <line x1={C.x - R_LOOP} x2={C.x + R_LOOP} y1="432" y2="432" />
+    <path
+      d={`M${C.x - R_LOOP + 9} 428 L${C.x - R_LOOP} 432 L${C.x - R_LOOP + 9} 436 M${C.x + R_LOOP - 9} 428 L${C.x + R_LOOP} 432 L${C.x + R_LOOP - 9} 436`}
+    />
   </g>
 
   <!-- Connectors -->
   <g class="dg-edges">
-    {edges.map((d, i) => (
-      <path d={d} pathLength="1" style={`--i:${i}`} />
+    <path d={loopPath} pathLength="1" class="dg-loop" style="--i:0" />
+    {agents.map((a, i) => (
+      <path
+        d={a.spoke}
+        pathLength="1"
+        class="dg-spoke"
+        style={`--i:${i + 1}`}
+      />
     ))}
-  </g>
-
-  <!-- Protocol annotations -->
-  <g class="dg-protocols">
-    <text x="298" y="95" class="dg-annot">
-      HTTPS
-    </text>
-    <text x="470" y="197" class="dg-annot">
-      gRPC
-    </text>
-    <text x="126" y="278" class="dg-annot">
-      pub/sub
-    </text>
-    <text x="126" y="358" class="dg-annot">
-      SQL
-    </text>
-    <text x="298" y="358" class="dg-annot">
-      TTL 60s
-    </text>
-  </g>
-
-  <!-- Data flow -->
-  <g class="dg-flows">
-    {flows.map((f, i) => (
-      <path d={f.d} pathLength="100" style={`--dur:${f.dur}s;--i:${i}`} />
+    <!-- tool call out (upper) and result back (lower) -->
+    <path d="M378 229 H448" pathLength="1" style="--i:4" />
+    <path d="M448 241 H378" pathLength="1" style="--i:5" />
+    <path
+      d="M442 225 L448 229 L442 233 M384 237 L378 241 L384 245"
+      class="dg-arrow"
+    />
+    {chevrons.map((d) => (
+      <path d={d} class="dg-arrow" />
     ))}
+    <!-- reflect -> memory -->
+    <path d="M163 235 H94" pathLength="1" style="--i:6" />
+    <!-- human checkpoint gate -> plan -->
+    <path d={`M${C.x} 79 V${C.y - R_LOOP - 7}`} pathLength="1" style="--i:7" />
+    <line x1={C.x - 7} x2={C.x + 7} y1="104" y2="104" class="dg-gate" />
   </g>
 
-  <!-- Nodes -->
-  <g class="dg-nodes">
-    {nodes.map((n, i) => (
-      <g class:list={["dg-node", n.kind && `dg-${n.kind}`]} style={`--i:${i}`}>
-        <rect
-          x={n.x}
-          y={n.y}
-          width={n.w}
-          height={n.kind === "bus" ? 28 : H}
-          rx="2"
-        />
-        {n.kind === "db" && (
-          <line
-            class="dg-detail"
-            x1={n.x}
-            x2={n.x + n.w}
-            y1={n.y + 9}
-            y2={n.y + 9}
-          />
-        )}
-        {n.kind === "core" && (
-          <circle class="dg-pulse" cx={n.x + n.w - 12} cy={n.y + 12} r="3" />
-        )}
-        <text
-          x={n.x + n.w / 2}
-          y={n.y + (n.kind === "bus" ? 18 : n.kind === "db" ? 31 : 26.5)}
-          text-anchor="middle"
-          class="dg-label"
-        >
-          {n.label}
-        </text>
-        {n.kind !== "bus" && (
-          <>
-            <rect
-              class="dg-port"
-              x={n.x + n.w / 2 - 2.5}
-              y={n.y - 2.5}
-              width="5"
-              height="5"
-            />
-            <rect
-              class="dg-port"
-              x={n.x + n.w / 2 - 2.5}
-              y={n.y + H - 2.5}
-              width="5"
-              height="5"
-            />
-          </>
-        )}
-      </g>
+  <!-- Moving packets (animated variant only) -->
+  <g class="dg-packets">
+    <path d={loopPath} pathLength="100" class="dg-orbit-packet" />
+    <path
+      d="M378 229 H448"
+      pathLength="100"
+      class="dg-travel"
+      style="--t:3.8s"
+    />
+    <path
+      d="M448 241 H378"
+      pathLength="100"
+      class="dg-travel"
+      style="--t:4.8s"
+    />
+    {agents.map((a, i) => (
+      <path
+        d={a.spoke}
+        pathLength="100"
+        class="dg-travel"
+        style={`--t:${5.8 + i * 0.4}s`}
+      />
     ))}
+    <path
+      d="M163 235 H94"
+      pathLength="100"
+      class="dg-travel"
+      style="--t:7.8s"
+    />
   </g>
 
-  <!-- Title block -->
+  <!-- Orchestrator -->
+  <g class="dg-node dg-orchestrator" style="--i:0">
+    <circle cx={C.x} cy={C.y} r="46" class="dg-spin" />
+    <polygon points={hex(32)} class="dg-hex" />
+    <polygon points={hex(13)} class="dg-hex-core" />
+  </g>
+
+  <!-- Loop phases -->
+  {phases.map((p, i) => (
+    <g class="dg-node" style={`--i:${i + 1}`}>
+      <circle cx={p.x} cy={p.y} r="6" class="dg-phase" />
+      <text x={p.lx} y={p.ly} text-anchor={p.anchor} class="dg-label">
+        {p.label}
+      </text>
+    </g>
+  ))}
+
+  <!-- Sub-agents -->
+  {agents.map((a, i) => (
+    <g class="dg-node dg-agent" style={`--i:${i + 5};--t:${6.6 + i * 0.4}s`}>
+      <circle cx={a.x} cy={a.y} r="17" class="dg-halo" />
+      <circle cx={a.x} cy={a.y} r="10" class="dg-agent-ring" />
+      <circle cx={a.x} cy={a.y} r="3.5" class="dg-agent-core" />
+    </g>
+  ))}
+
+  <!-- Tools -->
+  <g class="dg-node dg-tools" style="--i:8;--t:4.5s">
+    {[
+      [452, 217],
+      [468, 217],
+      [452, 233],
+      [468, 233],
+    ].map(([x, y]) => (
+      <>
+        <rect x={x} y={y} width="12" height="12" class="dg-box" />
+        <rect x={x} y={y} width="12" height="12" class="dg-glow" />
+      </>
+    ))}
+    <text x="470" y="266" text-anchor="middle" class="dg-label">
+      tools
+    </text>
+  </g>
+
+  <!-- Memory -->
+  <g class="dg-node dg-memory" style="--i:9;--t:8.5s">
+    {[212, 228, 244].map((y) => (
+      <>
+        <rect x="32" y={y} width="60" height="10" class="dg-box" />
+        <rect x="32" y={y} width="60" height="10" class="dg-glow" />
+      </>
+    ))}
+    <text x="62" y="274" text-anchor="middle" class="dg-label">
+      memory
+    </text>
+  </g>
+
+  <!-- Human checkpoint -->
+  <g class="dg-node dg-human" style="--i:10;--t:9.4s">
+    <rect
+      x={C.x - 8}
+      y="62"
+      width="16"
+      height="16"
+      transform={`rotate(45 ${C.x} 70)`}
+      class="dg-box"
+    />
+    <rect
+      x={C.x - 8}
+      y="62"
+      width="16"
+      height="16"
+      transform={`rotate(45 ${C.x} 70)`}
+      class="dg-glow"
+    />
+    <text x={C.x + 18} y="74" class="dg-label">
+      human
+    </text>
+  </g>
+
+  <!-- Caption -->
   <g class="dg-title">
-    <rect x="330" y="440" width="230" height="32" />
-    <line x1="410" x2="410" y1="440" y2="472" />
-    <line x1="490" x2="490" y1="440" y2="472" />
-    <text x="370" y="460" text-anchor="middle" class="dg-annot dg-annot-strong">
+    <rect x="470" y="444" width="96" height="26" />
+    <polygon points="488,451 494,454.5 494,461.5 488,465 482,461.5 482,454.5" />
+    <text x="528" y="461" text-anchor="middle" class="dg-annot">
       FIG.01
     </text>
-    <text x="450" y="460" text-anchor="middle" class="dg-annot">
-      SCALE 1:1
-    </text>
-    <text
-      x="525"
-      y="460"
-      text-anchor="middle"
-      class="dg-annot"
-    >{`REV.${year}`}</text>
   </g>
 </svg>
 
@@ -196,123 +262,205 @@ const year = new Date().getFullYear();
     font-family: var(--font-mono);
   }
 
-  .dg-guides line {
+  .dg-guides line,
+  .dg-guides circle {
+    fill: none;
     stroke: var(--bp-line);
     stroke-dasharray: 2 6;
   }
 
-  .dg-annot {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    fill: var(--bp-faint);
-  }
-
-  .dg-annot-strong {
-    fill: var(--bp-accent);
-    font-weight: 500;
+  .dg-guides .dg-guide-faint {
+    stroke-dasharray: 1 9;
   }
 
   .dg-dim line,
   .dg-dim path {
-    stroke: var(--bp-line-strong);
     fill: none;
+    stroke: var(--bp-line-strong);
   }
 
-  .dg-edges path {
+  .dg-dim .dg-ext {
+    stroke: var(--bp-line);
+    stroke-dasharray: 2 4;
+  }
+
+  .dg-edges path,
+  .dg-edges line {
     fill: none;
     stroke: var(--bp-accent);
     stroke-width: 1.25;
-    opacity: 0.55;
+    opacity: 0.6;
   }
 
-  .dg-flows path {
+  .dg-edges .dg-loop {
+    stroke-width: 1.5;
+    opacity: 0.75;
+  }
+
+  .dg-edges .dg-spoke {
+    stroke-dasharray: 3 4;
+  }
+
+  .dg-edges .dg-arrow {
+    opacity: 0.8;
+  }
+
+  .dg-edges .dg-gate {
+    stroke-width: 2;
+    opacity: 0.9;
+  }
+
+  .dg-packets path {
     fill: none;
     stroke: var(--bp-signal);
-    stroke-width: 2.5;
+    stroke-width: 3;
     stroke-linecap: round;
     /* Static: hidden. Animated variant below draws moving packets. */
     opacity: 0;
   }
 
-  .dg-node rect {
-    fill: var(--bp-surface);
+  .dg-spin {
+    fill: none;
     stroke: var(--bp-line-strong);
-    stroke-width: 1;
+    stroke-dasharray: 2 5;
   }
 
-  .dg-node .dg-port {
+  .dg-hex {
+    fill: color-mix(in oklab, var(--bp-accent) 10%, var(--bp-surface));
+    stroke: var(--bp-accent);
+    stroke-width: 1.5;
+  }
+
+  .dg-hex-core {
+    fill: var(--bp-accent);
+  }
+
+  .dg-phase {
     fill: var(--bp-bg);
     stroke: var(--bp-accent);
+    stroke-width: 1.5;
+  }
+
+  .dg-agent-ring {
+    fill: var(--bp-surface);
+    stroke: var(--bp-accent);
+  }
+
+  .dg-agent-core {
+    fill: var(--bp-line-strong);
+  }
+
+  .dg-halo {
+    fill: none;
+    stroke: var(--bp-signal);
+    opacity: 0;
+  }
+
+  .dg-box {
+    fill: var(--bp-surface);
+    stroke: var(--bp-line-strong);
+  }
+
+  .dg-glow {
+    fill: var(--bp-signal);
+    stroke: none;
+    opacity: 0;
+  }
+
+  .dg-human .dg-box {
+    stroke: var(--bp-accent);
+    stroke-width: 1.25;
   }
 
   .dg-label {
     font-size: 12px;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     fill: var(--bp-ink);
   }
 
-  .dg-core rect:first-child {
-    stroke: var(--bp-accent);
-    stroke-width: 1.5;
-    fill: color-mix(in oklab, var(--bp-accent) 10%, var(--bp-surface));
-  }
-
-  .dg-bus rect {
-    fill: color-mix(in oklab, var(--bp-accent) 7%, var(--bp-surface));
-    stroke-dasharray: 6 3;
-  }
-
-  .dg-detail {
-    stroke: var(--bp-line-strong);
-  }
-
-  .dg-pulse {
-    fill: var(--bp-signal);
+  .dg-annot {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    fill: var(--bp-accent);
   }
 
   .dg-title rect,
-  .dg-title line {
+  .dg-title polygon {
     fill: none;
     stroke: var(--bp-line-strong);
   }
 
+  /* Below sm the figure is ~0.6x: labels would be unreadable, so it goes label-free */
+  @media (max-width: 639px) {
+    .dg-label,
+    .dg-title {
+      display: none;
+    }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .dg-node {
-      opacity: 0;
-      animation: dg-fade 0.5s ease-out forwards;
-      animation-delay: calc(0.15s + var(--i) * 0.09s);
-    }
-
-    .dg-edges path {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: dg-draw 0.6s ease-in-out forwards;
-      animation-delay: calc(0.5s + var(--i) * 0.08s);
-    }
-
-    .dg-flows path {
-      opacity: 1;
-      stroke-dasharray: 3 97;
-      stroke-dashoffset: 100;
-      animation: dg-flow var(--dur) linear infinite;
-      animation-delay: calc(1.6s + var(--i) * 0.7s);
-      visibility: hidden;
-    }
-
     .dg-guides,
     .dg-dim,
-    .dg-protocols,
     .dg-title {
       opacity: 0;
-      animation: dg-fade 0.8s ease-out 0.1s forwards;
+      animation: dg-fade 0.9s ease-out 0.1s forwards;
     }
 
-    .dg-protocols {
-      animation-delay: 1.3s;
+    .dg-node {
+      opacity: 0;
+      animation: dg-fade 0.6s ease-out forwards;
+      animation-delay: calc(0.2s + var(--i) * 0.1s);
     }
 
-    .dg-pulse {
-      animation: dg-pulse 2.4s ease-in-out 1.8s infinite;
+    .dg-edges path:not(.dg-spoke, .dg-arrow) {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: dg-draw 0.9s ease-in-out forwards;
+      animation-delay: calc(0.3s + var(--i) * 0.08s);
+    }
+
+    .dg-edges .dg-spoke,
+    .dg-edges .dg-arrow,
+    .dg-edges .dg-gate {
+      animation: dg-appear 0.8s ease-out backwards;
+      animation-delay: calc(0.6s + var(--i, 4) * 0.1s);
+    }
+
+    .dg-agent .dg-agent-core {
+      animation: dg-core 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-spin {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: dg-rotate 60s linear infinite;
+    }
+
+    /* One packet circles the loop: plan (0s) -> act (2s) -> observe (4s) -> reflect (6s) */
+    .dg-orbit-packet {
+      stroke-dasharray: 3 97;
+      stroke-dashoffset: 100;
+      animation: dg-orbit 8s linear 1.8s infinite;
+    }
+
+    /* One-shot packets placed in the same 8s cycle by their delay (--t) */
+    .dg-packets .dg-travel {
+      stroke-width: 2.5;
+      stroke-dasharray: 10 190;
+      animation: dg-travel 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-agent .dg-halo,
+    .dg-tools .dg-glow,
+    .dg-memory .dg-glow,
+    .dg-human .dg-glow {
+      animation: dg-lit 8s ease-in-out var(--t) infinite;
+    }
+
+    .dg-tools .dg-glow,
+    .dg-memory .dg-glow,
+    .dg-human .dg-glow {
+      --lit: 0.35;
     }
   }
 
@@ -322,26 +470,74 @@ const year = new Date().getFullYear();
     }
   }
 
+  @keyframes dg-appear {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes dg-core {
+    0%,
+    26%,
+    100% {
+      fill: var(--bp-line-strong);
+    }
+    5%,
+    17% {
+      fill: var(--bp-signal);
+    }
+  }
+
   @keyframes dg-draw {
     to {
       stroke-dashoffset: 0;
     }
   }
 
-  @keyframes dg-flow {
+  @keyframes dg-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dg-orbit {
     0% {
-      visibility: visible;
+      opacity: 1;
       stroke-dashoffset: 100;
     }
     100% {
-      visibility: visible;
+      opacity: 1;
       stroke-dashoffset: 0;
     }
   }
 
-  @keyframes dg-pulse {
-    50% {
-      opacity: 0.25;
+  @keyframes dg-travel {
+    0% {
+      opacity: 1;
+      stroke-dashoffset: 10;
+    }
+    11% {
+      opacity: 1;
+      stroke-dashoffset: -100;
+    }
+    11.1%,
+    100% {
+      opacity: 0;
+      stroke-dashoffset: -100;
+    }
+  }
+
+  @keyframes dg-lit {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    5%,
+    17% {
+      opacity: var(--lit, 0.9);
+    }
+    26% {
+      opacity: 0;
     }
   }
 </style>
