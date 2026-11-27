@@ -1,7 +1,7 @@
 {
   "name": "astro",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
@@ -13,7 +13,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
-    "lint": "biome check ."
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
@@ -29,13 +30,15 @@
     "tailwind-merge": "^3.7.1"
   },
   "devDependencies": {
+    "@astrojs/compiler-rs": "^0.5.3",
     "@astrojs/sitemap": "^3.7.6",
-    "@biomejs/biome": "^2.6.9",
     "@playwright/test": "^1.65.1",
     "@tailwindcss/vite": "~4.3.5",
     "@vitest/ui": "^5.1.2",
     "dotenv": "^18.0.10",
     "firebase-tools": "^15.37.0",
+    "oxfmt": "^0.80.0",
+    "oxlint": "^1.95.0",
     "playwright": "^1.65.1",
     "tailwindcss": "~4.3.5",
     "typescript": "^6.0.3",
