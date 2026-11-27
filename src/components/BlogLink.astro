@@ -40,9 +40,18 @@ const publishDate = blogPost.fields.publishDate
 const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
 ---
 
-<a href={blogUrl} class="blog-link">
+<a
+  href={blogUrl}
+  class="blog-link"
+  style={`--vt-cover: post-cover-${blogPost.fields.slug}`}
+>
   <article class="blog-link-container bp-panel bp-panel-hover">
-    <h2 class="blog-title">{blogPost.fields.title}</h2>
+    <h2
+      class="blog-title"
+      style={`view-transition-name: post-title-${blogPost.fields.slug}; view-transition-class: vt-title`}
+    >
+      {blogPost.fields.title}
+    </h2>
 
     {publishDate && (
       <div class="blog-meta bp-meta">
@@ -134,6 +143,18 @@ const readMoreText = locale === "en" ? "Read more" : "Lire la suite";
   }
 
   /* Style images in abstract */
+  /* The abstract opens with the post cover: it morphs into the article's cover */
+  .blog-abstract
+    :global(
+      :is(
+        .cms-content > img.rich-text-image:first-child,
+        .cms-content > picture.rich-text-image:first-child img
+      )
+    ) {
+    view-transition-name: var(--vt-cover);
+    view-transition-class: vt-cover;
+  }
+
   .blog-abstract :global(img) {
     width: 100%;
     max-height: 18rem;

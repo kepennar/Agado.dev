@@ -55,6 +55,18 @@ const readingTime = post.fields.content
   ? estimateReadingTime(post.fields.content)
   : undefined;
 
+// The article opens with its cover image: lift it above the table of contents so
+// it is in view and can receive the card -> article morph (view transition)
+const content = post.fields.content as any;
+const leadsWithImage =
+  content?.content?.[0]?.nodeType === "embedded-asset-block";
+const coverDoc = leadsWithImage
+  ? { ...content, content: content.content.slice(0, 1) }
+  : null;
+const bodyDoc = leadsWithImage
+  ? { ...content, content: content.content.slice(1) }
+  : content;
+
 const featuredImage = "/images/og-default.png";
 const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, lang)}`;
 ---
@@ -86,7 +98,11 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
     </div>
 
     <main id="main-content">
-      <Header siteTitle={post.fields.title} subtitle={publishDate} />
+      <Header
+        siteTitle={post.fields.title}
+        subtitle={publishDate}
+        titleTransition={`post-title-${slug}`}
+      />
 
       <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         <div class="article-meta bp-meta">
@@ -103,6 +119,15 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
           )}
         </div>
 
+        {coverDoc && (
+          <div
+            class="post-cover"
+            style={`view-transition-name: post-cover-${slug}; view-transition-class: vt-cover`}
+          >
+            <RichText content={coverDoc} />
+          </div>
+        )}
+
         {post.fields.content && (
           <Toc content={post.fields.content} locale={lang} />
         )}
@@ -111,7 +136,7 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
 
         {post.fields.content && (
           <article class="blog-post-content">
-            <RichText content={post.fields.content} />
+            <RichText content={bodyDoc} />
           </article>
         )}
 
@@ -143,6 +168,27 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
 </Layout>
 
 <style>
+  .post-cover {
+    margin-top: 1.5rem;
+    border: 1px solid var(--bp-line);
+    background: var(--bp-surface);
+    line-height: 0;
+  }
+
+  .post-cover :global(.rich-text-image) {
+    margin: 0;
+  }
+
+  /* Same crop family as the cards (16:10) so the morph keeps its shape */
+  .post-cover :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border: 0;
+    border-radius: 0;
+  }
+
   .article-meta {
     display: flex;
     flex-wrap: wrap;
