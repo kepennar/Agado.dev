@@ -23,6 +23,7 @@ const { socials } = Astro.props;
       // Displayed at most 28px tall (sm:h-7): serve 2x for high-DPI screens
       const height = 56;
       const width = Math.round((imageData.width * height) / imageData.height);
+      // Astro 7 refuses to rasterize SVG: keep vector logos as they are
       return (
         <a
           href={social.fields.url}
@@ -38,7 +39,7 @@ const { socials } = Astro.props;
             height={height}
             class="h-full w-auto"
             loading="eager"
-            format="webp"
+            format={/\.svg$/i.test(imageData.src) ? "svg" : "webp"}
           />
         </a>
       );
