@@ -83,13 +83,6 @@ const olderExperiences = experiences.slice(4);
     }
   }
 
-  // Run on page load
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupShowMore);
-  } else {
-    setupShowMore();
-  }
-
-  // Also run when navigating (for SPAs)
+  // ClientRouter fires astro:page-load on the first load and after every navigation
   document.addEventListener("astro:page-load", setupShowMore);
 </script>

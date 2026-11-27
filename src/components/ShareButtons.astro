@@ -139,7 +139,8 @@ const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var btns = document.querySelectorAll(".copy-link-btn");
     btns.forEach(function (btn) {

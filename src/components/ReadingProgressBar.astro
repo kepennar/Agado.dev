@@ -29,7 +29,8 @@
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     function initProgressBar() {
       const bar = document.getElementById("reading-progress-bar");
@@ -37,6 +38,9 @@
       if (!bar || !content) return;
 
       let ticking = false;
+      // Re-run after each view-transition swap: drop the previous page's listener
+      if (window.__progressAbort) window.__progressAbort.abort();
+      const signal = (window.__progressAbort = new AbortController()).signal;
 
       function updateProgress() {
         const rect = content.getBoundingClientRect();
@@ -64,7 +68,7 @@
             ticking = true;
           }
         },
-        { passive: true },
+        { passive: true, signal },
       );
 
       updateProgress();

@@ -157,7 +157,8 @@ if (!slogan || !abstract) {
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var sections = document.querySelectorAll(".animate-section");

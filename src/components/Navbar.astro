@@ -183,10 +183,15 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
   }
 </style>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var nav = document.querySelector(".navbar");
     if (!nav) return;
+
+    // Re-run after each view-transition swap: drop the previous page's window/document listeners
+    if (window.__navAbort) window.__navAbort.abort();
+    var signal = (window.__navAbort = new AbortController()).signal;
 
     // Scroll shadow
     function onScroll() {
@@ -196,7 +201,7 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
         nav.classList.remove("scrolled");
       }
     }
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true, signal });
     onScroll();
 
     // Mobile menu toggle
@@ -228,12 +233,16 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
         });
       });
 
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
-          setOpen(false);
-          menuBtn.focus();
-        }
-      });
+      document.addEventListener(
+        "keydown",
+        function (e) {
+          if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+            setOpen(false);
+            menuBtn.focus();
+          }
+        },
+        { signal },
+      );
     }
   })();
 </script>

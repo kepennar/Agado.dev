@@ -62,7 +62,8 @@ const {
   </svg>
 </button>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var btn = document.getElementById("dark-mode-toggle");
     var sun = btn.querySelector(".dark-mode-icon-sun");

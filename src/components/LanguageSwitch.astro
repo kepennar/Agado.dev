@@ -26,6 +26,7 @@ const targetUrl =
   }
   title={currentLanguage === "fr" ? "Switch to English" : "Passer en français"}
   data-target-lang={targetLang}
+  data-astro-reload
 >
   <svg
     class="w-4 h-4"
@@ -48,7 +49,8 @@ const targetUrl =
   </span>
 </a>
 
-<script is:inline>
+<!-- data-astro-rerun: re-run after each ClientRouter navigation -->
+<script is:inline data-astro-rerun>
   (function () {
     var link = document.getElementById("language-switch");
     if (!link) return;
