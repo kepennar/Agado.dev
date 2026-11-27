@@ -7,11 +7,10 @@ import LatestPosts from "@/components/LatestPosts.astro";
 import Layout from "@/components/Layout.astro";
 import Navbar from "@/components/Navbar.astro";
 import TechnicalMastery from "@/components/TechnicalMastery.astro";
-
 import type { Language } from "@/i18n/i18n.model";
 import {
-  getTranslations,
   getContentfulLocaleParam,
+  getTranslations,
   localizedUrl,
 } from "@/i18n/i18n.model";
 import {
@@ -62,68 +61,70 @@ if (!slogan || !abstract) {
       />
     </div>
 
-    <Header
-      siteTitle="Kevin Pennarun"
-      abstract={abstract}
-      socials={socials}
-      translations={{
-        heroLabel: t.home.heroLabel,
-        heroSubtitle: t.home.heroSubtitle,
-        seeExperienceBtn: t.home.seeExperienceBtn,
-      }}
-    />
-
-    <div class="animate-section">
-      <KeyDifferentiators
-        slogan={slogan}
+    <main id="main-content">
+      <Header
+        siteTitle="Kevin Pennarun"
         abstract={abstract}
+        socials={socials}
         translations={{
-          keyDifferentiators: t.home.keyDifferentiators,
-          differentiatorQuote2: t.home.differentiatorQuote2,
+          heroLabel: t.home.heroLabel,
+          heroSubtitle: t.home.heroSubtitle,
+          seeExperienceBtn: t.home.seeExperienceBtn,
         }}
       />
-    </div>
 
-    <div class="animate-section">
-      <TechnicalMastery
-        translations={{
-          coreCompetencies: t.home.coreCompetencies,
-          technicalMasteryTitle: t.home.technicalMasteryTitle,
-          skillArchitectureTitle: t.home.skillArchitectureTitle,
-          skillArchitectureDesc: t.home.skillArchitectureDesc,
-          skillFullstackTitle: t.home.skillFullstackTitle,
-          skillFullstackDesc: t.home.skillFullstackDesc,
-          skillLeadershipTitle: t.home.skillLeadershipTitle,
-          skillLeadershipDesc: t.home.skillLeadershipDesc,
-          skillIntegrationTitle: t.home.skillIntegrationTitle,
-          skillIntegrationDesc: t.home.skillIntegrationDesc,
-          skillPerformanceTitle: t.home.skillPerformanceTitle,
-          skillPerformanceDesc: t.home.skillPerformanceDesc,
-        }}
-      />
-    </div>
+      <div class="animate-section">
+        <KeyDifferentiators
+          slogan={slogan}
+          abstract={abstract}
+          translations={{
+            keyDifferentiators: t.home.keyDifferentiators,
+            differentiatorQuote2: t.home.differentiatorQuote2,
+          }}
+        />
+      </div>
 
-    <div class="animate-section">
-      <Experiences
-        experiences={experiences}
-        translations={{
-          professionalJourney: t.home.professionalJourney,
-          timelineTitle: t.home.timelineTitle,
-          showMore: t.home.showMore,
-        }}
-      />
-    </div>
+      <div class="animate-section">
+        <TechnicalMastery
+          translations={{
+            coreCompetencies: t.home.coreCompetencies,
+            technicalMasteryTitle: t.home.technicalMasteryTitle,
+            skillArchitectureTitle: t.home.skillArchitectureTitle,
+            skillArchitectureDesc: t.home.skillArchitectureDesc,
+            skillFullstackTitle: t.home.skillFullstackTitle,
+            skillFullstackDesc: t.home.skillFullstackDesc,
+            skillLeadershipTitle: t.home.skillLeadershipTitle,
+            skillLeadershipDesc: t.home.skillLeadershipDesc,
+            skillIntegrationTitle: t.home.skillIntegrationTitle,
+            skillIntegrationDesc: t.home.skillIntegrationDesc,
+            skillPerformanceTitle: t.home.skillPerformanceTitle,
+            skillPerformanceDesc: t.home.skillPerformanceDesc,
+          }}
+        />
+      </div>
 
-    <div class="animate-section">
-      <LatestPosts
-        posts={blogPosts}
-        locale={lang}
-        title={t.home.latestPosts}
-        sectionLabel={t.home.publishedArticles}
-        seeAllText={t.home.seeAllPosts}
-        seeAllUrl={localizedUrl("/blog", lang)}
-      />
-    </div>
+      <div class="animate-section">
+        <Experiences
+          experiences={experiences}
+          translations={{
+            professionalJourney: t.home.professionalJourney,
+            timelineTitle: t.home.timelineTitle,
+            showMore: t.home.showMore,
+          }}
+        />
+      </div>
+
+      <div class="animate-section">
+        <LatestPosts
+          posts={blogPosts}
+          locale={lang}
+          title={t.home.latestPosts}
+          sectionLabel={t.home.publishedArticles}
+          seeAllText={t.home.seeAllPosts}
+          seeAllUrl={localizedUrl("/blog", lang)}
+        />
+      </div>
+    </main>
 
     <Footer
       madeWith={t.footer.madeWith}

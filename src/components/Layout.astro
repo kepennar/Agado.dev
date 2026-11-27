@@ -6,6 +6,8 @@ import spectralRegular from "@fontsource/spectral/files/spectral-latin-400-norma
 import ubuntuRegular from "@fontsource/ubuntu/files/ubuntu-latin-400-normal.woff2?url";
 import ubuntuBold from "@fontsource/ubuntu/files/ubuntu-latin-700-normal.woff2?url";
 
+import { getTranslations } from "@/i18n/i18n.model";
+
 interface Props {
   title?: string;
   description?: string;
@@ -78,7 +80,9 @@ const imageURL = image.startsWith("http")
         var tl = cl || (bl === "en" ? "en" : "fr");
         var cur = p.startsWith("/en") ? "en" : "fr";
         if (tl !== cur) {
-          if (!cl) document.cookie = "locale=" + tl + "; path=/; max-age=2592000; SameSite=Lax";
+          if (!cl)
+            document.cookie =
+              "locale=" + tl + "; path=/; max-age=2592000; SameSite=Lax";
           window.location.replace(tl === "fr" ? "/" : "/en");
         }
       })();
@@ -131,23 +135,43 @@ const imageURL = image.startsWith("http")
     <meta name="twitter:creator" content="@kevinpennarun" />
 
     <!-- Preload critical fonts -->
-    <link rel="preload" href={spectralRegular} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ubuntuRegular} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ubuntuBold} as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href={spectralRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={ubuntuRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={ubuntuBold}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- PWA Manifest (FR-023) -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#3457a0" />
+    <meta name="theme-color" content="#ffffff" />
   </head>
-  <body
-    class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen"
-  >
-    <main>
-      <slot />
-    </main>
+  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-primary dark:focus:bg-gray-800 dark:focus:text-link-dark"
+    >
+      {getTranslations(lang).aria.skipToContent}
+    </a>
+    <slot />
   </body>
 </html>
 

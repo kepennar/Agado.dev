@@ -1,6 +1,8 @@
 ---
 // Navbar component - site navigation bar with anchor links
 
+import { getTranslations } from "@/i18n/i18n.model";
+
 import DarkModeSwitch from "./DarkModeSwitch.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
 
@@ -20,6 +22,7 @@ interface Props {
 }
 
 const { currentLanguage = "fr", translations } = Astro.props;
+const { openMenu, closeMenu } = getTranslations(currentLanguage).aria;
 
 const homeUrl = currentLanguage === "fr" ? "/" : `/${currentLanguage}`;
 
@@ -41,9 +44,7 @@ const navLinks = hasFullNav
 const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
 ---
 
-<nav
-  class="navbar w-full flex items-center h-16 px-4 sm:px-6 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700/50 bg-white/90 dark:bg-gray-900/90"
->
+<nav class="navbar w-full flex items-center h-16 px-4 sm:px-6 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700/50 bg-white/90 dark:bg-gray-900/90">
   <div class="flex justify-between items-center w-full max-w-6xl mx-auto">
     <!-- Brand -->
     <a
@@ -54,29 +55,27 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
     </a>
 
     <!-- Nav Links (desktop) -->
-    {
-      hasFullNav ? (
-        <div class="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a
-              href={link.href}
-              class="nav-link text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="flex items-center gap-6">
+    {hasFullNav ? (
+      <div class="hidden md:flex items-center gap-6">
+        {navLinks.map((link) => (
           <a
-            href={blogUrl}
-            class="text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+            href={link.href}
+            class="nav-link text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
           >
-            {translations.articles}
+            {link.label}
           </a>
-        </div>
-      )
-    }
+        ))}
+      </div>
+    ) : (
+      <div class="flex items-center gap-6">
+        <a
+          href={blogUrl}
+          class="text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark transition-colors"
+        >
+          {translations.articles}
+        </a>
+      </div>
+    )}
 
     <!-- Actions -->
     <div class="flex items-center gap-1 sm:gap-2 print:hidden">
@@ -89,57 +88,61 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
         currentLanguage={currentLanguage}
         currentPath={currentPath}
       />
-      {
-        hasFullNav && (
-          <button
-            class="mobile-menu-btn md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary"
-            aria-label="Toggle menu"
+      {hasFullNav && (
+        <button
+          class="mobile-menu-btn md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary"
+          aria-label={openMenu}
+          data-open-label={openMenu}
+          data-close-label={closeMenu}
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                class="menu-icon"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-              <path
-                class="close-icon hidden"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        )
-      }
+            <path
+              class="menu-icon"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+            <path
+              class="close-icon hidden"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   </div>
 </nav>
 
 <!-- Mobile menu (only for pages with full nav) -->
-{
-  hasFullNav && (
-    <div class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg">
-      <div class="flex flex-col py-2 px-4">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="mobile-nav-link py-3 text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark border-b border-gray-100 dark:border-gray-800 last:border-0"
-          >
-            {link.label}
-          </a>
-        ))}
-      </div>
+{hasFullNav && (
+  <div
+    id="mobile-menu"
+    class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg"
+  >
+    <div class="flex flex-col py-2 px-4">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="mobile-nav-link py-3 text-sm font-medium text-gray-600 dark:text-gray-300 no-underline hover:text-primary dark:hover:text-link-dark border-b border-gray-100 dark:border-gray-800 last:border-0"
+        >
+          {link.label}
+        </a>
+      ))}
     </div>
-  )
-}
+  </div>
+)}
 
 <style>
   .navbar {
@@ -176,19 +179,33 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
     var closeIcon = document.querySelector(".close-icon");
 
     if (menuBtn && mobileMenu) {
+      function setOpen(open) {
+        mobileMenu.classList.toggle("hidden", !open);
+        menuIcon.classList.toggle("hidden", open);
+        closeIcon.classList.toggle("hidden", !open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.setAttribute(
+          "aria-label",
+          menuBtn.getAttribute(open ? "data-close-label" : "data-open-label"),
+        );
+      }
+
       menuBtn.addEventListener("click", function () {
-        mobileMenu.classList.toggle("hidden");
-        menuIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
+        setOpen(mobileMenu.classList.contains("hidden"));
       });
 
       // Close menu on link click
       mobileMenu.querySelectorAll("a").forEach(function (link) {
         link.addEventListener("click", function () {
-          mobileMenu.classList.add("hidden");
-          menuIcon.classList.remove("hidden");
-          closeIcon.classList.add("hidden");
+          setOpen(false);
         });
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+          setOpen(false);
+          menuBtn.focus();
+        }
       });
     }
   })();

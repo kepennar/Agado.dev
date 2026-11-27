@@ -1,22 +1,22 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page } from "@playwright/test";
 
-export type SupportedLocale = 'fr' | 'en';
+export type SupportedLocale = "fr" | "en";
 
-export const pathForLocale = (path: string, locale: SupportedLocale = 'fr') =>
-  locale === 'fr' ? path : `/en${path === '/' ? '' : path}`;
+export const pathForLocale = (path: string, locale: SupportedLocale = "fr") =>
+  locale === "fr" ? path : `/en${path === "/" ? "" : path}`;
 
 export async function getBlogPostUrls(
   page: Page,
-  locale: SupportedLocale = 'fr',
+  locale: SupportedLocale = "fr",
 ) {
-  await page.goto(pathForLocale('/blog', locale));
+  await page.goto(pathForLocale("/blog", locale));
 
-  const links = page.locator('a.blog-link');
+  const links = page.locator("a.blog-link");
   await expect(links.first()).toBeVisible();
 
   const urls = await links.evaluateAll((anchors) =>
     anchors
-      .map((anchor) => anchor.getAttribute('href'))
+      .map((anchor) => anchor.getAttribute("href"))
       .filter((href): href is string => Boolean(href)),
   );
 
@@ -26,7 +26,7 @@ export async function getBlogPostUrls(
 export async function openFirstBlogPostMatching(
   page: Page,
   matcher: (page: Page) => Promise<boolean>,
-  locale: SupportedLocale = 'fr',
+  locale: SupportedLocale = "fr",
 ) {
   const urls = await getBlogPostUrls(page, locale);
 

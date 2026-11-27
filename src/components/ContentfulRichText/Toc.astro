@@ -3,24 +3,25 @@
 // Extracts H2 headings from rich text content and creates anchor links
 // Task T046
 
-import type { Document } from '@contentful/rich-text-types'
-import { extractTableOfContents } from '@/lib/toc-extractor'
+import type { Document } from "@contentful/rich-text-types";
+
+import { extractTableOfContents } from "@/lib/toc-extractor";
 
 interface Props {
-  content: Document
-  locale?: 'fr' | 'en'
+  content: Document;
+  locale?: "fr" | "en";
 }
 
-const { content, locale = 'fr' } = Astro.props
+const { content, locale = "fr" } = Astro.props;
 
 // Extract H2 headings for table of contents
-const tocItems = extractTableOfContents(content)
+const tocItems = extractTableOfContents(content);
 
 // Only show TOC if there are at least 2 headings
-const showToc = tocItems.length >= 2
+const showToc = tocItems.length >= 2;
 
 // Get translated title
-const tocTitle = locale === 'en' ? 'Table of Contents' : 'Table des matières'
+const tocTitle = locale === "en" ? "Table of Contents" : "Table des matières";
 ---
 
 {showToc && (
@@ -76,7 +77,9 @@ const tocTitle = locale === 'en' ? 'Table of Contents' : 'Table des matières'
   .toc-link {
     color: #0066cc;
     text-decoration: none;
-    transition: color 0.2s ease, text-decoration 0.2s ease;
+    transition:
+      color 0.2s ease,
+      text-decoration 0.2s ease;
     display: inline-block;
   }
 

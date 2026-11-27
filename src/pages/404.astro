@@ -1,9 +1,9 @@
 ---
 // 404 Not Found page
 
-import Layout from "@/components/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import Layout from "@/components/Layout.astro";
 import Navbar from "@/components/Navbar.astro";
 import Spacer from "@/components/Spacer.astro";
 import type { Language } from "@/i18n/i18n.model";
@@ -33,34 +33,35 @@ const t = getTranslations(lang);
       />
     </div>
 
-    <Header siteTitle={t.notFound.title} subtitle="" />
+    <main id="main-content">
+      <Header siteTitle={t.notFound.title} subtitle="" />
 
-    <!-- Main content -->
-    <main class="max-w-4xl mx-auto px-4 py-8">
-      <Spacer direction="vertical" size="4rem" />
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        <Spacer direction="vertical" size="4rem" />
 
-      <div class="error-container">
-        <div class="error-code">404</div>
+        <div class="error-container">
+          <div class="error-code">404</div>
 
-        <Spacer direction="vertical" size="2rem" />
+          <Spacer direction="vertical" size="2rem" />
 
-        <h1 class="error-title">{t.notFound.title}</h1>
-        <p class="error-message">{t.notFound.message}</p>
+          <h1 class="error-title">{t.notFound.title}</h1>
+          <p class="error-message">{t.notFound.message}</p>
 
-        <Spacer direction="vertical" size="3rem" />
+          <Spacer direction="vertical" size="3rem" />
 
-        <div class="action-buttons">
-          <a href={localizedUrl("/", lang)} class="btn btn-primary">
-            {t.notFound.backHome}
-          </a>
+          <div class="action-buttons">
+            <a href={localizedUrl("/", lang)} class="btn btn-primary">
+              {t.notFound.backHome}
+            </a>
 
-          <a href={localizedUrl("/blog", lang)} class="btn btn-secondary">
-            {t.nav.articles}
-          </a>
+            <a href={localizedUrl("/blog", lang)} class="btn btn-secondary">
+              {t.nav.articles}
+            </a>
+          </div>
         </div>
-      </div>
 
-      <Spacer direction="vertical" size="4rem" />
+        <Spacer direction="vertical" size="4rem" />
+      </div>
     </main>
 
     <Footer

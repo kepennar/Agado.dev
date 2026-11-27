@@ -2,8 +2,8 @@
 // ExperienceItem component - Two-column timeline entry
 // Left: company + date, Center: line + dot, Right: role + description
 
-import type { Experience } from "@/lib/contentful.types";
 import RichText from "@/components/ContentfulRichText/RichText.astro";
+import type { Experience } from "@/lib/contentful.types";
 
 interface Props {
   experience: Experience;
@@ -16,30 +16,24 @@ const { experience, recent = true } = Astro.props;
 
 <div class="timeline-item">
   <!-- Left column: company + date -->
-  <div
-    class="timeline-left text-right pt-1 max-sm:text-left max-sm:flex max-sm:flex-wrap max-sm:gap-2 max-sm:items-baseline"
-  >
-    <span
-      class="block text-base font-bold text-gray-700 dark:text-gray-200 font-sans"
-    >
-      {
-        experience.fields.projectLink ? (
-          <a
-            href={experience.fields.projectLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-inherit no-underline transition-colors duration-200 hover:text-primary dark:hover:text-[#8ab4f8]"
-          >
-            {experience.fields.project}
-          </a>
-        ) : (
-          experience.fields.project
-        )
-      }
+  <div class="timeline-left text-right pt-1 max-sm:text-left max-sm:flex max-sm:flex-wrap max-sm:gap-2 max-sm:items-baseline">
+    <span class="block text-base font-bold text-gray-700 dark:text-gray-200 font-sans">
+      {experience.fields.projectLink ? (
+        <a
+          href={experience.fields.projectLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-inherit no-underline transition-colors duration-200 hover:text-primary dark:hover:text-[#8ab4f8]"
+        >
+          {experience.fields.project}
+        </a>
+      ) : (
+        experience.fields.project
+      )}
     </span>
-    <span class="block text-sm text-gray-400 dark:text-gray-500 italic mt-1"
-      >{experience.fields.duration}</span
-    >
+    <span class="block text-sm text-gray-400 dark:text-gray-500 italic mt-1">
+      {experience.fields.duration}
+    </span>
   </div>
 
   <!-- Center: dot + line -->
@@ -51,26 +45,20 @@ const { experience, recent = true } = Astro.props;
           ? "w-3.5 h-3.5 bg-primary dark:bg-[#5b8ce0] border-2 border-white dark:border-gray-900 shadow-[0_0_0_2px] shadow-primary dark:shadow-[#5b8ce0]"
           : "w-2.5 h-2.5 bg-transparent border-2 border-gray-300 dark:border-gray-600",
       ]}
-    >
-    </div>
-    <div class="timeline-line w-0.5 flex-1 bg-gray-200 dark:bg-gray-800 mt-2">
-    </div>
+    ></div>
+    <div class="timeline-line w-0.5 flex-1 bg-gray-200 dark:bg-gray-800 mt-2"></div>
   </div>
 
   <!-- Right column: role + description -->
   <div class="pb-2">
-    <h3
-      class="text-lg font-bold text-primary dark:text-[#8ab4f8] mb-2 leading-snug"
-    >
+    <h3 class="text-lg font-bold text-primary dark:text-[#8ab4f8] mb-2 leading-snug">
       {experience.fields.title}
     </h3>
-    {
-      experience.fields.details && (
-        <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-          <RichText content={experience.fields.details} />
-        </div>
-      )
-    }
+    {experience.fields.details && (
+      <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        <RichText content={experience.fields.details} />
+      </div>
+    )}
   </div>
 </div>
 
