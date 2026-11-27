@@ -3,8 +3,11 @@
 // Fixed at top of viewport, above navbar
 ---
 
-<div class="reading-progress-bar" id="reading-progress-bar" aria-hidden="true">
-</div>
+<div
+  class="reading-progress-bar"
+  id="reading-progress-bar"
+  aria-hidden="true"
+></div>
 
 <style>
   .reading-progress-bar {
@@ -33,7 +36,7 @@
       const content = document.querySelector(".blog-post-content");
       if (!bar || !content) return;
 
-      const ticking = false;
+      let ticking = false;
 
       function updateProgress() {
         const rect = content.getBoundingClientRect();
