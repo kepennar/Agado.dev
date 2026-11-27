@@ -1,6 +1,7 @@
 ---
 // Layout component with SEO meta tags
 
+import monoRegular from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
 // Import critical font files to get hashed URLs for preloading
 import spectralRegular from "@fontsource/spectral/files/spectral-latin-400-normal.woff2?url";
 import ubuntuRegular from "@fontsource/ubuntu/files/ubuntu-latin-400-normal.woff2?url";
@@ -156,18 +157,25 @@ const imageURL = image.startsWith("http")
       type="font/woff2"
       crossorigin
     />
+    <link
+      rel="preload"
+      href={monoRegular}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- PWA Manifest (FR-023) -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#f5f7fb" />
   </head>
-  <body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
+  <body class="bg-bp-bg text-bp-ink min-h-screen">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-primary dark:focus:bg-gray-800 dark:focus:text-link-dark"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:border focus:border-bp-accent focus:bg-bp-surface focus:text-bp-accent focus:font-mono focus:text-sm"
     >
       {getTranslations(lang).aria.skipToContent}
     </a>

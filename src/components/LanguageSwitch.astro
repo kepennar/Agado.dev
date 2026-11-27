@@ -20,7 +20,7 @@ const targetUrl =
 <a
   href={targetUrl}
   id="language-switch"
-  class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer no-underline"
+  class="group flex items-center gap-1.5 h-9 px-2.5 rounded-sm border border-bp-line text-bp-ink hover:border-bp-accent hover:text-bp-accent transition-colors cursor-pointer no-underline"
   aria-label={
     currentLanguage === "fr" ? "Switch to English" : "Passer en français"
   }
@@ -28,7 +28,7 @@ const targetUrl =
   data-target-lang={targetLang}
 >
   <svg
-    class="w-5 h-5 text-gray-700 dark:text-gray-300"
+    class="w-4 h-4"
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="20"
@@ -43,7 +43,7 @@ const targetUrl =
     <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
     <path d="M2 12h20"></path>
   </svg>
-  <span class="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase">
+  <span class="font-mono text-xs font-medium tracking-wider uppercase">
     {targetLang}
   </span>
 </a>

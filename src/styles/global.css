@@ -7,81 +7,353 @@
 /* Configure dark mode to use class strategy */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Tailwind v4 theme configuration using @theme */
+/*
+ * Blueprint design tokens.
+ * Raw values switch with the theme on :root / .dark; Tailwind utilities
+ * (bg-bp-bg, text-bp-ink, border-bp-line, ...) read them through @theme inline.
+ */
+:root {
+  --bp-bg: #f5f7fb;
+  --bp-surface: #ffffff;
+  --bp-surface-alt: #edf1f8;
+  --bp-ink: #0a1628;
+  --bp-muted: #44536a;
+  --bp-faint: #56667e;
+  --bp-accent: #2b54a8;
+  --bp-accent-strong: #1d3f86;
+  --bp-on-accent: #ffffff;
+  --bp-signal: #c2410c;
+  --bp-line: rgb(43 84 168 / 0.16);
+  --bp-line-strong: rgb(43 84 168 / 0.38);
+  --bp-grid-minor: rgb(43 84 168 / 0.06);
+  --bp-grid-major: rgb(43 84 168 / 0.11);
+}
+
+.dark {
+  --bp-bg: #06101e;
+  --bp-surface: #0b1830;
+  --bp-surface-alt: #0a172b;
+  --bp-ink: #e8eef8;
+  --bp-muted: #a8b6cb;
+  --bp-faint: #8b9bb3;
+  --bp-accent: #8ab4f8;
+  --bp-accent-strong: #b3cefb;
+  --bp-on-accent: #06101e;
+  --bp-signal: #fb923c;
+  --bp-line: rgb(138 180 248 / 0.16);
+  --bp-line-strong: rgb(138 180 248 / 0.36);
+  --bp-grid-minor: rgb(138 180 248 / 0.05);
+  --bp-grid-major: rgb(138 180 248 / 0.09);
+}
+
+@theme inline {
+  --color-bp-bg: var(--bp-bg);
+  --color-bp-surface: var(--bp-surface);
+  --color-bp-surface-alt: var(--bp-surface-alt);
+  --color-bp-ink: var(--bp-ink);
+  --color-bp-muted: var(--bp-muted);
+  --color-bp-faint: var(--bp-faint);
+  --color-bp-accent: var(--bp-accent);
+  --color-bp-accent-strong: var(--bp-accent-strong);
+  --color-bp-on-accent: var(--bp-on-accent);
+  --color-bp-signal: var(--bp-signal);
+  --color-bp-line: var(--bp-line);
+  --color-bp-line-strong: var(--bp-line-strong);
+}
+
 @theme {
-  /* Custom colors for light mode (with dark mode variants) */
-  --color-primary: #3457a0;
-  --color-header-bg: #ffffff;
-  --color-header-bg-dark: #051523;
+  /* Legacy colors, still used by a few utilities */
+  --color-primary: #2b54a8;
   --color-link: #649fff;
   --color-link-dark: #8ab4f8;
 
-  /* Font families */
-  --font-family-sans: "Ubuntu", sans-serif;
-  --font-family-serif: "Spectral", serif;
+  --font-sans: "Ubuntu", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Spectral", Georgia, serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Blueprint grid cell sizes */
+  --spacing-grid: 24px;
+  --spacing-grid-major: 120px;
 }
 
-body {
-  @apply bg-white dark:bg-gray-900 text-black dark:text-white;
-  font:
-    112.5% / 1.45em Spectral,
-    serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  html {
+    color-scheme: light;
+    /* Smooth scrolling for anchor links */
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bp-bg);
+    color: var(--bp-ink);
+    font:
+      112.5% / 1.45em Spectral,
+      serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--bp-accent) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--bp-accent);
+    outline-offset: 3px;
+  }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Ubuntu", sans-serif;
+/* Component classes sit in the components layer so utilities (print:hidden, ...) override them */
+@layer components {
+  /* ---------- Blueprint surfaces ---------- */
+
+  /* Drafting-paper grid: minor 24px cells, major every 120px */
+  .bp-grid {
+    background-image:
+      linear-gradient(var(--bp-grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bp-grid-major) 1px, transparent 1px),
+      linear-gradient(var(--bp-grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bp-grid-minor) 1px, transparent 1px);
+    background-size:
+      var(--spacing-grid-major) var(--spacing-grid-major),
+      var(--spacing-grid-major) var(--spacing-grid-major),
+      var(--spacing-grid) var(--spacing-grid),
+      var(--spacing-grid) var(--spacing-grid);
+    background-position: -1px -1px;
+  }
+
+  /* Fade the grid out towards the edges */
+  .bp-grid-fade {
+    mask-image: radial-gradient(
+      ellipse 80% 75% at 50% 40%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  /* Thin-bordered panel with drafting corner marks */
+  .bp-panel {
+    position: relative;
+    background-color: var(--bp-surface);
+    border: 1px solid var(--bp-line);
+  }
+
+  .bp-panel::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    --c: 10px;
+    --w: 1px;
+    background:
+      linear-gradient(var(--bp-accent), var(--bp-accent)) top left / var(--c)
+        var(--w),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) top left / var(--w)
+        var(--c),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) top right / var(--c)
+        var(--w),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) top right / var(--w)
+        var(--c),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) bottom left / var(--c)
+        var(--w),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) bottom left / var(--w)
+        var(--c),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) bottom right /
+        var(--c) var(--w),
+      linear-gradient(var(--bp-accent), var(--bp-accent)) bottom right /
+        var(--w) var(--c);
+    background-repeat: no-repeat;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .bp-panel-hover {
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .bp-panel-hover:hover {
+    border-color: var(--bp-line-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -18px
+      color-mix(in oklab, var(--bp-accent) 60%, transparent);
+  }
+
+  .bp-panel-hover:hover::before {
+    opacity: 1;
+  }
+
+  /* Monospace metadata: dates, tags, coordinates */
+  .bp-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--bp-faint);
+  }
+
+  .bp-chip {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.4;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+  }
+
+  /* ---------- Section headings ---------- */
+
+  main {
+    counter-reset: bp-section;
+  }
+
+  /*
+   * "01 / LABEL ───┼───┼──" : numbered mono label followed by a ruler.
+   * Numbers come from a counter so a new section is numbered with no extra markup;
+   * the alt text after "/" keeps them out of the accessible name.
+   */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bp-accent);
+  }
+
+  .section-label::before {
+    counter-increment: bp-section;
+    content: counter(bp-section, decimal-leading-zero) " /" / "";
+    color: var(--bp-faint);
+  }
+
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 7px;
+    background:
+      linear-gradient(var(--bp-line-strong), var(--bp-line-strong)) left
+        bottom / 100% 1px no-repeat,
+      repeating-linear-gradient(
+          90deg,
+          var(--bp-line-strong) 0 1px,
+          transparent 1px 24px
+        )
+        left bottom / 100% 7px no-repeat;
+    mask-image: linear-gradient(90deg, #000 60%, transparent);
+  }
+
+  .section-title {
+    margin-top: 1.25rem;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--bp-ink);
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--bp-accent);
+    border-radius: 2px;
+    color: var(--bp-accent);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .btn-outline:hover {
+    background-color: var(--bp-accent);
+    color: var(--bp-on-accent);
+    box-shadow: 4px 4px 0 var(--bp-line-strong);
+  }
 }
 
-/* Section label utility */
-.section-label {
-  @apply inline-block text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 font-sans;
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .bp-panel-hover:hover {
+    transform: none;
+  }
 }
 
-/* Shared button styles */
-.btn-outline {
-  display: inline-block;
-  padding: 0.625rem 1.5rem;
-  border: 2px solid var(--color-primary, #3457a0);
-  color: var(--color-primary, #3457a0);
-  border-radius: 0.5rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  cursor: pointer;
-  background: transparent;
-  font-size: 1rem;
-  font-family: "Ubuntu", sans-serif;
+/* ---------- Print: plain CV ---------- */
+
+@media print {
+  :root,
+  .dark {
+    --bp-bg: #ffffff;
+    --bp-surface: #ffffff;
+    --bp-surface-alt: #ffffff;
+    --bp-ink: #000000;
+    --bp-muted: #222222;
+    --bp-faint: #444444;
+    --bp-accent: #1d3f86;
+    --bp-line: #cccccc;
+    --bp-line-strong: #999999;
+  }
+
+  .bp-grid {
+    background: none !important;
+  }
+
+  .bp-panel::before,
+  .section-label::after {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
-.btn-outline:hover {
-  background-color: var(--color-primary, #3457a0);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(52, 87, 160, 0.25);
-}
-
-.dark .btn-outline {
-  border-color: #5b8ce0;
-  color: #5b8ce0;
-}
-
-.dark .btn-outline:hover {
-  background-color: #5b8ce0;
-  color: #fff;
-  box-shadow: 0 4px 8px rgba(91, 140, 224, 0.25);
-}
+/* ---------- Code (Shiki) ---------- */
 
 html.dark .shiki,
 html.dark .shiki span {
@@ -99,18 +371,4 @@ html.dark .shiki span[style*="--shiki-dark:#758575"] {
 
 html.dark .shiki span[style*="--shiki-dark:#666666"] {
   --shiki-dark: #999999 !important;
-}
-
-html {
-  color-scheme: light;
-}
-
-html.dark {
-  color-scheme: dark;
-}
-
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
 }
