@@ -101,6 +101,14 @@ html.dark .shiki span[style*="--shiki-dark:#666666"] {
   --shiki-dark: #999999 !important;
 }
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 /* Smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;

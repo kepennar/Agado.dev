@@ -70,6 +70,10 @@ const {
 
     function updateIcons() {
       var isDark = document.documentElement.classList.contains("dark");
+      // Match the browser UI to the page background (body: white / gray-900)
+      document
+        .querySelector('meta[name="theme-color"]')
+        .setAttribute("content", isDark ? "#101828" : "#ffffff");
       sun.classList.toggle("hidden", !isDark);
       moon.classList.toggle("hidden", isDark);
       btn.setAttribute(

@@ -85,53 +85,55 @@ const shareUrl = `https://agado.dev${localizedUrl(`/blog/${post.fields.slug}`, l
       />
     </div>
 
-    <Header siteTitle={post.fields.title} subtitle={publishDate} />
+    <main id="main-content">
+      <Header siteTitle={post.fields.title} subtitle={publishDate} />
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
-      <Spacer direction="vertical" size="2rem" />
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        <Spacer direction="vertical" size="2rem" />
 
-      <div class="article-meta">
-        {publishDate && (
-          <time datetime={post.fields.publishDate} class="publish-date">
-            {t.common.published} {publishDate}
-          </time>
+        <div class="article-meta">
+          {publishDate && (
+            <time datetime={post.fields.publishDate} class="publish-date">
+              {t.common.published} {publishDate}
+            </time>
+          )}
+          {readingTime && (
+            <span class="reading-time">
+              &middot; {readingTime} {t.blog.readingTime}
+            </span>
+          )}
+        </div>
+
+        <Spacer direction="vertical" size="1rem" />
+
+        {post.fields.content && (
+          <Toc content={post.fields.content} locale={lang} />
         )}
-        {readingTime && (
-          <span class="reading-time">
-            &middot; {readingTime} {t.blog.readingTime}
-          </span>
+
+        <Spacer direction="vertical" size="2rem" />
+
+        {post.fields.content && (
+          <article class="blog-post-content">
+            <RichText content={post.fields.content} />
+          </article>
         )}
-      </div>
 
-      <Spacer direction="vertical" size="1rem" />
+        <ShareButtons
+          url={shareUrl}
+          translations={{
+            shareOn: t.blog.shareOn,
+            copyLink: t.blog.copyLink,
+            linkCopied: t.blog.linkCopied,
+          }}
+        />
 
-      {post.fields.content && (
-        <Toc content={post.fields.content} locale={lang} />
-      )}
+        <Spacer direction="vertical" size="2rem" />
 
-      <Spacer direction="vertical" size="2rem" />
-
-      {post.fields.content && (
-        <article class="blog-post-content">
-          <RichText content={post.fields.content} />
-        </article>
-      )}
-
-      <ShareButtons
-        url={shareUrl}
-        translations={{
-          shareOn: t.blog.shareOn,
-          copyLink: t.blog.copyLink,
-          linkCopied: t.blog.linkCopied,
-        }}
-      />
-
-      <Spacer direction="vertical" size="2rem" />
-
-      <div class="text-center">
-        <a href={localizedUrl("/blog", lang)} class="btn-outline">
-          {t.common.backToBlog}
-        </a>
+        <div class="text-center">
+          <a href={localizedUrl("/blog", lang)} class="btn-outline">
+            {t.common.backToBlog}
+          </a>
+        </div>
       </div>
     </main>
 

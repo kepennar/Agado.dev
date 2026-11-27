@@ -16,9 +16,13 @@ const { socials } = Astro.props;
 ---
 
 <div class="flex">
-  <div class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/10 gap-12">
+  <!-- Light backdrop in dark mode too: the logos are dark on transparent -->
+  <div class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/90 gap-12">
     {socials.map((social) => {
       const imageData = getImageMetadata(social.fields.picto);
+      // Displayed at most 28px tall (sm:h-7): serve 2x for high-DPI screens
+      const height = 56;
+      const width = Math.round((imageData.width * height) / imageData.height);
       return (
         <a
           href={social.fields.url}
@@ -30,8 +34,8 @@ const { socials } = Astro.props;
           <Image
             src={imageData.src}
             alt={imageData.alt || `${social.fields.label} logo`}
-            width={imageData.width}
-            height={imageData.height}
+            width={width}
+            height={height}
             class="h-full w-auto"
             loading="eager"
             format="webp"

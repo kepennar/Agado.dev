@@ -42,7 +42,7 @@ const olderExperiences = experiences.slice(4);
         <>
           <div class="show-more-container text-center my-8">
             <button class="show-more-btn btn-outline">
-              {translations.showMore || "VOIR +"}
+              {translations.showMore}
             </button>
           </div>
 
@@ -72,6 +72,12 @@ const olderExperiences = experiences.slice(4);
       showMoreBtn.addEventListener("click", () => {
         olderExperiences.classList.remove("hidden");
         showMoreContainer.classList.add("hidden");
+        // The button disappears; keep keyboard focus at the revealed content
+        const first = olderExperiences.firstElementChild;
+        if (first instanceof HTMLElement) {
+          first.tabIndex = -1;
+          first.focus();
+        }
       });
     }
   }

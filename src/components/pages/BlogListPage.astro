@@ -42,37 +42,39 @@ const pageDescription = t.blog.subtitle;
         }}
       />
     </div>
-    <Header siteTitle={t.blog.title} subtitle={t.blog.subtitle} />
+    <main id="main-content">
+      <Header siteTitle={t.blog.title} subtitle={t.blog.subtitle} />
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
-      {posts.length > 0 ? (
-        <div class="blog-posts-container">
-          {posts.map((post) => (
-            <BlogLink
-              blogPost={post}
-              locale={lang}
-              readingTime={
-                post.fields.content
-                  ? estimateReadingTime(post.fields.content)
-                  : undefined
-              }
-            />
-          ))}
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        {posts.length > 0 ? (
+          <div class="blog-posts-container">
+            {posts.map((post) => (
+              <BlogLink
+                blogPost={post}
+                locale={lang}
+                readingTime={
+                  post.fields.content
+                    ? estimateReadingTime(post.fields.content)
+                    : undefined
+                }
+              />
+            ))}
+          </div>
+        ) : (
+          <div class="no-posts">
+            <p class="text-center text-gray-600 dark:text-gray-400 text-lg">
+              {t.blog.noPosts}
+            </p>
+          </div>
+        )}
+
+        <Spacer direction="vertical" size="2rem" />
+
+        <div class="text-center">
+          <a href={localizedUrl("/", lang)} class="btn-outline">
+            {t.common.backToHome}
+          </a>
         </div>
-      ) : (
-        <div class="no-posts">
-          <p class="text-center text-gray-600 dark:text-gray-400 text-lg">
-            {t.blog.noPosts}
-          </p>
-        </div>
-      )}
-
-      <Spacer direction="vertical" size="2rem" />
-
-      <div class="text-center">
-        <a href={localizedUrl("/", lang)} class="btn-outline">
-          {t.common.backToHome}
-        </a>
       </div>
     </main>
 

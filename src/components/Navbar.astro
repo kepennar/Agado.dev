@@ -1,6 +1,8 @@
 ---
 // Navbar component - site navigation bar with anchor links
 
+import { getTranslations } from "@/i18n/i18n.model";
+
 import DarkModeSwitch from "./DarkModeSwitch.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
 
@@ -20,6 +22,7 @@ interface Props {
 }
 
 const { currentLanguage = "fr", translations } = Astro.props;
+const { openMenu, closeMenu } = getTranslations(currentLanguage).aria;
 
 const homeUrl = currentLanguage === "fr" ? "/" : `/${currentLanguage}`;
 
@@ -88,9 +91,14 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
       {hasFullNav && (
         <button
           class="mobile-menu-btn md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-primary"
-          aria-label="Toggle menu"
+          aria-label={openMenu}
+          data-open-label={openMenu}
+          data-close-label={closeMenu}
+          aria-expanded="false"
+          aria-controls="mobile-menu"
         >
           <svg
+            aria-hidden="true"
             class="w-5 h-5"
             fill="none"
             stroke="currentColor"
@@ -119,7 +127,10 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
 
 <!-- Mobile menu (only for pages with full nav) -->
 {hasFullNav && (
-  <div class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg">
+  <div
+    id="mobile-menu"
+    class="mobile-menu hidden md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700/50 shadow-lg"
+  >
     <div class="flex flex-col py-2 px-4">
       {navLinks.map((link) => (
         <a
@@ -168,19 +179,33 @@ const blogUrl = currentLanguage === "fr" ? "/blog" : `/${currentLanguage}/blog`;
     var closeIcon = document.querySelector(".close-icon");
 
     if (menuBtn && mobileMenu) {
+      function setOpen(open) {
+        mobileMenu.classList.toggle("hidden", !open);
+        menuIcon.classList.toggle("hidden", open);
+        closeIcon.classList.toggle("hidden", !open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.setAttribute(
+          "aria-label",
+          menuBtn.getAttribute(open ? "data-close-label" : "data-open-label"),
+        );
+      }
+
       menuBtn.addEventListener("click", function () {
-        mobileMenu.classList.toggle("hidden");
-        menuIcon.classList.toggle("hidden");
-        closeIcon.classList.toggle("hidden");
+        setOpen(mobileMenu.classList.contains("hidden"));
       });
 
       // Close menu on link click
       mobileMenu.querySelectorAll("a").forEach(function (link) {
         link.addEventListener("click", function () {
-          mobileMenu.classList.add("hidden");
-          menuIcon.classList.remove("hidden");
-          closeIcon.classList.add("hidden");
+          setOpen(false);
         });
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+          setOpen(false);
+          menuBtn.focus();
+        }
       });
     }
   })();
