@@ -18,26 +18,53 @@ interface Props {
 const { slogan, abstract, translations } = Astro.props;
 ---
 
-<section class="py-16 sm:py-20 border-y border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a1628]">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+<section class="py-16 sm:py-24 border-b border-bp-line bg-bp-surface-alt print:bg-transparent print:py-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <span class="section-label">{translations.keyDifferentiators}</span>
 
     {slogan?.fields?.text && (
-      <div class="mt-6 text-2xl font-semibold italic leading-snug text-gray-900 dark:text-gray-50">
+      <div class="slogan mt-8 max-w-4xl text-bp-ink">
         <RichText content={slogan.fields.text} />
       </div>
     )}
 
-    {abstract?.fields?.content && (
-      <div class="mt-8 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-        <RichText content={abstract.fields.content} />
-      </div>
-    )}
+    <div class="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-12 items-start">
+      {abstract?.fields?.content && (
+        <div class="abstract lg:col-span-7 text-bp-muted">
+          <RichText content={abstract.fields.content} />
+        </div>
+      )}
 
-    <div class="mt-10">
-      <p class="text-sm italic text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl pl-6 border-l-[3px] border-primary dark:border-[#5b8ce0]">
-        {translations.differentiatorQuote2}
-      </p>
+      <figure class="bp-panel m-0 p-6 sm:p-8 lg:col-span-5 print:border-0 print:p-0">
+        <span
+          aria-hidden="true"
+          class="block font-mono text-3xl leading-none text-bp-accent mb-4 print:hidden"
+        >
+          &gt;_
+        </span>
+        <blockquote class="m-0 font-serif text-lg italic leading-relaxed text-bp-ink">
+          {translations.differentiatorQuote2}
+        </blockquote>
+      </figure>
     </div>
   </div>
 </section>
+
+<style>
+  .slogan :global(.cms-content) {
+    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+    line-height: 1.35;
+    font-style: italic;
+    color: inherit;
+  }
+
+  .slogan :global(.cms-content p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .abstract :global(.cms-content) {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: inherit;
+  }
+</style>

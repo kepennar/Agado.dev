@@ -1,0 +1,347 @@
+---
+// SystemDiagram - decorative hero figure: a layered system architecture drawn as a blueprint.
+// The finished drawing is the base style; the draw-in and data-flow animations only run
+// under prefers-reduced-motion: no-preference, so reduced motion and print get a static figure.
+
+interface Node {
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  label: string;
+  kind?: "db" | "bus" | "core";
+}
+
+const H = 44; // node height
+const nodes: Node[] = [
+  { id: "client", x: 220, y: 28, w: 140, label: "client" },
+  { id: "gateway", x: 205, y: 112, w: 170, label: "api-gateway" },
+  { id: "auth", x: 50, y: 204, w: 136, label: "auth" },
+  { id: "core", x: 222, y: 204, w: 136, label: "core", kind: "core" },
+  { id: "search", x: 394, y: 204, w: 136, label: "search" },
+  { id: "bus", x: 50, y: 300, w: 480, label: "event-bus", kind: "bus" },
+  { id: "db", x: 50, y: 380, w: 136, label: "postgres", kind: "db" },
+  { id: "cache", x: 222, y: 380, w: 136, label: "cache" },
+  { id: "worker", x: 394, y: 380, w: 136, label: "workers" },
+];
+
+// Orthogonal connectors, in drawing order
+const edges = [
+  "M290 72 V112",
+  "M290 156 V180 H118 V204",
+  "M290 156 V204",
+  "M290 156 V180 H462 V204",
+  "M118 248 V300",
+  "M290 248 V300",
+  "M462 248 V300",
+  "M118 328 V380",
+  "M290 328 V380",
+  "M462 328 V380",
+];
+
+// Edges that carry an animated "packet"
+const flows = [
+  { d: "M290 72 V112 M290 156 V204 M290 248 V300 M290 328 V380", dur: 4.2 },
+  { d: "M290 156 V180 H118 V204 M118 248 V300 M118 328 V380", dur: 5.4 },
+  { d: "M290 156 V180 H462 V204 M462 248 V300 M462 328 V380", dur: 6.1 },
+];
+
+const layers = [
+  { y: 50, label: "L0" },
+  { y: 134, label: "L1" },
+  { y: 226, label: "L2" },
+  { y: 314, label: "L3" },
+  { y: 402, label: "L4" },
+];
+
+const year = new Date().getFullYear();
+---
+
+<svg
+  class="system-diagram w-full h-auto"
+  viewBox="0 0 580 480"
+  role="presentation"
+  aria-hidden="true"
+  focusable="false"
+>
+  <!-- Layer guides and indices -->
+  <g class="dg-guides">
+    {layers.map((l) => (
+      <>
+        <line x1="34" x2="540" y1={l.y} y2={l.y} />
+        <text x="6" y={l.y + 3.5} class="dg-annot">
+          {l.label}
+        </text>
+      </>
+    ))}
+  </g>
+
+  <!-- Vertical dimension line -->
+  <g class="dg-dim">
+    <line x1="560" x2="560" y1="28" y2="424" />
+    <line x1="552" x2="568" y1="28" y2="28" />
+    <line x1="552" x2="568" y1="424" y2="424" />
+    <path d="M556 38 L560 28 L564 38 M556 414 L560 424 L564 414" />
+  </g>
+
+  <!-- Connectors -->
+  <g class="dg-edges">
+    {edges.map((d, i) => (
+      <path d={d} pathLength="1" style={`--i:${i}`} />
+    ))}
+  </g>
+
+  <!-- Protocol annotations -->
+  <g class="dg-protocols">
+    <text x="298" y="95" class="dg-annot">
+      HTTPS
+    </text>
+    <text x="470" y="197" class="dg-annot">
+      gRPC
+    </text>
+    <text x="126" y="278" class="dg-annot">
+      pub/sub
+    </text>
+    <text x="126" y="358" class="dg-annot">
+      SQL
+    </text>
+    <text x="298" y="358" class="dg-annot">
+      TTL 60s
+    </text>
+  </g>
+
+  <!-- Data flow -->
+  <g class="dg-flows">
+    {flows.map((f, i) => (
+      <path d={f.d} pathLength="100" style={`--dur:${f.dur}s;--i:${i}`} />
+    ))}
+  </g>
+
+  <!-- Nodes -->
+  <g class="dg-nodes">
+    {nodes.map((n, i) => (
+      <g class:list={["dg-node", n.kind && `dg-${n.kind}`]} style={`--i:${i}`}>
+        <rect
+          x={n.x}
+          y={n.y}
+          width={n.w}
+          height={n.kind === "bus" ? 28 : H}
+          rx="2"
+        />
+        {n.kind === "db" && (
+          <line
+            class="dg-detail"
+            x1={n.x}
+            x2={n.x + n.w}
+            y1={n.y + 9}
+            y2={n.y + 9}
+          />
+        )}
+        {n.kind === "core" && (
+          <circle class="dg-pulse" cx={n.x + n.w - 12} cy={n.y + 12} r="3" />
+        )}
+        <text
+          x={n.x + n.w / 2}
+          y={n.y + (n.kind === "bus" ? 18 : n.kind === "db" ? 31 : 26.5)}
+          text-anchor="middle"
+          class="dg-label"
+        >
+          {n.label}
+        </text>
+        {n.kind !== "bus" && (
+          <>
+            <rect
+              class="dg-port"
+              x={n.x + n.w / 2 - 2.5}
+              y={n.y - 2.5}
+              width="5"
+              height="5"
+            />
+            <rect
+              class="dg-port"
+              x={n.x + n.w / 2 - 2.5}
+              y={n.y + H - 2.5}
+              width="5"
+              height="5"
+            />
+          </>
+        )}
+      </g>
+    ))}
+  </g>
+
+  <!-- Title block -->
+  <g class="dg-title">
+    <rect x="330" y="440" width="230" height="32" />
+    <line x1="410" x2="410" y1="440" y2="472" />
+    <line x1="490" x2="490" y1="440" y2="472" />
+    <text x="370" y="460" text-anchor="middle" class="dg-annot dg-annot-strong">
+      FIG.01
+    </text>
+    <text x="450" y="460" text-anchor="middle" class="dg-annot">
+      SCALE 1:1
+    </text>
+    <text
+      x="525"
+      y="460"
+      text-anchor="middle"
+      class="dg-annot"
+    >{`REV.${year}`}</text>
+  </g>
+</svg>
+
+<style>
+  .system-diagram {
+    overflow: visible;
+    font-family: var(--font-mono);
+  }
+
+  .dg-guides line {
+    stroke: var(--bp-line);
+    stroke-dasharray: 2 6;
+  }
+
+  .dg-annot {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    fill: var(--bp-faint);
+  }
+
+  .dg-annot-strong {
+    fill: var(--bp-accent);
+    font-weight: 500;
+  }
+
+  .dg-dim line,
+  .dg-dim path {
+    stroke: var(--bp-line-strong);
+    fill: none;
+  }
+
+  .dg-edges path {
+    fill: none;
+    stroke: var(--bp-accent);
+    stroke-width: 1.25;
+    opacity: 0.55;
+  }
+
+  .dg-flows path {
+    fill: none;
+    stroke: var(--bp-signal);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    /* Static: hidden. Animated variant below draws moving packets. */
+    opacity: 0;
+  }
+
+  .dg-node rect {
+    fill: var(--bp-surface);
+    stroke: var(--bp-line-strong);
+    stroke-width: 1;
+  }
+
+  .dg-node .dg-port {
+    fill: var(--bp-bg);
+    stroke: var(--bp-accent);
+  }
+
+  .dg-label {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    fill: var(--bp-ink);
+  }
+
+  .dg-core rect:first-child {
+    stroke: var(--bp-accent);
+    stroke-width: 1.5;
+    fill: color-mix(in oklab, var(--bp-accent) 10%, var(--bp-surface));
+  }
+
+  .dg-bus rect {
+    fill: color-mix(in oklab, var(--bp-accent) 7%, var(--bp-surface));
+    stroke-dasharray: 6 3;
+  }
+
+  .dg-detail {
+    stroke: var(--bp-line-strong);
+  }
+
+  .dg-pulse {
+    fill: var(--bp-signal);
+  }
+
+  .dg-title rect,
+  .dg-title line {
+    fill: none;
+    stroke: var(--bp-line-strong);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dg-node {
+      opacity: 0;
+      animation: dg-fade 0.5s ease-out forwards;
+      animation-delay: calc(0.15s + var(--i) * 0.09s);
+    }
+
+    .dg-edges path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: dg-draw 0.6s ease-in-out forwards;
+      animation-delay: calc(0.5s + var(--i) * 0.08s);
+    }
+
+    .dg-flows path {
+      opacity: 1;
+      stroke-dasharray: 3 97;
+      stroke-dashoffset: 100;
+      animation: dg-flow var(--dur) linear infinite;
+      animation-delay: calc(1.6s + var(--i) * 0.7s);
+      visibility: hidden;
+    }
+
+    .dg-guides,
+    .dg-dim,
+    .dg-protocols,
+    .dg-title {
+      opacity: 0;
+      animation: dg-fade 0.8s ease-out 0.1s forwards;
+    }
+
+    .dg-protocols {
+      animation-delay: 1.3s;
+    }
+
+    .dg-pulse {
+      animation: dg-pulse 2.4s ease-in-out 1.8s infinite;
+    }
+  }
+
+  @keyframes dg-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dg-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes dg-flow {
+    0% {
+      visibility: visible;
+      stroke-dashoffset: 100;
+    }
+    100% {
+      visibility: visible;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes dg-pulse {
+    50% {
+      opacity: 0.25;
+    }
+  }
+</style>

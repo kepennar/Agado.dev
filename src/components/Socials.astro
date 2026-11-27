@@ -16,8 +16,8 @@ const { socials } = Astro.props;
 ---
 
 <div class="flex">
-  <!-- Light backdrop in dark mode too: the logos are dark on transparent -->
-  <div class="flex flex-wrap justify-start p-2 rounded-md bg-white/30 dark:bg-white/90 gap-12">
+  <!-- The logos are dark on transparent: invert luminance (keep hues) in dark mode -->
+  <div class="flex flex-wrap items-center justify-start gap-7 dark:[&_img]:[filter:invert(1)_hue-rotate(180deg)] print:[&_img]:[filter:none]">
     {socials.map((social) => {
       const imageData = getImageMetadata(social.fields.picto);
       // Displayed at most 28px tall (sm:h-7): serve 2x for high-DPI screens
@@ -29,7 +29,7 @@ const { socials } = Astro.props;
           href={social.fields.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="h-6 print:h-4 sm:h-7 hover:opacity-80 hover:scale-110 transition-all duration-200"
+          class="h-5 print:h-4 sm:h-6 opacity-85 hover:opacity-100 transition-opacity duration-200"
           title={social.fields.label}
         >
           <Image

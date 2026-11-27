@@ -37,25 +37,16 @@ function getAbstractImageUrl(post: BlogPost): string | null {
   }
   return null;
 }
-
-// Placeholder colors for posts without images
-const placeholderColors = [
-  "from-red-700 to-red-900",
-  "from-amber-700 to-amber-900",
-  "from-blue-700 to-blue-900",
-];
 ---
 
 {latestPosts.length > 0 && (
   <section
     id="posts"
-    class="py-16 sm:py-20 bg-gray-50 dark:bg-[#0a1628] border-t border-gray-200 dark:border-gray-800 print:hidden"
+    class="py-16 sm:py-24 bg-bp-surface-alt border-t border-bp-line print:hidden"
   >
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <span class="section-label">{sectionLabel}</span>
-      <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-8">
-        {title}
-      </h2>
+      <h2 class="section-title">{title}</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
         {latestPosts.map((post, index) => {
           const blogUrl =
@@ -68,50 +59,55 @@ const placeholderColors = [
                 { year: "numeric", month: "short", day: "numeric" },
               )
             : "";
-          const colorClass =
-            placeholderColors[index % placeholderColors.length];
           const imageUrl = getAbstractImageUrl(post);
           return (
             <a
               href={blogUrl}
-              class="post-card group flex flex-col border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden no-underline text-inherit bg-white dark:bg-gray-900 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_12px_24px_rgba(0,0,0,0.3)]"
+              class="post-card group bp-panel bp-panel-hover flex flex-col no-underline text-inherit"
             >
-              {imageUrl ? (
-                <div class="aspect-[16/10] overflow-hidden">
+              <div class="post-cover relative aspect-[16/10] overflow-hidden border-b border-bp-line">
+                {imageUrl ? (
                   <img
                     src={imageUrl}
-                    alt={post.fields.title}
-                    class="w-full h-full object-cover"
+                    alt=""
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     loading="lazy"
                   />
-                </div>
-              ) : (
-                <div
-                  class={`aspect-[16/10] flex items-center justify-center p-6 bg-gradient-to-br ${colorClass}`}
-                >
-                  <span class="text-white/90 font-sans font-bold text-base text-center leading-snug">
-                    {post.fields.title}
-                  </span>
-                </div>
-              )}
-              <div class="p-4 pb-5">
-                <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50 leading-snug mb-2 group-hover:text-primary dark:group-hover:text-[#8ab4f8] transition-colors">
-                  {post.fields.title}
-                </h3>
+                ) : (
+                  <div
+                    class="bp-grid w-full h-full flex items-end p-5"
+                    aria-hidden="true"
+                  >
+                    <span class="font-mono text-5xl font-medium text-bp-line-strong">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div class="flex flex-1 flex-col gap-3 p-5">
                 {publishDate && (
                   <time
-                    class="text-xs text-gray-500 dark:text-gray-400 italic"
+                    class="bp-meta uppercase"
                     datetime={post.fields.publishDate}
                   >
                     {publishDate}
                   </time>
                 )}
+                <h3 class="font-sans text-[1.05rem] font-bold tracking-tight text-bp-ink leading-snug group-hover:text-bp-accent transition-colors">
+                  {post.fields.title}
+                </h3>
+                <span
+                  aria-hidden="true"
+                  class="mt-auto pt-2 font-mono text-sm text-bp-accent transition-transform duration-200 group-hover:translate-x-1"
+                >
+                  &rarr;
+                </span>
               </div>
             </a>
           );
         })}
       </div>
-      <div class="mt-8 text-center">
+      <div class="mt-10 text-center">
         <a href={seeAllUrl} class="btn-outline">
           {seeAllText}
         </a>

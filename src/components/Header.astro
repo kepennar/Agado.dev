@@ -6,6 +6,7 @@ import type { Abstract, Social } from "@/lib/contentful.types";
 
 import RichText from "./ContentfulRichText/RichText.astro";
 import Socials from "./Socials.astro";
+import SystemDiagram from "./SystemDiagram.astro";
 
 interface Props {
   siteTitle?: string;
@@ -47,42 +48,70 @@ if (abstractDoc) {
 {isHero ? (
   <header
     id="about"
-    class="pt-16 pb-12 sm:pt-20 sm:pb-16 print:pt-4 print:pb-0"
+    class="relative isolate overflow-hidden border-b border-bp-line pt-14 pb-16 sm:pt-20 sm:pb-24 print:border-0 print:pt-4 print:pb-0"
   >
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <div class="hero-text text-center">
-        <span class="inline-block text-xs font-semibold tracking-[0.1em] uppercase text-primary dark:text-[#8ab4f8] mb-4 font-sans">
+    <div
+      class="bp-grid bp-grid-fade absolute inset-0 -z-10 print:hidden"
+      aria-hidden="true"
+    ></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 grid gap-12 lg:gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-center">
+      <div class="hero-text">
+        <span class="hero-label inline-flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.18em] uppercase text-bp-accent mb-6">
+          <span
+            aria-hidden="true"
+            class="inline-block w-2 h-2 bg-bp-signal print:hidden"
+          ></span>
           {translations.heroLabel}
         </span>
-        <h1 class="text-[2.75rem] sm:text-[2.75rem] max-sm:text-[2rem] font-extrabold leading-tight mb-2 text-gray-900 dark:text-gray-50">
+        <h1 class="font-sans text-[2.6rem] sm:text-6xl lg:text-[4.25rem] font-bold leading-[1.02] tracking-[-0.035em] text-bp-ink mb-4">
           {siteTitle}
         </h1>
-        <h2 class="text-xl max-sm:text-lg font-medium text-primary dark:text-[#8ab4f8] mb-5 font-sans">
+        <h2 class="font-sans text-lg sm:text-xl font-medium text-bp-accent mb-6">
           {translations.heroSubtitle}
         </h2>
         {heroIntroContent && (
-          <div class="text-[0.95rem] leading-relaxed text-gray-600 dark:text-gray-400 mb-6 max-w-[600px] mx-auto">
+          <div class="hero-intro text-bp-muted mb-8 max-w-[36rem]">
             <RichText content={heroIntroContent} />
           </div>
         )}
-        {socials && socials.length > 0 && (
-          <div class="flex justify-center mb-6">
-            <Socials socials={socials} />
-          </div>
-        )}
-        <div class="flex gap-4 flex-wrap justify-center">
-          <a href="#experience" class="btn-outline">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-5">
+          <a href="#experience" class="btn-outline print:hidden">
             {translations.seeExperienceBtn}
+            <svg
+              aria-hidden="true"
+              class="w-3.5 h-3.5"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M8 2v12M3 9l5 5 5-5" />
+            </svg>
           </a>
+          {socials && socials.length > 0 && <Socials socials={socials} />}
         </div>
       </div>
+
+      <figure class="hero-figure relative m-0 w-full max-w-[560px] mx-auto lg:mr-0 print:hidden">
+        <SystemDiagram />
+      </figure>
     </div>
   </header>
 ) : (
-  <header class="pt-12 pb-4 print:pt-4 print:pb-0">
-    <div class="max-w-[85%] p-6 mx-auto sm:max-w-full sm:p-0 sm:text-center">
-      <h1 class="header-title text-3xl dark:text-gray-50">{siteTitle}</h1>
-      {subtitle && <h2 class="header-subtitle m-0 print:hidden">{subtitle}</h2>}
+  <header class="relative isolate overflow-hidden border-b border-bp-line pt-14 pb-10 sm:pt-20 sm:pb-12 print:border-0 print:pt-4 print:pb-0">
+    <div
+      class="bp-grid bp-grid-fade absolute inset-0 -z-10 print:hidden"
+      aria-hidden="true"
+    ></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <h1 class="header-title font-sans text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-[-0.03em] text-bp-ink">
+        {siteTitle}
+      </h1>
+      {subtitle && (
+        <h2 class="header-subtitle mt-4 font-mono text-sm font-normal tracking-wide text-bp-muted print:hidden">
+          {subtitle}
+        </h2>
+      )}
     </div>
   </header>
 )}
@@ -107,6 +136,17 @@ if (abstractDoc) {
 
   .hero-text {
     animation: slideUp 0.4s ease-out both;
+  }
+
+  /* The CMS intro paragraph: body serif, slightly larger than running text */
+  .hero-intro :global(.cms-content) {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: inherit;
+  }
+
+  .hero-intro :global(.cms-content p) {
+    margin-bottom: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {

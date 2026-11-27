@@ -20,12 +20,13 @@ const recentExperiences = experiences.slice(0, 4);
 const olderExperiences = experiences.slice(4);
 ---
 
-<section id="experience" class="py-16 sm:py-20 print:break-before-page">
+<section
+  id="experience"
+  class="py-16 sm:py-24 border-t border-bp-line print:border-0 print:break-before-page"
+>
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <span class="section-label">{translations.professionalJourney}</span>
-    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-10">
-      {translations.timelineTitle}
-    </h2>
+    <h2 class="section-title">{translations.timelineTitle}</h2>
 
     <div class="relative">
       <div class="recent-experiences">
@@ -40,7 +41,7 @@ const olderExperiences = experiences.slice(4);
 
       {olderExperiences.length > 0 && (
         <>
-          <div class="show-more-container text-center my-8">
+          <div class="show-more-container text-center my-8 print:hidden">
             <button class="show-more-btn btn-outline">
               {translations.showMore}
             </button>
