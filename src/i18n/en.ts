@@ -43,11 +43,12 @@ export const en: Translations = {
     publishedArticles: "PUBLISHED ARTICLES",
     // Case studies
     caseStudiesLabel: "CASE STUDIES",
-    caseStudiesTitle: "Problem, approach, results",
+    caseStudiesTitle: "Measured results",
     caseStudyProblem: "Problem",
     caseStudyApproach: "Approach",
     caseStudyResults: "Results",
     caseStudyStack: "Stack",
+    caseStudyDetails: "See details",
     // Key Differentiators
     differentiatorQuote2:
       "\"Great engineering isn't just about writing code. It's about creating systems that endure and evolve, at the shifting nexus of users and business alike.\"",

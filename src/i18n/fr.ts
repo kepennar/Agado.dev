@@ -41,11 +41,12 @@ export const fr = {
     publishedArticles: "ARTICLES PUBLIÉS",
     // Case studies
     caseStudiesLabel: "ÉTUDES DE CAS",
-    caseStudiesTitle: "Problème, approche, résultats",
+    caseStudiesTitle: "Des résultats mesurés",
     caseStudyProblem: "Problème",
     caseStudyApproach: "Approche",
     caseStudyResults: "Résultats",
     caseStudyStack: "Stack",
+    caseStudyDetails: "Voir le détail",
     // Key Differentiators
     differentiatorQuote2:
       '"Le bon engineering, ce n’est pas seulement écrire du code. C’est créer des systèmes qui perdurent et évoluent, à la croisée des besoins utilisateurs et des enjeux métier."',
