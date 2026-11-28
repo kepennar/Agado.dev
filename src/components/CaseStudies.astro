@@ -23,15 +23,13 @@ const { caseStudies, translations } = Astro.props;
 ---
 
 {caseStudies.length > 0 && (
-  <section id="case-studies" class="py-16 sm:py-20">
+  <section id="case-studies" class="py-16 sm:py-24 print:py-6">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <span class="section-label">{translations.caseStudiesLabel}</span>
-      <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mt-3 mb-10">
-        {translations.caseStudiesTitle}
-      </h2>
+      <h2 class="section-title">{translations.caseStudiesTitle}</h2>
 
       <div class="flex flex-col gap-8">
-        {caseStudies.map((caseStudy) => {
+        {caseStudies.map((caseStudy, i) => {
           const { fields } = caseStudy;
           const metrics = parseMetrics(fields.results);
           const meta = [fields.context, fields.period, fields.role].filter(
@@ -43,23 +41,29 @@ const { caseStudies, translations } = Astro.props;
           return (
             <article
               id={`case-study-${fields.slug}`}
-              class="case-study border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-gray-900"
+              class="case-study bp-panel break-inside-avoid"
             >
               {cover?.fields.file && (
                 <img
                   src={getContentfulImageUrl(cover, { width: 1200 })}
                   alt=""
-                  class="w-full aspect-[16/5] object-cover"
+                  class="w-full aspect-[16/5] object-cover border-b border-bp-line print:hidden"
                   loading="lazy"
                 />
               )}
-              <div class="p-6 sm:p-8">
-                {meta.length > 0 && (
-                  <p class="text-sm text-gray-500 dark:text-gray-400 m-0 mb-2">
-                    {meta.join(" · ")}
-                  </p>
-                )}
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6 leading-snug">
+              <div class="p-6 sm:p-8 print:p-3">
+                <div class="flex items-start justify-between gap-4 mb-3">
+                  {meta.length > 0 && (
+                    <p class="bp-meta m-0">{meta.join(" · ")}</p>
+                  )}
+                  <span
+                    aria-hidden="true"
+                    class="ml-auto font-mono text-xs tracking-widest text-bp-faint"
+                  >
+                    {`/${String(i + 1).padStart(2, "0")}`}
+                  </span>
+                </div>
+                <h3 class="font-sans text-2xl font-bold tracking-tight leading-snug text-bp-ink mb-6">
                   {fields.title}
                 </h3>
 
@@ -68,12 +72,12 @@ const { caseStudies, translations } = Astro.props;
                     <h4 class="sr-only">{translations.caseStudyResults}</h4>
                     <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 m-0">
                       {metrics.map((metric) => (
-                        <div class="flex flex-col-reverse p-4 rounded-lg bg-gray-50 dark:bg-[#0a1628] border border-gray-200 dark:border-gray-800">
-                          <dt class="text-sm text-gray-600 dark:text-gray-400 leading-snug">
+                        <div class="metric flex flex-col-reverse justify-end pl-4 py-1 border-l border-bp-line-strong">
+                          <dt class="text-sm leading-snug text-bp-muted">
                             {metric.label}
                           </dt>
                           {metric.value && (
-                            <dd class="text-2xl font-bold text-primary dark:text-[#8ab4f8] m-0 mb-1">
+                            <dd class="font-mono text-2xl font-medium text-bp-accent m-0 mb-1">
                               {metric.value}
                             </dd>
                           )}
@@ -85,26 +89,26 @@ const { caseStudies, translations } = Astro.props;
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <h4 class="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+                    <h4 class="font-mono text-xs uppercase tracking-[0.16em] text-bp-accent mb-3">
                       {translations.caseStudyProblem}
                     </h4>
-                    <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed m-0">
+                    <p class="text-[0.95rem] leading-relaxed text-bp-muted m-0">
                       {fields.problem}
                     </p>
                   </div>
                   {(fields.approach || fields.architecture?.length) && (
                     <div>
-                      <h4 class="text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+                      <h4 class="font-mono text-xs uppercase tracking-[0.16em] text-bp-accent mb-3">
                         {translations.caseStudyApproach}
                       </h4>
                       {fields.approach && (
-                        <div class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                        <div class="text-[0.95rem] leading-relaxed text-bp-muted">
                           <RichText content={fields.approach} />
                         </div>
                       )}
                       {fields.architecture &&
                         fields.architecture.length > 0 && (
-                          <ul class="list-disc pl-5 m-0 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                          <ul class="list-disc pl-5 m-0 text-[0.95rem] leading-relaxed text-bp-muted marker:text-bp-accent">
                             {fields.architecture.map((item) => (
                               <li>{item}</li>
                             ))}
@@ -115,12 +119,10 @@ const { caseStudies, translations } = Astro.props;
                 </div>
 
                 {fields.stack && fields.stack.length > 0 && (
-                  <div class="flex flex-wrap items-center gap-2 mt-6">
+                  <div class="flex flex-wrap items-center gap-2 mt-6 pt-5 border-t border-bp-line text-bp-muted">
                     <span class="sr-only">{translations.caseStudyStack}:</span>
                     {fields.stack.map((tech) => (
-                      <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-sans">
-                        {tech}
-                      </span>
+                      <span class="bp-chip">{tech}</span>
                     ))}
                   </div>
                 )}
