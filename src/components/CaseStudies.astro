@@ -1,0 +1,222 @@
+---
+// CaseStudies component - one card per case study, led by its headline metric.
+// The first result is the headline: its value in large type, its label as the sentence below;
+// the other results sit below that; problem, approach and stack fold into a details block.
+// Renders nothing when there are no case studies.
+
+import RichText from "@/components/ContentfulRichText/RichText.astro";
+import { parseMetrics } from "@/lib/case-study";
+import { getContentfulImageUrl } from "@/lib/contentful";
+import type { CaseStudy } from "@/lib/contentful.types";
+
+interface Props {
+  caseStudies: CaseStudy[];
+  translations: {
+    caseStudiesLabel: string;
+    caseStudiesTitle: string;
+    caseStudyProblem: string;
+    caseStudyApproach: string;
+    caseStudyResults: string;
+    caseStudyStack: string;
+    caseStudyDetails: string;
+  };
+}
+
+const { caseStudies, translations } = Astro.props;
+const sectionHeading =
+  "font-mono text-xs uppercase tracking-[0.16em] text-bp-accent mb-3";
+---
+
+{caseStudies.length > 0 && (
+  <section id="case-studies" class="py-16 sm:py-24 print:py-6">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <span class="section-label">{translations.caseStudiesLabel}</span>
+      <h2 class="section-title">{translations.caseStudiesTitle}</h2>
+
+      <div class="flex flex-col gap-8">
+        {caseStudies.map((caseStudy, i) => {
+          const { fields } = caseStudy;
+          const [headline, ...metrics] = parseMetrics(fields.results);
+          const meta = [fields.context, fields.period].filter(Boolean);
+          // An unpublished asset arrives as an unresolved link without fields
+          const cover =
+            fields.cover && "fields" in fields.cover ? fields.cover : undefined;
+          const hasDetails =
+            fields.problem ||
+            fields.approach ||
+            fields.architecture?.length ||
+            fields.stack?.length;
+          return (
+            <article
+              id={`case-study-${fields.slug}`}
+              class="case-study bp-panel break-inside-avoid"
+            >
+              {cover?.fields.file && (
+                <img
+                  src={getContentfulImageUrl(cover, { width: 1200 })}
+                  alt=""
+                  class="w-full aspect-[16/5] object-cover border-b border-bp-line print:hidden"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-6 sm:p-10 print:p-3">
+                <div class="flex items-start justify-between gap-4">
+                  {meta.length > 0 && (
+                    <p class="bp-meta m-0">{meta.join(" · ")}</p>
+                  )}
+                  <span
+                    aria-hidden="true"
+                    class="ml-auto font-mono text-xs tracking-widest text-bp-faint"
+                  >
+                    {`/${String(i + 1).padStart(2, "0")}`}
+                  </span>
+                </div>
+
+                {/* The headline metric says what the title says: keep the title for screen readers only */}
+                <h3
+                  class:list={[
+                    "font-sans text-xl sm:text-2xl font-bold tracking-tight leading-snug text-bp-ink mt-5 mb-0 max-w-2xl",
+                    headline?.value && "sr-only",
+                  ]}
+                >
+                  {fields.title}
+                </h3>
+
+                {headline?.value && (
+                  <div class="mt-8 sm:mt-10" aria-hidden="true">
+                    <p class="m-0 font-sans font-bold leading-none tracking-tight text-bp-accent text-6xl sm:text-8xl">
+                      {headline.value}
+                    </p>
+                    <p class="m-0 mt-4 max-w-xl text-lg sm:text-xl leading-snug text-bp-ink">
+                      {headline.label}
+                    </p>
+                  </div>
+                )}
+
+                {metrics.length > 0 && (
+                  <div class="mt-8 sm:mt-10">
+                    <h4 class="sr-only">{translations.caseStudyResults}</h4>
+                    <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 m-0">
+                      {metrics.map((metric) => (
+                        <div class="flex flex-col-reverse justify-end pl-4 py-1 border-l border-bp-line-strong">
+                          <dt class="text-sm leading-snug text-bp-muted">
+                            {metric.label}
+                          </dt>
+                          {metric.value && (
+                            <dd class="font-mono text-2xl font-medium text-bp-ink m-0 mb-1">
+                              {metric.value}
+                            </dd>
+                          )}
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                {hasDetails && (
+                  <details class="case-details mt-8 pt-5 border-t border-bp-line">
+                    <summary class="font-mono text-xs uppercase tracking-[0.16em] text-bp-accent cursor-pointer w-fit">
+                      {translations.caseStudyDetails}
+                    </summary>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                      {fields.problem && (
+                        <div>
+                          <h4 class={sectionHeading}>
+                            {translations.caseStudyProblem}
+                          </h4>
+                          <p class="text-[0.95rem] leading-relaxed text-bp-muted m-0">
+                            {fields.problem}
+                          </p>
+                          {fields.role && (
+                            <p class="bp-meta mt-4 mb-0">{fields.role}</p>
+                          )}
+                        </div>
+                      )}
+                      {(fields.approach || fields.architecture?.length) && (
+                        <div>
+                          <h4 class={sectionHeading}>
+                            {translations.caseStudyApproach}
+                          </h4>
+                          {fields.approach && (
+                            <div class="case-approach text-bp-muted">
+                              <RichText content={fields.approach} />
+                            </div>
+                          )}
+                          {fields.architecture &&
+                            fields.architecture.length > 0 && (
+                              <ul class="list-disc pl-5 m-0 text-[0.95rem] leading-relaxed text-bp-muted marker:text-bp-accent">
+                                {fields.architecture.map((item) => (
+                                  <li>{item}</li>
+                                ))}
+                              </ul>
+                            )}
+                        </div>
+                      )}
+                    </div>
+                    {fields.stack && fields.stack.length > 0 && (
+                      <div class="flex flex-wrap items-center gap-2 mt-6 text-bp-muted">
+                        <span class="sr-only">
+                          {translations.caseStudyStack}:
+                        </span>
+                        {fields.stack.map((tech) => (
+                          <span class="bp-chip">{tech}</span>
+                        ))}
+                      </div>
+                    )}
+                  </details>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .case-details summary {
+    list-style: none;
+  }
+
+  .case-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .case-details summary::before {
+    content: "+ ";
+  }
+
+  .case-details[open] summary::before {
+    content: "− ";
+  }
+
+  /* Rich text defaults are sized for blog articles: match the card's body text */
+  .case-approach :global(.cms-content) {
+    font-size: 0.95rem;
+    line-height: 1.625;
+    color: inherit;
+  }
+
+  .case-approach :global(.cms-content p) {
+    margin-bottom: 0.75rem;
+  }
+
+  .case-approach :global(.cms-content ul),
+  .case-approach :global(.cms-content ol) {
+    margin: 0 0 0.75rem;
+    padding-left: 1.25rem;
+  }
+
+  .case-approach :global(.cms-content li) {
+    margin-bottom: 0;
+  }
+
+  .case-approach :global(.cms-content li p) {
+    margin-bottom: 0;
+  }
+
+  .case-approach :global(.cms-content li::marker) {
+    color: var(--bp-accent);
+  }
+</style>

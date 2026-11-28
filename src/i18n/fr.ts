@@ -8,6 +8,7 @@ export const fr = {
     articles: "Articles",
     brand: "Portfolio Ingénieur",
     about: "À propos",
+    caseStudies: "Études de cas",
     expertises: "Expertises",
     experience: "Expérience",
     posts: "Articles",
@@ -38,6 +39,14 @@ export const fr = {
     coreCompetencies: "COMPÉTENCES CLÉS",
     professionalJourney: "PARCOURS PROFESSIONNEL",
     publishedArticles: "ARTICLES PUBLIÉS",
+    // Case studies
+    caseStudiesLabel: "ÉTUDES DE CAS",
+    caseStudiesTitle: "Des résultats mesurés",
+    caseStudyProblem: "Problème",
+    caseStudyApproach: "Approche",
+    caseStudyResults: "Résultats",
+    caseStudyStack: "Stack",
+    caseStudyDetails: "Voir le détail",
     // Key Differentiators
     differentiatorQuote2:
       '"Le bon engineering, ce n’est pas seulement écrire du code. C’est créer des systèmes qui perdurent et évoluent, à la croisée des besoins utilisateurs et des enjeux métier."',

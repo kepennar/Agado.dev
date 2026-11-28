@@ -1,4 +1,5 @@
 ---
+import CaseStudies from "@/components/CaseStudies.astro";
 import Experiences from "@/components/Experiences.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
@@ -16,6 +17,7 @@ import {
 import {
   getAbstract,
   getBlogPosts,
+  getCaseStudies,
   getExperiences,
   getSlogan,
   getSocials,
@@ -25,13 +27,15 @@ const lang = (Astro.currentLocale || "fr") as Language;
 const t = getTranslations(lang);
 const locale = getContentfulLocaleParam(lang);
 
-const [slogan, abstract, socials, experiences, blogPosts] = await Promise.all([
-  getSlogan(locale),
-  getAbstract(locale),
-  getSocials(locale),
-  getExperiences(locale),
-  getBlogPosts(locale),
-]);
+const [slogan, abstract, socials, experiences, blogPosts, caseStudies] =
+  await Promise.all([
+    getSlogan(locale),
+    getAbstract(locale),
+    getSocials(locale),
+    getExperiences(locale),
+    getBlogPosts(locale),
+    getCaseStudies(locale),
+  ]);
 
 if (!slogan || !abstract) {
   throw new Error("Required content missing: slogan or abstract");
@@ -50,6 +54,7 @@ if (!slogan || !abstract) {
         translations={{
           brand: t.nav.brand,
           about: t.nav.about,
+          caseStudies: caseStudies.length > 0 ? t.nav.caseStudies : undefined,
           expertises: t.nav.expertises,
           experience: t.nav.experience,
           posts: t.nav.posts,
@@ -73,6 +78,23 @@ if (!slogan || !abstract) {
           diagram: t.home.diagram,
         }}
       />
+
+      {caseStudies.length > 0 && (
+        <div class="animate-section">
+          <CaseStudies
+            caseStudies={caseStudies}
+            translations={{
+              caseStudiesLabel: t.home.caseStudiesLabel,
+              caseStudiesTitle: t.home.caseStudiesTitle,
+              caseStudyProblem: t.home.caseStudyProblem,
+              caseStudyApproach: t.home.caseStudyApproach,
+              caseStudyResults: t.home.caseStudyResults,
+              caseStudyStack: t.home.caseStudyStack,
+              caseStudyDetails: t.home.caseStudyDetails,
+            }}
+          />
+        </div>
+      )}
 
       <div class="animate-section">
         <KeyDifferentiators

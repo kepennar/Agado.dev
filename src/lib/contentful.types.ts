@@ -2,7 +2,12 @@
 // Based on data-model.md and contracts/contentful-schema.json
 
 import type { Document } from "@contentful/rich-text-types";
-import type { Asset, Entry, EntrySkeletonType } from "contentful";
+import type {
+  Asset,
+  Entry,
+  EntryFieldTypes,
+  EntrySkeletonType,
+} from "contentful";
 
 // Locale types - Note: Contentful space may use 'fr'/'en' or 'fr-FR'/'en-US' depending on configuration
 export type ContentfulLocale = "fr-FR" | "en-US" | "fr" | "en" | "*";
@@ -67,6 +72,28 @@ export interface SocialSkeleton extends EntrySkeletonType {
 }
 
 export type Social = Entry<SocialSkeleton, undefined, string>;
+
+// Case study entity skeleton (definition: docs/contentful/case-study.content-type.json)
+export interface CaseStudySkeleton extends EntrySkeletonType {
+  contentTypeId: "caseStudy";
+  fields: {
+    title: string;
+    slug: string;
+    context?: string;
+    period?: string;
+    role?: string;
+    problem: string;
+    approach?: Document;
+    architecture?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
+    results?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>; // "value | label", parsed by parseMetrics
+    stack?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
+    experience?: EntryFieldTypes.EntryLink<ExperienceSkeleton>;
+    cover?: EntryFieldTypes.AssetLink;
+    order: number;
+  };
+}
+
+export type CaseStudy = Entry<CaseStudySkeleton, undefined, string>;
 
 // ContentAsset type (Contentful native Asset)
 export type ContentAsset = Asset;

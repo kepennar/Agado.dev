@@ -1,0 +1,145 @@
+{
+  "name": "Case study",
+  "description": "Homepage case study: problem, approach, measured results. Content type id: caseStudy.",
+  "displayField": "title",
+  "fields": [
+    {
+      "id": "title",
+      "name": "Title",
+      "type": "Symbol",
+      "localized": true,
+      "required": true,
+      "validations": [{ "size": { "max": 120 } }]
+    },
+    {
+      "id": "slug",
+      "name": "Slug",
+      "type": "Symbol",
+      "localized": false,
+      "required": true,
+      "validations": [
+        { "unique": true },
+        {
+          "regexp": { "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "message": "Lowercase letters, digits and hyphens only."
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "name": "Client / context",
+      "type": "Symbol",
+      "localized": true,
+      "required": false,
+      "validations": [{ "size": { "max": 120 } }]
+    },
+    {
+      "id": "period",
+      "name": "Period",
+      "type": "Symbol",
+      "localized": true,
+      "required": false,
+      "validations": [{ "size": { "max": 60 } }]
+    },
+    {
+      "id": "role",
+      "name": "Role",
+      "type": "Symbol",
+      "localized": true,
+      "required": false,
+      "validations": [{ "size": { "max": 80 } }]
+    },
+    {
+      "id": "problem",
+      "name": "Problem",
+      "type": "Text",
+      "localized": true,
+      "required": true,
+      "validations": [{ "size": { "max": 600 } }]
+    },
+    {
+      "id": "approach",
+      "name": "Approach",
+      "type": "RichText",
+      "localized": true,
+      "required": false,
+      "validations": [
+        {
+          "enabledMarks": ["bold", "italic", "code"],
+          "message": "Only bold, italic and code marks are allowed."
+        },
+        {
+          "enabledNodeTypes": ["unordered-list", "ordered-list", "hyperlink"],
+          "message": "Only lists and links are allowed besides paragraphs."
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "name": "Architecture highlights",
+      "type": "Array",
+      "localized": true,
+      "required": false,
+      "validations": [{ "size": { "max": 5 } }],
+      "items": {
+        "type": "Symbol",
+        "validations": [{ "size": { "max": 160 } }]
+      }
+    },
+    {
+      "id": "results",
+      "name": "Results (value | label)",
+      "type": "Array",
+      "localized": true,
+      "required": false,
+      "validations": [{ "size": { "max": 4 } }],
+      "items": {
+        "type": "Symbol",
+        "validations": [
+          {
+            "regexp": { "pattern": "^[^|]+\\|[^|]+$" },
+            "message": "Write one metric as \"value | label\", e.g. \"< 3 s | KPI load time on 10B+ transactions\"."
+          }
+        ]
+      }
+    },
+    {
+      "id": "stack",
+      "name": "Stack",
+      "type": "Array",
+      "localized": false,
+      "required": false,
+      "validations": [{ "size": { "max": 12 } }],
+      "items": {
+        "type": "Symbol",
+        "validations": []
+      }
+    },
+    {
+      "id": "experience",
+      "name": "Related experience",
+      "type": "Link",
+      "linkType": "Entry",
+      "localized": false,
+      "required": false,
+      "validations": [{ "linkContentType": ["experiences"] }]
+    },
+    {
+      "id": "cover",
+      "name": "Cover image",
+      "type": "Link",
+      "linkType": "Asset",
+      "localized": false,
+      "required": false,
+      "validations": [{ "linkMimetypeGroup": ["image"] }]
+    },
+    {
+      "id": "order",
+      "name": "Order",
+      "type": "Integer",
+      "localized": false,
+      "required": true,
+      "validations": []
+    }
+  ]
+}

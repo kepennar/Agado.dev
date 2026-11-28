@@ -3,11 +3,14 @@
 
 import { createClient } from "contentful";
 
+import { isUnknownContentTypeError } from "./case-study";
 import type {
   Abstract,
   AbstractSkeleton,
   BlogPost,
   BlogPostSkeleton,
+  CaseStudy,
+  CaseStudySkeleton,
   ContentAsset,
   ContentfulLocale,
   Experience,
@@ -186,6 +189,44 @@ export async function getExperiences(
     console.error(`Failed to fetch experiences from Contentful:`, error);
     throw new Error(
       `Build failed: Unable to fetch experiences from Contentful (locale: ${locale})`,
+    );
+  }
+}
+
+/**
+ * Get all case studies sorted by order (ascending)
+ * Returns [] while the "caseStudy" content type does not exist in the space,
+ * so the homepage section stays hidden; any other error fails the build (FR-028).
+ * Implements FR-029: Silent fallback to French if English locale not available
+ */
+export async function getCaseStudies(
+  locale?: ContentfulLocale,
+): Promise<CaseStudy[]> {
+  try {
+    const queryParams = {
+      content_type: "caseStudy" as const,
+      order: ["fields.order"] as const,
+      ...(locale && locale !== "*" ? { locale } : {}),
+    };
+
+    const response = await fetchWithLocaleFallback(
+      (params) => contentfulClient.getEntries<CaseStudySkeleton>(params as any),
+      queryParams,
+      locale,
+    );
+
+    if (!response || !response.items) {
+      throw new Error("Contentful returned invalid response for case studies");
+    }
+
+    return response.items as CaseStudy[];
+  } catch (error) {
+    if (isUnknownContentTypeError(error)) {
+      return [];
+    }
+    console.error(`Failed to fetch case studies from Contentful:`, error);
+    throw new Error(
+      `Build failed: Unable to fetch case studies from Contentful (locale: ${locale})`,
     );
   }
 }
